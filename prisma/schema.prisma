@@ -1,0 +1,411 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  PATIENT
+  DOCTOR
+  ADMIN
+}
+
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+  RESCHEDULED
+  NO_SHOW
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  STRIPE
+  JAZZCASH
+  EASYPAISA
+  CASH
+}
+
+enum DoctorStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  SUSPENDED
+}
+
+enum NotificationType {
+  APPOINTMENT_BOOKED
+  APPOINTMENT_CANCELLED
+  APPOINTMENT_REMINDER
+  APPOINTMENT_COMPLETED
+  PRESCRIPTION_ADDED
+  PAYMENT_RECEIVED
+  REVIEW_RECEIVED
+  SYSTEM
+}
+
+enum UrgencyLevel {
+  EMERGENCY
+  WITHIN_24_HOURS
+  THIS_WEEK
+  ROUTINE
+}
+
+model User {
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  name           String
+  email          String    @unique
+  emailVerified  DateTime?
+  password       String?
+  image          String?
+  role           Role      @default(PATIENT)
+  isActive       Boolean   @default(true)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  doctor         Doctor?
+  patient        Patient?
+  notifications  Notification[]
+  auditLogs      AuditLog[]
+  chatsSent      ChatMessage[]  @relation("SentMessages")
+  chatsReceived  ChatMessage[]  @relation("ReceivedMessages")
+
+  @@map("users")
+}
+
+model Doctor {
+  id               String        @id @default(auto()) @map("_id") @db.ObjectId
+  userId           String        @unique @db.ObjectId
+  user             User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  specialization   String
+  specializationId String?       @db.ObjectId
+  degree           String[]
+  experience       Int
+  hospitalId       String?       @db.ObjectId
+  hospital         Hospital?     @relation(fields: [hospitalId], references: [id])
+  consultationFee  Float
+  languages        String[]
+  city             String
+  location         String?
+  education        Json[]
+  awards           String[]
+  biography        String?
+  rating           Float         @default(0)
+  totalReviews     Int           @default(0)
+  profilePhoto     String?
+  status           DoctorStatus  @default(PENDING)
+  isVerified       Boolean       @default(false)
+  totalEarnings    Float         @default(0)
+  gender           String?
+  licenseNumber    String?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  appointments     Appointment[]
+  reviews          Review[]
+  availability     Availability[]
+  prescriptions    Prescription[]
+  aiRecommendations AIRecommendation[]
+
+  @@index([specialization])
+  @@index([city])
+  @@index([status])
+  @@index([rating])
+  @@map("doctors")
+}
+
+model Patient {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String   @unique @db.ObjectId
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  dateOfBirth   DateTime?
+  gender        String?
+  phone         String?
+  address       String?
+  bloodGroup    String?
+  allergies     String[]
+  chronicDiseases String[]
+  emergencyContact Json?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  appointments  Appointment[]
+  medicalHistory MedicalHistory[]
+  payments      Payment[]
+  reviews       Review[]
+  favoriteDoctors String[] @db.ObjectId
+  prescriptions Prescription[]
+
+  @@map("patients")
+}
+
+model Appointment {
+  id            String              @id @default(auto()) @map("_id") @db.ObjectId
+  patientId     String              @db.ObjectId
+  patient       Patient             @relation(fields: [patientId], references: [id])
+  doctorId      String              @db.ObjectId
+  doctor        Doctor              @relation(fields: [doctorId], references: [id])
+  date          DateTime
+  startTime     String
+  endTime       String
+  status        AppointmentStatus   @default(PENDING)
+  type          String              @default("in-person")
+  reason        String?
+  notes         String?
+  symptoms      String[]
+  consultationFee Float
+  qrCode        String?
+  videoRoomUrl  String?
+  timezone      String              @default("Asia/Karachi")
+  reminderSent  Boolean             @default(false)
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt
+
+  payment       Payment?
+  prescription  Prescription?
+  chatMessages  ChatMessage[]
+
+  @@index([patientId])
+  @@index([doctorId])
+  @@index([date])
+  @@index([status])
+  @@map("appointments")
+}
+
+model Availability {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  doctorId    String   @db.ObjectId
+  doctor      Doctor   @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  dayOfWeek   Int
+  startTime   String
+  endTime     String
+  slotDuration Int     @default(30)
+  isAvailable Boolean  @default(true)
+  blockedDates DateTime[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([doctorId])
+  @@unique([doctorId, dayOfWeek])
+  @@map("availability")
+}
+
+model Prescription {
+  id              String    @id @default(auto()) @map("_id") @db.ObjectId
+  appointmentId   String    @unique @db.ObjectId
+  appointment     Appointment @relation(fields: [appointmentId], references: [id])
+  doctorId        String    @db.ObjectId
+  doctor          Doctor    @relation(fields: [doctorId], references: [id])
+  patientId       String    @db.ObjectId
+  patient         Patient   @relation(fields: [patientId], references: [id])
+  medicines       Json[]
+  diagnosis       String?
+  instructions    String?
+  followUpDate    DateTime?
+  digitalSignature String?
+  pdfUrl          String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@map("prescriptions")
+}
+
+model Payment {
+  id              String        @id @default(auto()) @map("_id") @db.ObjectId
+  appointmentId   String        @unique @db.ObjectId
+  appointment     Appointment   @relation(fields: [appointmentId], references: [id])
+  patientId       String        @db.ObjectId
+  patient         Patient       @relation(fields: [patientId], references: [id])
+  amount          Float
+  currency        String        @default("PKR")
+  method          PaymentMethod
+  status          PaymentStatus @default(PENDING)
+  stripeSessionId String?
+  stripePaymentId String?
+  invoiceUrl      String?
+  couponCode      String?
+  discount        Float         @default(0)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([patientId])
+  @@index([status])
+  @@map("payments")
+}
+
+model Coupon {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  code         String   @unique
+  discount     Float
+  isPercentage Boolean  @default(true)
+  maxUses      Int      @default(100)
+  usedCount    Int      @default(0)
+  expiresAt    DateTime?
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+
+  @@map("coupons")
+}
+
+model Review {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  patientId   String   @db.ObjectId
+  patient     Patient  @relation(fields: [patientId], references: [id])
+  doctorId    String   @db.ObjectId
+  doctor      Doctor   @relation(fields: [doctorId], references: [id])
+  rating      Float
+  comment     String?
+  images      String[]
+  reply       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([doctorId])
+  @@map("reviews")
+}
+
+model Hospital {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  address     String
+  city        String
+  phone       String?
+  email       String?
+  website     String?
+  image       String?
+  facilities  String[]
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  doctors     Doctor[]
+
+  @@map("hospitals")
+}
+
+model Specialization {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String   @unique
+  description String?
+  icon        String?
+  color       String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  @@map("specializations")
+}
+
+model MedicalHistory {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  patientId   String   @db.ObjectId
+  patient     Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  condition   String
+  diagnosedAt DateTime?
+  treatment   String?
+  notes       String?
+  createdAt   DateTime @default(now())
+
+  @@index([patientId])
+  @@map("medicalHistory")
+}
+
+model Notification {
+  id        String           @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String           @db.ObjectId
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      NotificationType
+  title     String
+  message   String
+  isRead    Boolean          @default(false)
+  link      String?
+  metadata  Json?
+  createdAt DateTime         @default(now())
+
+  @@index([userId])
+  @@index([isRead])
+  @@map("notifications")
+}
+
+model AIRecommendation {
+  id              String       @id @default(auto()) @map("_id") @db.ObjectId
+  userId          String?      @db.ObjectId
+  doctorId        String?      @db.ObjectId
+  doctor          Doctor?      @relation(fields: [doctorId], references: [id])
+  symptoms        String[]
+  age             Int?
+  gender          String?
+  existingDiseases String[]
+  duration        String?
+  painLevel       Int?
+  allergies       String[]
+  aiResponse      String
+  recommendedSpecialization String?
+  urgencyLevel    UrgencyLevel?
+  doctorIds       String[]     @db.ObjectId
+  createdAt       DateTime     @default(now())
+
+  @@map("aiRecommendations")
+}
+
+model ChatMessage {
+  id             String      @id @default(auto()) @map("_id") @db.ObjectId
+  senderId       String      @db.ObjectId
+  sender         User        @relation("SentMessages", fields: [senderId], references: [id])
+  receiverId     String      @db.ObjectId
+  receiver       User        @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  appointmentId  String?     @db.ObjectId
+  appointment    Appointment? @relation(fields: [appointmentId], references: [id])
+  content        String
+  fileUrl        String?
+  isRead         Boolean     @default(false)
+  createdAt      DateTime    @default(now())
+
+  @@index([senderId])
+  @@index([receiverId])
+  @@map("chatMessages")
+}
+
+model AuditLog {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String?  @db.ObjectId
+  user      User?    @relation(fields: [userId], references: [id])
+  action    String
+  resource  String
+  resourceId String?
+  details   Json?
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([resource])
+  @@map("auditLogs")
+}
+
+model BlogPost {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  slug        String   @unique
+  excerpt     String?
+  content     String
+  coverImage  String?
+  authorId    String   @db.ObjectId
+  tags        String[]
+  category    String?
+  isPublished Boolean  @default(false)
+  views       Int      @default(0)
+  readTime    Int      @default(5)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("blogPosts")
+}
