@@ -78,23 +78,23 @@ function DoctorCard({ doctor }) {
   return (
     <motion.div
       whileHover={{ y: -6 }}
-      className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-100 dark:border-gray-700 shadow-card hover:shadow-lg-custom transition-shadow duration-300"
+      className="bg-white dark:bg-gray-800 rounded-2xl p-7 border border-gray-100 dark:border-gray-700 shadow-card hover:shadow-lg-custom transition-shadow duration-300 space-y-4"
     >
       <div className="flex items-start gap-4 mb-4">
         <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${gradient} flex items-center justify-center text-white text-xl font-bold flex-shrink-0`}>
           {doctor.gender === 'female' ? '👩⚕️' : '👨⚕️'}
         </div>
-        <div className="flex-1 min-w-0">
+        <div className="flex-1 min-w-0 space-y-1">
           <h3 className="font-bold text-gray-900 dark:text-white text-sm truncate">{doctor.name}</h3>
           <p className="text-primary-600 dark:text-primary-400 text-xs font-medium">{doctor.spec}</p>
           <p className="text-gray-400 text-xs">{doctor.hospital}</p>
-          <div className="flex items-center gap-1.5 mt-1">
+          <div className="flex items-center gap-1.5 pt-1">
             <RatingStars rating={doctor.rating} size="xs" />
             <span className="text-xs text-gray-500">({doctor.reviews})</span>
           </div>
         </div>
       </div>
-      <div className="flex items-center gap-4 mb-4 text-xs text-gray-500 dark:text-gray-400">
+      <div className="flex items-center gap-4 py-2 text-xs text-gray-500 dark:text-gray-400 border-y border-gray-100 dark:border-gray-700/60">
         <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{doctor.exp}y exp</span>
         <span className="flex items-center gap-1"><Globe className="w-3 h-3" />{doctor.city}</span>
         <span className={`flex items-center gap-1 ${doctor.available ? 'text-green-500' : 'text-gray-400'}`}>
@@ -102,7 +102,7 @@ function DoctorCard({ doctor }) {
           {doctor.available ? 'Available' : 'Unavailable'}
         </span>
       </div>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between pt-1">
         <div>
           <p className="text-xs text-gray-400">Consultation Fee</p>
           <p className="text-sm font-bold text-gray-900 dark:text-white">PKR {doctor.fee.toLocaleString()}</p>
@@ -145,25 +145,25 @@ export default function HomePage() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 sm:pt-32 pb-16 lg:pt-36 lg:pb-24">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Left Content */}
-            <motion.div initial="hidden" animate="visible" variants={stagger}>
-              <motion.div variants={fadeUp} className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 text-white text-sm mb-6">
+            <motion.div initial="hidden" animate="visible" variants={stagger} className="space-y-6">
+              <motion.div variants={fadeUp} className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 text-white text-sm mb-2">
                 <Sparkles className="w-4 h-4 text-yellow-400" />
                 Pakistan&apos;s #1 AI Health Platform
               </motion.div>
-              <motion.h1 variants={fadeUp} className="text-4xl sm:text-5xl lg:text-6xl font-black font-heading text-white leading-tight mb-6">
+              <motion.h1 variants={fadeUp} className="text-4xl sm:text-5xl lg:text-6xl font-black font-heading text-white leading-snug sm:leading-tight mb-8">
                 AI-Powered
                 <br />
                 <span className="gradient-text">Healthcare</span>
                 <br />
                 at Your Fingertips
               </motion.h1>
-              <motion.p variants={fadeUp} className="text-gray-300 text-lg mb-8 max-w-lg leading-relaxed">
+              <motion.p variants={fadeUp} className="text-gray-300 text-lg mb-10 max-w-xl leading-relaxed">
                 Find top doctors, get AI health recommendations, book appointments instantly, and consult from anywhere. Smart healthcare, redefined.
               </motion.p>
 
               {/* Search Bar */}
-              <motion.form variants={fadeUp} onSubmit={handleSearch} className="flex gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-2 mb-8 max-w-xl">
-                <div className="flex items-center gap-2 flex-1 px-3">
+              <motion.form variants={fadeUp} onSubmit={handleSearch} className="flex gap-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-2.5 sm:p-3 mb-10 max-w-xl">
+                <div className="flex items-center gap-3 flex-1 px-3">
                   <Search className="w-5 h-5 text-gray-300 flex-shrink-0" />
                   <input
                     value={searchQuery}
@@ -172,30 +172,30 @@ export default function HomePage() {
                     className="flex-1 bg-transparent text-white placeholder-gray-400 text-sm focus:outline-none"
                   />
                 </div>
-                <button type="submit" className="px-5 py-2.5 bg-gradient-to-r from-primary-500 to-accent-500 text-white font-semibold rounded-xl hover:opacity-90 transition-all text-sm">
+                <button type="submit" className="px-6 py-3 bg-gradient-to-r from-primary-500 to-accent-500 text-white font-semibold rounded-xl hover:opacity-90 transition-all text-sm">
                   Search
                 </button>
               </motion.form>
 
               {/* CTA Buttons */}
-              <motion.div variants={fadeUp} className="flex flex-wrap gap-3 mb-10">
-                <Link href="/doctors" className="flex items-center gap-2 px-6 py-3.5 bg-white text-primary-700 font-bold rounded-xl hover:bg-gray-50 transition-all shadow-lg text-sm">
+              <motion.div variants={fadeUp} className="flex flex-wrap gap-4 mb-12">
+                <Link href="/doctors" className="flex items-center gap-2.5 px-7 py-4 bg-white text-primary-700 font-bold rounded-xl hover:bg-gray-50 transition-all shadow-lg text-sm">
                   <Calendar className="w-4 h-4" /> Book Appointment
                 </Link>
-                <Link href="/ai-symptom-checker" className="flex items-center gap-2 px-6 py-3.5 bg-white/10 backdrop-blur-sm border border-white/30 text-white font-bold rounded-xl hover:bg-white/20 transition-all text-sm">
+                <Link href="/ai-symptom-checker" className="flex items-center gap-2.5 px-7 py-4 bg-white/10 backdrop-blur-sm border border-white/30 text-white font-bold rounded-xl hover:bg-white/20 transition-all text-sm">
                   <Brain className="w-4 h-4" /> Try AI Diagnosis
                 </Link>
               </motion.div>
 
               {/* Hero Stats */}
-              <motion.div variants={fadeUp} className="grid grid-cols-4 gap-4">
+              <motion.div variants={fadeUp} className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 pt-4 border-t border-white/10">
                 {[
                   { value: 10000, label: 'Patients', suffix: '+' },
                   { value: 500, label: 'Doctors', suffix: '+' },
                   { value: 50, label: 'Specializations', suffix: '+' },
                   { value: 4.9, label: 'Rating', suffix: '★', noCount: true },
                 ].map(stat => (
-                  <div key={stat.label} className="text-center">
+                  <div key={stat.label} className="text-center space-y-1">
                     <div className="text-2xl font-black text-white">
                       {stat.noCount ? stat.value : <AnimatedCounter target={stat.value} suffix={stat.suffix} />}
                       {stat.noCount && stat.suffix}
@@ -286,32 +286,32 @@ export default function HomePage() {
 
       {/* ===== SPECIALIZATIONS ===== */}
       <section className="py-16 sm:py-24 bg-white dark:bg-gray-950">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-10 sm:mb-14">
-            <Badge variant="primary" className="mb-4">Browse by Specialty</Badge>
-            <h2 className="text-3xl lg:text-4xl font-black font-heading text-gray-900 dark:text-white mb-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center space-y-4">
+            <Badge variant="primary" className="mb-2">Browse by Specialty</Badge>
+            <h2 className="text-3xl lg:text-4xl font-black font-heading text-gray-900 dark:text-white leading-snug">
               Find the Right <span className="gradient-text">Specialist</span>
             </h2>
-            <p className="text-gray-500 dark:text-gray-400 max-w-xl mx-auto">From general physicians to specialized surgeons — find expert care for every health need.</p>
+            <p className="text-gray-500 dark:text-gray-400 max-w-xl mx-auto leading-relaxed">From general physicians to specialized surgeons — find expert care for every health need.</p>
           </motion.div>
           <motion.div
             initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}
-            className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4 lg:gap-5"
+            className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-5 lg:gap-6"
           >
             {SPECIALIZATIONS.map((spec) => (
               <motion.div key={spec.name} variants={fadeUp}>
                 <Link
                   href={`/doctors?spec=${encodeURIComponent(spec.name)}`}
-                  className="group flex flex-col items-center p-4 sm:p-5 rounded-2xl border border-gray-100 dark:border-gray-700 hover:border-primary-200 dark:hover:border-primary-700 hover:bg-primary-50 dark:hover:bg-primary-950/50 transition-all duration-300 hover:-translate-y-1"
+                  className="group flex flex-col items-center p-5 sm:p-6 rounded-2xl border border-gray-100 dark:border-gray-700 hover:border-primary-200 dark:hover:border-primary-700 hover:bg-primary-50 dark:hover:bg-primary-950/50 transition-all duration-300 hover:-translate-y-1 space-y-2"
                 >
-                  <div className="text-3xl mb-2 group-hover:scale-110 transition-transform duration-300">{spec.icon}</div>
+                  <div className="text-3xl group-hover:scale-110 transition-transform duration-300">{spec.icon}</div>
                   <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 text-center group-hover:text-primary-700 dark:group-hover:text-primary-300 transition-colors leading-tight">{spec.name}</p>
-                  <p className="text-xs text-gray-400 mt-1">{spec.count} doctors</p>
+                  <p className="text-xs text-gray-400">{spec.count} doctors</p>
                 </Link>
               </motion.div>
             ))}
           </motion.div>
-          <div className="text-center mt-8">
+          <div className="text-center pt-4">
             <Link href="/doctors" className="inline-flex items-center gap-2 text-primary-600 dark:text-primary-400 font-semibold hover:gap-3 transition-all text-sm">
               View all specializations <ArrowRight className="w-4 h-4" />
             </Link>
@@ -321,14 +321,14 @@ export default function HomePage() {
 
       {/* ===== HOW IT WORKS ===== */}
       <section className="py-16 sm:py-24 bg-gray-50 dark:bg-gray-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-12 sm:mb-16">
-            <Badge variant="primary" className="mb-4">Simple & Fast</Badge>
-            <h2 className="text-3xl lg:text-4xl font-black font-heading text-gray-900 dark:text-white mb-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center space-y-4">
+            <Badge variant="primary" className="mb-2">Simple & Fast</Badge>
+            <h2 className="text-3xl lg:text-4xl font-black font-heading text-gray-900 dark:text-white leading-snug">
               Get Care in <span className="gradient-text">4 Easy Steps</span>
             </h2>
           </motion.div>
-          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 lg:gap-10 relative">
+          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-8 sm:gap-10 lg:gap-12 relative">
             <div className="hidden md:block absolute top-12 left-[20%] right-[20%] h-0.5 bg-gradient-to-r from-primary-200 via-accent-200 to-teal-200 dark:from-primary-800 dark:via-accent-800 dark:to-teal-800" />
             {[
               { step: '01', icon: Search, title: 'Search & Compare', desc: 'Search doctors by specialty, city, fee, and rating. Compare profiles to find your best match.', color: 'blue' },
@@ -342,13 +342,13 @@ export default function HomePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.15 }}
-                className="relative text-center"
+                className="relative text-center space-y-3 p-4"
               >
                 <div className={`w-20 h-20 rounded-2xl mx-auto mb-6 flex items-center justify-center bg-${color}-100 dark:bg-${color}-900/30 relative z-10`}>
                   <Icon className={`w-9 h-9 text-${color}-600 dark:text-${color}-400`} />
                   <span className={`absolute -top-2 -right-2 w-7 h-7 rounded-full bg-${color}-600 text-white text-xs font-bold flex items-center justify-center`}>{step}</span>
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{title}</h3>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white leading-snug">{title}</h3>
                 <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">{desc}</p>
               </motion.div>
             ))}
@@ -358,11 +358,11 @@ export default function HomePage() {
 
       {/* ===== FEATURED DOCTORS ===== */}
       <section className="py-16 sm:py-24 bg-white dark:bg-gray-950">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="flex items-end justify-between mb-10 sm:mb-14">
-            <div>
-              <Badge variant="primary" className="mb-4">Top Rated</Badge>
-              <h2 className="text-3xl lg:text-4xl font-black font-heading text-gray-900 dark:text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="flex items-end justify-between border-b border-gray-100 dark:border-gray-800 pb-6">
+            <div className="space-y-2">
+              <Badge variant="primary" className="mb-2">Top Rated</Badge>
+              <h2 className="text-3xl lg:text-4xl font-black font-heading text-gray-900 dark:text-white leading-snug">
                 Featured <span className="gradient-text">Doctors</span>
               </h2>
             </div>
@@ -372,7 +372,7 @@ export default function HomePage() {
           </motion.div>
           <motion.div
             initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}
-            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
+            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10"
           >
             {FEATURED_DOCTORS.map((doctor) => (
               <motion.div key={doctor.id} variants={fadeUp}>
@@ -387,15 +387,15 @@ export default function HomePage() {
       <section className="py-16 sm:py-24 bg-gradient-to-br from-primary-950 via-gray-900 to-accent-950 relative overflow-hidden">
         <div className="blob w-72 h-72 bg-primary-500 top-0 right-0 opacity-20" />
         <div className="blob w-60 h-60 bg-accent-500 bottom-0 left-0 opacity-20" style={{ animationDelay: '4s' }} />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-12 sm:mb-16">
-            <Badge variant="gradient" className="mb-4">Powered by GPT-4o</Badge>
-            <h2 className="text-3xl lg:text-4xl font-black font-heading text-white mb-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative space-y-16">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center space-y-4">
+            <Badge variant="gradient" className="mb-2">Powered by GPT-4o</Badge>
+            <h2 className="text-3xl lg:text-4xl font-black font-heading text-white leading-snug">
               AI That Understands <span className="gradient-text">Your Health</span>
             </h2>
-            <p className="text-gray-300 max-w-xl mx-auto">Two powerful AI tools to guide your healthcare journey</p>
+            <p className="text-gray-300 max-w-xl mx-auto leading-relaxed">Two powerful AI tools to guide your healthcare journey</p>
           </motion.div>
-          <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
+          <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
             {[
               {
                 href: '/ai-symptom-checker',
@@ -421,26 +421,28 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-6 sm:p-8 lg:p-10 hover:bg-white/10 transition-all duration-300 group"
+                className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 sm:p-10 lg:p-12 hover:bg-white/10 transition-all duration-300 group space-y-6"
               >
-                <div className="flex items-start justify-between mb-6">
+                <div className="flex items-start justify-between">
                   <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${gradient} flex items-center justify-center group-hover:scale-110 transition-transform`}>
                     <Icon className="w-7 h-7 text-white" />
                   </div>
                   <Badge variant="gradient">{badge}</Badge>
                 </div>
-                <h3 className="text-xl font-bold text-white mb-3">{title}</h3>
-                <p className="text-gray-300 text-sm leading-relaxed mb-6">{desc}</p>
-                <ul className="space-y-2 mb-8">
+                <h3 className="text-xl font-bold text-white leading-snug">{title}</h3>
+                <p className="text-gray-300 text-sm leading-relaxed">{desc}</p>
+                <ul className="space-y-3 pt-2">
                   {features.map(f => (
-                    <li key={f} className="flex items-center gap-2 text-sm text-gray-300">
+                    <li key={f} className="flex items-center gap-3 text-sm text-gray-300">
                       <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" /> {f}
                     </li>
                   ))}
                 </ul>
-                <Link href={href} className="flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold rounded-xl transition-all group-hover:border-white/40 text-sm">
-                  Try Now <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
+                <div className="pt-4">
+                  <Link href={href} className="inline-flex items-center gap-2.5 px-6 py-3.5 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold rounded-xl transition-all group-hover:border-white/40 text-sm">
+                    Try Now <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -450,7 +452,7 @@ export default function HomePage() {
       {/* ===== STATS ===== */}
       <section className="py-16 sm:py-24 bg-white dark:bg-gray-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10">
             {[
               { icon: Users, value: 10000, suffix: '+', label: 'Happy Patients', color: 'blue', desc: 'Trusted by thousands' },
               { icon: Stethoscope, value: 500, suffix: '+', label: 'Expert Doctors', color: 'purple', desc: 'Verified specialists' },
@@ -462,7 +464,7 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="text-center p-6 sm:p-8 rounded-2xl bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700"
+                className="text-center p-8 sm:p-10 rounded-2xl bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 space-y-2"
               >
                 <div className={`w-12 h-12 rounded-xl bg-${color}-100 dark:bg-${color}-900/30 flex items-center justify-center mx-auto mb-4`}>
                   <Icon className={`w-6 h-6 text-${color}-600 dark:text-${color}-400`} />
@@ -480,32 +482,34 @@ export default function HomePage() {
 
       {/* ===== TESTIMONIALS ===== */}
       <section className="py-16 sm:py-24 bg-gray-50 dark:bg-gray-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-10 sm:mb-14">
-            <Badge variant="success" className="mb-4">Patient Stories</Badge>
-            <h2 className="text-3xl lg:text-4xl font-black font-heading text-gray-900 dark:text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center space-y-4">
+            <Badge variant="success" className="mb-2">Patient Stories</Badge>
+            <h2 className="text-3xl lg:text-4xl font-black font-heading text-gray-900 dark:text-white leading-snug">
               What Our Patients <span className="gradient-text">Say</span>
             </h2>
           </motion.div>
           <motion.div
             initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}
-            className="grid md:grid-cols-3 gap-6 sm:gap-8"
+            className="grid md:grid-cols-3 gap-8 sm:gap-10"
           >
             {TESTIMONIALS.map((t, i) => (
-              <motion.div key={i} variants={fadeUp} className="bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 border border-gray-100 dark:border-gray-700 shadow-card">
-                <div className="flex items-center gap-1 mb-4">
-                  {Array(5).fill(0).map((_, j) => (
-                    <Star key={j} className="w-4 h-4 fill-amber-400 text-amber-400" />
-                  ))}
+              <motion.div key={i} variants={fadeUp} className="bg-white dark:bg-gray-800 rounded-2xl p-8 sm:p-10 border border-gray-100 dark:border-gray-700 shadow-card space-y-6 flex flex-col justify-between">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-1">
+                    {Array(5).fill(0).map((_, j) => (
+                      <Star key={j} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                    ))}
+                  </div>
+                  <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed italic">&quot;{t.text}&quot;</p>
                 </div>
-                <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-6 italic">&quot;{t.text}&quot;</p>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center text-white text-sm font-bold">
+                <div className="flex items-center gap-3.5 pt-4 border-t border-gray-100 dark:border-gray-700/60">
+                  <div className="w-11 h-11 rounded-full bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center text-white text-sm font-bold shadow-md">
                     {t.avatar}
                   </div>
                   <div>
                     <p className="font-semibold text-gray-900 dark:text-white text-sm">{t.name}</p>
-                    <p className="text-gray-400 text-xs">{t.location} • Patient of {t.doctor}</p>
+                    <p className="text-gray-400 text-xs mt-0.5">{t.location} • Patient of {t.doctor}</p>
                   </div>
                 </div>
               </motion.div>
@@ -516,11 +520,11 @@ export default function HomePage() {
 
       {/* ===== BLOG ===== */}
       <section className="py-16 sm:py-24 bg-white dark:bg-gray-950">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="flex items-end justify-between mb-10 sm:mb-14">
-            <div>
-              <Badge variant="info" className="mb-4">Health Articles</Badge>
-              <h2 className="text-3xl lg:text-4xl font-black font-heading text-gray-900 dark:text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="flex items-end justify-between border-b border-gray-100 dark:border-gray-800 pb-6">
+            <div className="space-y-2">
+              <Badge variant="info" className="mb-2">Health Articles</Badge>
+              <h2 className="text-3xl lg:text-4xl font-black font-heading text-gray-900 dark:text-white leading-snug">
                 Stay <span className="gradient-text">Informed</span>
               </h2>
             </div>
@@ -530,19 +534,19 @@ export default function HomePage() {
           </motion.div>
           <motion.div
             initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}
-            className="grid md:grid-cols-3 gap-6 sm:gap-8"
+            className="grid md:grid-cols-3 gap-8 sm:gap-10"
           >
             {BLOG_POSTS.map((post) => (
               <motion.div key={post.slug} variants={fadeUp}>
                 <Link href={`/blog/${post.slug}`} className="group block bg-white dark:bg-gray-800 rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                  <div className="relative h-48 overflow-hidden">
+                  <div className="relative h-52 overflow-hidden">
                     <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                    <Badge variant="primary" className="absolute top-3 left-3">{post.category}</Badge>
+                    <Badge variant="primary" className="absolute top-4 left-4">{post.category}</Badge>
                   </div>
-                  <div className="p-5">
-                    <h3 className="font-bold text-gray-900 dark:text-white mb-2 text-sm leading-snug group-hover:text-primary-600 transition-colors line-clamp-2">{post.title}</h3>
-                    <p className="text-gray-500 dark:text-gray-400 text-xs leading-relaxed line-clamp-2 mb-3">{post.excerpt}</p>
-                    <div className="flex items-center gap-3 text-xs text-gray-400">
+                  <div className="p-6 sm:p-7 space-y-3">
+                    <h3 className="font-bold text-gray-900 dark:text-white text-base leading-snug group-hover:text-primary-600 transition-colors line-clamp-2">{post.title}</h3>
+                    <p className="text-gray-500 dark:text-gray-400 text-xs leading-relaxed line-clamp-2">{post.excerpt}</p>
+                    <div className="flex items-center gap-3 text-xs text-gray-400 pt-2 border-t border-gray-100 dark:border-gray-700/60">
                       <span>{post.date}</span>
                       <span>•</span>
                       <span>{post.readTime} min read</span>
