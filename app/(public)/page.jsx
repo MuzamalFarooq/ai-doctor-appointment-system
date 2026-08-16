@@ -142,8 +142,8 @@ export default function HomePage() {
           <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px)', backgroundSize: '48px 48px' }} />
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12 lg:pt-0">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 sm:pt-32 pb-16 lg:pt-36 lg:pb-24">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Left Content */}
             <motion.div initial="hidden" animate="visible" variants={stagger}>
               <motion.div variants={fadeUp} className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 text-white text-sm mb-6">
@@ -285,9 +285,9 @@ export default function HomePage() {
       </section>
 
       {/* ===== SPECIALIZATIONS ===== */}
-      <section className="py-20 bg-white dark:bg-gray-950">
+      <section className="py-16 sm:py-24 bg-white dark:bg-gray-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-12">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-10 sm:mb-14">
             <Badge variant="primary" className="mb-4">Browse by Specialty</Badge>
             <h2 className="text-3xl lg:text-4xl font-black font-heading text-gray-900 dark:text-white mb-4">
               Find the Right <span className="gradient-text">Specialist</span>
@@ -296,13 +296,13 @@ export default function HomePage() {
           </motion.div>
           <motion.div
             initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}
-            className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4"
+            className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4 lg:gap-5"
           >
             {SPECIALIZATIONS.map((spec) => (
               <motion.div key={spec.name} variants={fadeUp}>
                 <Link
                   href={`/doctors?spec=${encodeURIComponent(spec.name)}`}
-                  className="group flex flex-col items-center p-4 rounded-2xl border border-gray-100 dark:border-gray-700 hover:border-primary-200 dark:hover:border-primary-700 hover:bg-primary-50 dark:hover:bg-primary-950/50 transition-all duration-300 hover:-translate-y-1"
+                  className="group flex flex-col items-center p-4 sm:p-5 rounded-2xl border border-gray-100 dark:border-gray-700 hover:border-primary-200 dark:hover:border-primary-700 hover:bg-primary-50 dark:hover:bg-primary-950/50 transition-all duration-300 hover:-translate-y-1"
                 >
                   <div className="text-3xl mb-2 group-hover:scale-110 transition-transform duration-300">{spec.icon}</div>
                   <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 text-center group-hover:text-primary-700 dark:group-hover:text-primary-300 transition-colors leading-tight">{spec.name}</p>
@@ -320,15 +320,15 @@ export default function HomePage() {
       </section>
 
       {/* ===== HOW IT WORKS ===== */}
-      <section className="py-20 bg-gray-50 dark:bg-gray-900">
+      <section className="py-16 sm:py-24 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-16">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-12 sm:mb-16">
             <Badge variant="primary" className="mb-4">Simple & Fast</Badge>
             <h2 className="text-3xl lg:text-4xl font-black font-heading text-gray-900 dark:text-white mb-4">
               Get Care in <span className="gradient-text">4 Easy Steps</span>
             </h2>
           </motion.div>
-          <div className="grid md:grid-cols-4 gap-8 relative">
+          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 lg:gap-10 relative">
             <div className="hidden md:block absolute top-12 left-[20%] right-[20%] h-0.5 bg-gradient-to-r from-primary-200 via-accent-200 to-teal-200 dark:from-primary-800 dark:via-accent-800 dark:to-teal-800" />
             {[
               { step: '01', icon: Search, title: 'Search & Compare', desc: 'Search doctors by specialty, city, fee, and rating. Compare profiles to find your best match.', color: 'blue' },
@@ -357,9 +357,9 @@ export default function HomePage() {
       </section>
 
       {/* ===== FEATURED DOCTORS ===== */}
-      <section className="py-20 bg-white dark:bg-gray-950">
+      <section className="py-16 sm:py-24 bg-white dark:bg-gray-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="flex items-end justify-between mb-12">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="flex items-end justify-between mb-10 sm:mb-14">
             <div>
               <Badge variant="primary" className="mb-4">Top Rated</Badge>
               <h2 className="text-3xl lg:text-4xl font-black font-heading text-gray-900 dark:text-white">
@@ -372,7 +372,7 @@ export default function HomePage() {
           </motion.div>
           <motion.div
             initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}
-            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
+            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
           >
             {FEATURED_DOCTORS.map((doctor) => (
               <motion.div key={doctor.id} variants={fadeUp}>
@@ -384,18 +384,18 @@ export default function HomePage() {
       </section>
 
       {/* ===== AI FEATURES ===== */}
-      <section className="py-20 bg-gradient-to-br from-primary-950 via-gray-900 to-accent-950 relative overflow-hidden">
+      <section className="py-16 sm:py-24 bg-gradient-to-br from-primary-950 via-gray-900 to-accent-950 relative overflow-hidden">
         <div className="blob w-72 h-72 bg-primary-500 top-0 right-0 opacity-20" />
         <div className="blob w-60 h-60 bg-accent-500 bottom-0 left-0 opacity-20" style={{ animationDelay: '4s' }} />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-16">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-12 sm:mb-16">
             <Badge variant="gradient" className="mb-4">Powered by GPT-4o</Badge>
             <h2 className="text-3xl lg:text-4xl font-black font-heading text-white mb-4">
               AI That Understands <span className="gradient-text">Your Health</span>
             </h2>
             <p className="text-gray-300 max-w-xl mx-auto">Two powerful AI tools to guide your healthcare journey</p>
           </motion.div>
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
             {[
               {
                 href: '/ai-symptom-checker',
@@ -421,7 +421,7 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 hover:bg-white/10 transition-all duration-300 group"
+                className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-6 sm:p-8 lg:p-10 hover:bg-white/10 transition-all duration-300 group"
               >
                 <div className="flex items-start justify-between mb-6">
                   <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${gradient} flex items-center justify-center group-hover:scale-110 transition-transform`}>
@@ -448,9 +448,9 @@ export default function HomePage() {
       </section>
 
       {/* ===== STATS ===== */}
-      <section className="py-20 bg-white dark:bg-gray-950">
+      <section className="py-16 sm:py-24 bg-white dark:bg-gray-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
             {[
               { icon: Users, value: 10000, suffix: '+', label: 'Happy Patients', color: 'blue', desc: 'Trusted by thousands' },
               { icon: Stethoscope, value: 500, suffix: '+', label: 'Expert Doctors', color: 'purple', desc: 'Verified specialists' },
@@ -462,7 +462,7 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="text-center p-6 rounded-2xl bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700"
+                className="text-center p-6 sm:p-8 rounded-2xl bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700"
               >
                 <div className={`w-12 h-12 rounded-xl bg-${color}-100 dark:bg-${color}-900/30 flex items-center justify-center mx-auto mb-4`}>
                   <Icon className={`w-6 h-6 text-${color}-600 dark:text-${color}-400`} />
@@ -479,9 +479,9 @@ export default function HomePage() {
       </section>
 
       {/* ===== TESTIMONIALS ===== */}
-      <section className="py-20 bg-gray-50 dark:bg-gray-900">
+      <section className="py-16 sm:py-24 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-12">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-10 sm:mb-14">
             <Badge variant="success" className="mb-4">Patient Stories</Badge>
             <h2 className="text-3xl lg:text-4xl font-black font-heading text-gray-900 dark:text-white">
               What Our Patients <span className="gradient-text">Say</span>
@@ -489,10 +489,10 @@ export default function HomePage() {
           </motion.div>
           <motion.div
             initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}
-            className="grid md:grid-cols-3 gap-6"
+            className="grid md:grid-cols-3 gap-6 sm:gap-8"
           >
             {TESTIMONIALS.map((t, i) => (
-              <motion.div key={i} variants={fadeUp} className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-100 dark:border-gray-700 shadow-card">
+              <motion.div key={i} variants={fadeUp} className="bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 border border-gray-100 dark:border-gray-700 shadow-card">
                 <div className="flex items-center gap-1 mb-4">
                   {Array(5).fill(0).map((_, j) => (
                     <Star key={j} className="w-4 h-4 fill-amber-400 text-amber-400" />
@@ -515,9 +515,9 @@ export default function HomePage() {
       </section>
 
       {/* ===== BLOG ===== */}
-      <section className="py-20 bg-white dark:bg-gray-950">
+      <section className="py-16 sm:py-24 bg-white dark:bg-gray-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="flex items-end justify-between mb-12">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="flex items-end justify-between mb-10 sm:mb-14">
             <div>
               <Badge variant="info" className="mb-4">Health Articles</Badge>
               <h2 className="text-3xl lg:text-4xl font-black font-heading text-gray-900 dark:text-white">
@@ -530,7 +530,7 @@ export default function HomePage() {
           </motion.div>
           <motion.div
             initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}
-            className="grid md:grid-cols-3 gap-6"
+            className="grid md:grid-cols-3 gap-6 sm:gap-8"
           >
             {BLOG_POSTS.map((post) => (
               <motion.div key={post.slug} variants={fadeUp}>
@@ -556,7 +556,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== CTA / DOWNLOAD APP ===== */}
-      <section className="py-20 bg-gradient-to-br from-primary-950 via-gray-900 to-accent-950 relative overflow-hidden">
+      <section className="py-16 sm:py-24 bg-gradient-to-br from-primary-950 via-gray-900 to-accent-950 relative overflow-hidden">
         <div className="blob w-80 h-80 bg-primary-500 top-0 left-1/4 opacity-20" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center">
@@ -565,7 +565,7 @@ export default function HomePage() {
               <h2 className="text-3xl lg:text-5xl font-black font-heading text-white mb-4">
                 Healthcare in Your Pocket
               </h2>
-              <p className="text-gray-300 text-lg mb-10 max-w-xl mx-auto">
+              <p className="text-gray-300 text-lg mb-8 sm:mb-10 max-w-xl mx-auto">
                 Book appointments, chat with doctors, and manage your health — all from your smartphone.
               </p>
               <div className="flex justify-center gap-4 flex-wrap">
@@ -594,9 +594,9 @@ export default function HomePage() {
       </section>
 
       {/* ===== TRUST SECTION ===== */}
-      <section className="py-12 bg-gray-50 dark:bg-gray-900 border-y border-gray-100 dark:border-gray-800">
+      <section className="py-12 sm:py-16 bg-gray-50 dark:bg-gray-900 border-y border-gray-100 dark:border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap items-center justify-center gap-8">
+          <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10 lg:gap-12">
             <p className="text-gray-500 text-sm font-medium">Trusted & Verified:</p>
             {[
               { label: 'HIPAA Compliant', icon: Shield },
