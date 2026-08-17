@@ -97,11 +97,11 @@ export function Footer() {
               </div>
               <div className="flex items-center gap-3.5 text-gray-400 hover:text-gray-300 transition-colors">
                 <Phone className="w-4 h-4 text-primary-400 flex-shrink-0" />
-                <span>+92 51 1234 5678</span>
+                <span>+92 306 7774327</span>
               </div>
               <div className="flex items-center gap-3.5 text-gray-400 hover:text-gray-300 transition-colors">
                 <Mail className="w-4 h-4 text-primary-400 flex-shrink-0" />
-                <span>hello@mediconnect.ai</span>
+                <span>muzamalfarooq786@gmail.com</span>
               </div>
             </div>
             {/* Socials */}
