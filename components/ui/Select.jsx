@@ -17,7 +17,7 @@ export const Select = forwardRef(function Select(
         <select
           ref={ref}
           className={cn(
-            'w-full px-4 py-3 rounded-xl border transition-all duration-200 text-sm appearance-none',
+            'w-full pl-4 pr-10 py-3 rounded-xl border transition-all duration-200 text-sm appearance-none',
             'bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100',
             'focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent',
             error ? 'border-red-400' : 'border-gray-200 dark:border-gray-700',

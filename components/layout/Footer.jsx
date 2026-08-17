@@ -45,7 +45,7 @@ const socials = [
 
 export function Footer() {
   return (
-    <footer className="bg-gray-950 text-gray-300 mt-25">
+    <footer className="bg-gray-950 text-gray-300 mt-20 sm:mt-24 border-t border-gray-900">
       {/* Newsletter Banner */}
       <div className="border-b border-gray-800/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">

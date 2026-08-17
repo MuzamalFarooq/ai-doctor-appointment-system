@@ -14,7 +14,7 @@ export const Input = forwardRef(function Input(
       )}
       <div className="relative">
         {leftIcon && (
-          <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+          <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none z-10">
             {leftIcon}
           </div>
         )}
@@ -26,14 +26,14 @@ export const Input = forwardRef(function Input(
             error
               ? 'border-red-400 dark:border-red-600 focus:ring-red-400'
               : 'border-gray-200 dark:border-gray-700',
-            leftIcon && 'pl-10',
-            rightIcon && 'pr-10',
+            leftIcon && 'pl-12',
+            rightIcon && 'pr-12',
             className
           )}
           {...props}
         />
         {rightIcon && (
-          <div className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
+          <div className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none z-10">
             {rightIcon}
           </div>
         )}
