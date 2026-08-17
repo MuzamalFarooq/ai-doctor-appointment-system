@@ -88,7 +88,7 @@ export default function AISymptomCheckerPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 pt-20">
-      <div className="max-w-2xl mx-auto px-4 py-12">
+      <div className="max-w-2xl mx-auto px-4 py-12 md:py-16">
         {/* Header */}
         <motion.div initial="hidden" animate="visible" variants={fadeUp} className="text-center mb-10">
           <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center mx-auto mb-4 shadow-glow">

@@ -142,10 +142,10 @@ export default function HomePage() {
           <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px)', backgroundSize: '48px 48px' }} />
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 sm:pt-32 pb-16 lg:pt-36 lg:pb-24">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 sm:pt-36 pb-20 lg:pt-40 lg:pb-28">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Left Content */}
-            <motion.div initial="hidden" animate="visible" variants={stagger} className="space-y-6">
+            <motion.div initial="hidden" animate="visible" variants={stagger} className="space-y-6 sm:space-y-7">
               <motion.div variants={fadeUp} className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 text-white text-sm mb-2">
                 <Sparkles className="w-4 h-4 text-yellow-400" />
                 Pakistan&apos;s #1 AI Health Platform

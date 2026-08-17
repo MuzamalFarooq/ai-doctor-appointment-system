@@ -76,8 +76,8 @@ export function Footer() {
       </div>
 
       {/* Main Footer */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 lg:gap-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 lg:gap-8">
           {/* Brand Column */}
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center gap-2.5 mb-6">
@@ -90,7 +90,7 @@ export function Footer() {
               Pakistan&apos;s leading AI-powered healthcare platform connecting patients with top doctors for smarter, faster, and more accessible medical care.
             </p>
             {/* Contact Info */}
-            <div className="space-y-3 text-sm">
+            <div className="space-y-3.5 text-sm">
               <div className="flex items-center gap-3 text-gray-400">
                 <MapPin className="w-4 h-4 text-primary-400 flex-shrink-0" />
                 <span>Blue Area, Islamabad, Pakistan</span>
@@ -105,7 +105,7 @@ export function Footer() {
               </div>
             </div>
             {/* Socials */}
-            <div className="flex items-center gap-3 mt-6">
+            <div className="flex items-center gap-3.5 mt-7">
               {socials.map(({ icon: Icon, href, label }) => (
                 <a
                   key={label}
@@ -125,7 +125,7 @@ export function Footer() {
               <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-5">
                 {section.charAt(0).toUpperCase() + section.slice(1)}
               </h4>
-              <ul className="space-y-3">
+              <ul className="space-y-3.5">
                 {links.map((link) => (
                   <li key={link.label}>
                     <Link
@@ -142,7 +142,7 @@ export function Footer() {
         </div>
 
         {/* App Store Badges */}
-        <div className="border-t border-gray-800 mt-12 pt-10">
+        <div className="border-t border-gray-800 mt-16 pt-10">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-4">
               <a href="#" className="flex items-center gap-3 bg-gray-800 hover:bg-gray-700 text-white px-5 py-3 rounded-xl transition-colors">

@@ -96,17 +96,17 @@ export default function AIHealthAssistantPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 pt-16 flex flex-col">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 pt-20 flex flex-col">
       {/* Header */}
       <div className="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 px-4 py-4">
         <div className="max-w-3xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3.5">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center shadow-glow">
               <Bot className="w-5 h-5 text-white" />
             </div>
             <div>
               <h1 className="font-bold text-gray-900 dark:text-white text-sm">MediConnect AI Assistant</h1>
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-1.5 mt-0.5">
                 <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
                 <span className="text-xs text-gray-500">Online • Powered by GPT-4o</span>
               </div>
@@ -122,7 +122,7 @@ export default function AIHealthAssistantPage() {
       </div>
 
       {/* Emergency Banner */}
-      <div className="bg-red-50 dark:bg-red-900/20 border-b border-red-100 dark:border-red-800 px-4 py-2">
+      <div className="bg-red-50 dark:bg-red-900/20 border-b border-red-100 dark:border-red-800 px-4 py-2.5">
         <div className="max-w-3xl mx-auto flex items-center gap-2 text-xs text-red-600 dark:text-red-400">
           <AlertCircle className="w-4 h-4 flex-shrink-0" />
           <strong>Emergency?</strong> Call 115 (Pakistan Emergency) or 1122 (Rescue) immediately. This AI cannot provide emergency assistance.
@@ -131,7 +131,7 @@ export default function AIHealthAssistantPage() {
 
       {/* Messages */}
       <div className="flex-1 overflow-y-auto">
-        <div className="max-w-3xl mx-auto px-4 py-6 space-y-6">
+        <div className="max-w-3xl mx-auto px-4 py-6 space-y-5 md:space-y-6">
           {messages.map((message) => (
             <motion.div key={message.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
               className={`flex gap-3 ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>

@@ -141,7 +141,7 @@ export function Navbar() {
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden lg:flex items-center gap-1.5 xl:gap-3">
+          <div className="hidden lg:flex items-center gap-2 xl:gap-4">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -220,7 +220,7 @@ export function Navbar() {
             exit={{ opacity: 0, height: 0 }}
             className="lg:hidden bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 overflow-hidden"
           >
-            <div className="max-w-7xl mx-auto px-4 py-4 space-y-1">
+            <div className="max-w-7xl mx-auto px-4 py-5 space-y-1.5">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
@@ -236,9 +236,9 @@ export function Navbar() {
                 </Link>
               ))}
               {!session && (
-                <div className="pt-3 border-t border-gray-100 dark:border-gray-800 flex gap-3.5">
-                  <Link href="/login" className="flex-1 py-2.5 text-center text-sm font-medium border-2 border-gray-200 dark:border-gray-700 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-50">Sign In</Link>
-                  <Link href="/register" className="flex-1 py-2.5 text-center text-sm font-semibold bg-gradient-to-r from-primary-600 to-accent-500 text-white rounded-xl">Get Started</Link>
+                <div className="pt-4 mt-2 border-t border-gray-100 dark:border-gray-800 flex gap-4">
+                  <Link href="/login" className="flex-1 py-3 text-center text-sm font-medium border-2 border-gray-200 dark:border-gray-700 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-50">Sign In</Link>
+                  <Link href="/register" className="flex-1 py-3 text-center text-sm font-semibold bg-gradient-to-r from-primary-600 to-accent-500 text-white rounded-xl">Get Started</Link>
                 </div>
               )}
             </div>

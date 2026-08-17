@@ -7,7 +7,7 @@ export const Textarea = forwardRef(function Textarea(
   return (
     <div className="w-full">
       {label && (
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
           {label}
           {props.required && <span className="text-red-500 ml-1">*</span>}
         </label>
@@ -24,8 +24,8 @@ export const Textarea = forwardRef(function Textarea(
         )}
         {...props}
       />
-      {error && <p className="mt-1.5 text-xs text-red-500">{error}</p>}
-      {hint && !error && <p className="mt-1.5 text-xs text-gray-500">{hint}</p>}
+      {error && <p className="mt-2 text-xs text-red-500">{error}</p>}
+      {hint && !error && <p className="mt-2 text-xs text-gray-500">{hint}</p>}
     </div>
   );
 });

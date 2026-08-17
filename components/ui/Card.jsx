@@ -20,13 +20,13 @@ export function Card({ children, className, hover = false, glass = false, gradie
 }
 
 export function CardHeader({ children, className, ...props }) {
-  return <div className={cn('p-6 pb-0', className)} {...props}>{children}</div>;
+  return <div className={cn('p-6 md:p-7 pb-0', className)} {...props}>{children}</div>;
 }
 
 export function CardContent({ children, className, ...props }) {
-  return <div className={cn('p-6', className)} {...props}>{children}</div>;
+  return <div className={cn('p-6 md:p-7', className)} {...props}>{children}</div>;
 }
 
 export function CardFooter({ children, className, ...props }) {
-  return <div className={cn('px-6 py-4 border-t border-gray-100 dark:border-gray-700', className)} {...props}>{children}</div>;
+  return <div className={cn('px-6 md:px-7 py-4 md:py-5 border-t border-gray-100 dark:border-gray-700', className)} {...props}>{children}</div>;
 }

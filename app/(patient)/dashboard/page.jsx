@@ -66,16 +66,16 @@ export default async function PatientDashboardPage() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8 md:mb-10">
         <StatCard title="Total Appointments" value={total} icon={Calendar} color="blue" change={12} changeLabel="this month" />
         <StatCard title="Upcoming" value={upcoming.length} icon={Clock} color="orange" />
         <StatCard title="Completed" value={completed} icon={CheckCircle} color="green" change={8} />
         <StatCard title="Pending Payments" value={data.pendingPayments} icon={CreditCard} color="purple" />
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-6">
+      <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
         {/* Upcoming Appointments */}
-        <div className="lg:col-span-2 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6">
+        <div className="lg:col-span-2 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6 md:p-7">
           <div className="flex items-center justify-between mb-5">
             <h2 className="font-bold text-gray-900 dark:text-white">Upcoming Appointments</h2>
             <Link href="/dashboard/appointments" className="text-xs text-primary-600 dark:text-primary-400 hover:underline flex items-center gap-1">
@@ -91,7 +91,7 @@ export default async function PatientDashboardPage() {
               </Link>
             </div>
           ) : (
-            <div className="space-y-3">
+            <div className="space-y-3.5">
               {nextAppointments.map(apt => (
                 <div key={apt.id} className="flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-700/50 hover:bg-primary-50 dark:hover:bg-primary-950/30 transition-colors">
                   <div className="text-center bg-white dark:bg-gray-800 rounded-xl p-2 min-w-[3rem] border border-gray-100 dark:border-gray-700">
@@ -110,7 +110,7 @@ export default async function PatientDashboardPage() {
         </div>
 
         {/* Quick Actions */}
-        <div className="space-y-3">
+        <div className="space-y-3.5">
           <h2 className="font-bold text-gray-900 dark:text-white">Quick Actions</h2>
           {quickActions.map(({ href, icon: Icon, label, color, desc }) => (
             <Link key={href} href={href}
