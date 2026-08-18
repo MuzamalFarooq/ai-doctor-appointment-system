@@ -32,8 +32,14 @@ export default function RegisterPage() {
       const result = await registerUser({ ...data, role });
       if (result?.error) { toast.error(result.error); return; }
       toast.success('Account created! Signing you in...');
-      await signIn('credentials', { email: data.email, password: data.password, redirect: false });
-      router.push(role === 'DOCTOR' ? '/doctor/dashboard' : '/dashboard');
+      const res = await signIn('credentials', { email: data.email, password: data.password, redirect: false });
+      if (res?.error) {
+        toast.error('Registered successfully! Please sign in.');
+        router.push('/login');
+      } else {
+        router.push(role === 'DOCTOR' ? '/doctor/dashboard' : '/dashboard');
+        router.refresh();
+      }
     } catch {
       toast.error('Registration failed. Please try again.');
     }

@@ -18,10 +18,30 @@ export async function middleware(request) {
   }
 
   // Get JWT token (Edge-safe, no Prisma)
-  const token = await getToken({
+  const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
+  const isSecure = request.nextUrl.protocol === 'https:' || process.env.NODE_ENV === 'production';
+
+  let token = await getToken({
     req: request,
-    secret: process.env.NEXTAUTH_SECRET,
+    secret,
+    secureCookie: isSecure,
   });
+
+  if (!token) {
+    token = await getToken({
+      req: request,
+      secret,
+      cookieName: isSecure ? '__Secure-authjs.session-token' : 'authjs.session-token',
+    });
+  }
+
+  if (!token) {
+    token = await getToken({
+      req: request,
+      secret,
+      cookieName: isSecure ? '__Secure-next-auth.session-token' : 'next-auth.session-token',
+    });
+  }
 
   const isAuthenticated = !!token;
   const userRole = token?.role;
