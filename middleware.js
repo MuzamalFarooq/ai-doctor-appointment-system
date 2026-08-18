@@ -19,28 +19,20 @@ export async function middleware(request) {
 
   // Get JWT token (Edge-safe, no Prisma)
   const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
-  const isSecure = request.nextUrl.protocol === 'https:' || process.env.NODE_ENV === 'production';
 
-  let token = await getToken({
-    req: request,
-    secret,
-    secureCookie: isSecure,
-  });
+  let token = await getToken({ req: request, secret });
 
   if (!token) {
-    token = await getToken({
-      req: request,
-      secret,
-      cookieName: isSecure ? '__Secure-authjs.session-token' : 'authjs.session-token',
-    });
+    token = await getToken({ req: request, secret, cookieName: 'authjs.session-token' });
   }
-
   if (!token) {
-    token = await getToken({
-      req: request,
-      secret,
-      cookieName: isSecure ? '__Secure-next-auth.session-token' : 'next-auth.session-token',
-    });
+    token = await getToken({ req: request, secret, cookieName: '__Secure-authjs.session-token' });
+  }
+  if (!token) {
+    token = await getToken({ req: request, secret, cookieName: 'next-auth.session-token' });
+  }
+  if (!token) {
+    token = await getToken({ req: request, secret, cookieName: '__Secure-next-auth.session-token' });
   }
 
   const isAuthenticated = !!token;
@@ -55,20 +47,23 @@ export async function middleware(request) {
 
   // Protect patient dashboard
   if (pathname.startsWith('/dashboard')) {
-    if (!isAuthenticated) return NextResponse.redirect(new URL('/login?callbackUrl=' + pathname, request.url));
-    if (userRole !== 'PATIENT') return NextResponse.redirect(new URL('/login', request.url));
+    if (!isAuthenticated) return NextResponse.redirect(new URL('/login?callbackUrl=' + encodeURIComponent(pathname), request.url));
+    if (userRole === 'ADMIN') return NextResponse.redirect(new URL('/admin/dashboard', request.url));
+    if (userRole === 'DOCTOR') return NextResponse.redirect(new URL('/doctor/dashboard', request.url));
   }
 
   // Protect doctor dashboard
   if (pathname.startsWith('/doctor')) {
-    if (!isAuthenticated) return NextResponse.redirect(new URL('/login?callbackUrl=' + pathname, request.url));
-    if (userRole !== 'DOCTOR') return NextResponse.redirect(new URL('/login', request.url));
+    if (!isAuthenticated) return NextResponse.redirect(new URL('/login?callbackUrl=' + encodeURIComponent(pathname), request.url));
+    if (userRole === 'ADMIN') return NextResponse.redirect(new URL('/admin/dashboard', request.url));
+    if (userRole === 'PATIENT') return NextResponse.redirect(new URL('/dashboard', request.url));
   }
 
   // Protect admin dashboard
   if (pathname.startsWith('/admin')) {
-    if (!isAuthenticated) return NextResponse.redirect(new URL('/login?callbackUrl=' + pathname, request.url));
-    if (userRole !== 'ADMIN') return NextResponse.redirect(new URL('/login', request.url));
+    if (!isAuthenticated) return NextResponse.redirect(new URL('/login?callbackUrl=' + encodeURIComponent(pathname), request.url));
+    if (userRole === 'DOCTOR') return NextResponse.redirect(new URL('/doctor/dashboard', request.url));
+    if (userRole === 'PATIENT') return NextResponse.redirect(new URL('/dashboard', request.url));
   }
 
   return NextResponse.next();

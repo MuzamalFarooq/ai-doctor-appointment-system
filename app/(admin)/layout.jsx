@@ -8,7 +8,9 @@ export const metadata = {
 
 export default async function AdminLayout({ children }) {
   const session = await auth();
-  if (!session || session.user.role !== 'ADMIN') redirect('/login');
+  if (!session) redirect('/login');
+  if (session.user?.role === 'DOCTOR') redirect('/doctor/dashboard');
+  if (session.user?.role === 'PATIENT') redirect('/dashboard');
 
   return (
     <div className="flex min-h-screen bg-gray-50 dark:bg-gray-950">
