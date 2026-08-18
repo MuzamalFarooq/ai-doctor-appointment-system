@@ -39,7 +39,7 @@ export default function FAQPage() {
 
         {/* Search */}
         <div className="relative mb-8">
-          <Search className="w-5 h-5 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2" />
+          <Search className="w-5 h-5 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none z-10" />
           <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder="Search questions..." className="w-full pl-12 pr-4 py-4 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500" />
         </div>
 

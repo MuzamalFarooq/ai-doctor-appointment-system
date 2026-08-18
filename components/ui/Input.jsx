@@ -26,9 +26,9 @@ export const Input = forwardRef(function Input(
             error
               ? 'border-red-400 dark:border-red-600 focus:ring-red-400'
               : 'border-gray-200 dark:border-gray-700',
-            leftIcon && 'pl-12',
-            rightIcon && 'pr-12',
-            className
+            className,
+            leftIcon && 'pl-11',
+            rightIcon && 'pr-11'
           )}
           {...props}
         />

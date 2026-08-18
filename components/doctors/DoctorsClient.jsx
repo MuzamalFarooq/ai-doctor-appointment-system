@@ -69,7 +69,7 @@ export function DoctorsClient({ initialData }) {
           {/* Search */}
           <form onSubmit={handleSearch} className="flex gap-3 max-w-2xl">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none z-10" />
               <input
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
