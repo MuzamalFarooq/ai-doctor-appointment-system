@@ -162,7 +162,7 @@ export default function HomePage() {
               </motion.p>
 
               {/* Search Bar */}
-              <motion.form variants={fadeUp} onSubmit={handleSearch} className="flex gap-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-2.5 sm:p-3 mb-10 max-w-xl">
+              <motion.form variants={fadeUp} onSubmit={handleSearch} className="flex gap-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-2.5 sm:p-3 mb-12 max-w-xl">
                 <div className="flex items-center gap-3 flex-1 px-3">
                   <Search className="w-5 h-5 text-gray-300 flex-shrink-0" />
                   <input
@@ -179,7 +179,7 @@ export default function HomePage() {
 
               {/* CTA Buttons */}
               <motion.div variants={fadeUp} className="flex flex-wrap gap-4 mb-12">
-                <Link href="/doctors" className="flex items-center gap-2.5 px-7 py-4 bg-white text-primary-700 font-bold rounded-xl hover:bg-gray-50 transition-all shadow-lg text-sm">
+                <Link href="/doctors" className="flex items-center gap-2.5 px-7 py-4 bg-white pt-2 text-primary-700 font-bold rounded-xl hover:bg-gray-50 transition-all shadow-lg text-sm">
                   <Calendar className="w-4 h-4" /> Book Appointment
                 </Link>
                 <Link href="/ai-symptom-checker" className="flex items-center gap-2.5 px-7 py-4 bg-white/10 backdrop-blur-sm border border-white/30 text-white font-bold rounded-xl hover:bg-white/20 transition-all text-sm">
@@ -598,8 +598,8 @@ export default function HomePage() {
       </section>
 
       {/* ===== TRUST SECTION ===== */}
-      <section className="py-12 sm:py-16 bg-gray-50 dark:bg-gray-900 border-y border-gray-100 dark:border-gray-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="mt-8 sm:mt-12 py-12 sm:py-16 bg-gray-50 dark:bg-gray-900 border-y border-gray-100 dark:border-gray-800">
+        <div className="max-w-7xl mx-auto px-6 sm:px-6 lg:px-8">
           <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10 lg:gap-12">
             <p className="text-gray-500 text-sm font-medium">Trusted & Verified:</p>
             {[
@@ -609,7 +609,7 @@ export default function HomePage() {
               { label: 'PMC Verified', icon: CheckCircle },
               { label: 'ISO 27001', icon: Award },
             ].map(({ label, icon: Icon }) => (
-              <div key={label} className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+              <div key={label} className="flex items-center gap-2 mt-1 text-gray-600 dark:text-gray-400">
                 <Icon className="w-5 h-5 text-primary-500" />
                 <span className="text-sm font-medium">{label}</span>
               </div>
