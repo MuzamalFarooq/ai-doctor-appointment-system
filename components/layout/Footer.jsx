@@ -49,7 +49,7 @@ export function Footer() {
       {/* Newsletter Banner */}
       <div className="border-b border-gray-800/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-          <div className="bg-gradient-to-r from-primary-900/60 to-accent-900/60 rounded-3xl p-8 sm:p-10 lg:p-14 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12 border border-primary-800/50 shadow-2xl my-2">
+          <div className="bg-linear-to-r from-primary-900/60 to-accent-900/60 rounded-3xl p-8 sm:p-10 lg:p-14 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12 border border-primary-800/50 shadow-2xl my-2">
             <div className="space-y-3 text-center lg:text-left">
               <h3 className="text-2xl sm:text-3xl font-bold text-white font-heading tracking-tight">
                 Stay Healthy with AI Insights
