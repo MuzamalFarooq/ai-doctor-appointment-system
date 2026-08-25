@@ -24,11 +24,8 @@ const navItems = [
   { href: '/dashboard/profile', label: 'Profile', icon: User },
 ];
 
-export function PatientSidebar({ user }) {
-  const pathname = usePathname();
-  const [mobileOpen, setMobileOpen] = useState(false);
-
-  const SidebarContent = () => (
+function PatientSidebarContent({ user, pathname, onNavigate }) {
+  return (
     <div className="flex flex-col h-full">
       {/* Logo */}
       <div className="flex items-center gap-2 p-6 border-b border-gray-100 dark:border-gray-800">
@@ -54,7 +51,7 @@ export function PatientSidebar({ user }) {
         {navItems.map(({ href, label, icon: Icon, exact, highlight }) => {
           const active = exact ? pathname === href : pathname.startsWith(href);
           return (
-            <Link key={href} href={href} onClick={() => setMobileOpen(false)}
+            <Link key={href} href={href} onClick={onNavigate}
               className={cn(
                 'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200',
                 highlight && !active && 'bg-gradient-to-r from-primary-600 to-accent-500 text-white hover:opacity-90',
@@ -77,12 +74,17 @@ export function PatientSidebar({ user }) {
       </div>
     </div>
   );
+}
+
+export function PatientSidebar({ user }) {
+  const pathname = usePathname();
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
     <>
       {/* Desktop Sidebar */}
       <aside className="hidden lg:flex flex-col fixed left-0 top-0 h-full w-64 bg-white dark:bg-gray-900 border-r border-gray-100 dark:border-gray-800 z-30">
-        <SidebarContent />
+        <PatientSidebarContent user={user} pathname={pathname} onNavigate={() => setMobileOpen(false)} />
       </aside>
 
       {/* Mobile Top Bar */}
@@ -106,7 +108,7 @@ export function PatientSidebar({ user }) {
             <button onClick={() => setMobileOpen(false)} className="absolute top-4 right-4 p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
               <X className="w-5 h-5" />
             </button>
-            <SidebarContent />
+            <PatientSidebarContent user={user} pathname={pathname} onNavigate={() => setMobileOpen(false)} />
           </div>
         </div>
       )}

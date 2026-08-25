@@ -25,11 +25,8 @@ const navItems = [
   { href: '/doctor/profile', label: 'Profile', icon: User },
 ];
 
-export function DoctorSidebar({ user }) {
-  const pathname = usePathname();
-  const [mobileOpen, setMobileOpen] = useState(false);
-
-  const SidebarContent = () => (
+function DoctorSidebarContent({ user, pathname, onNavigate }) {
+  return (
     <div className="flex flex-col h-full">
       <div className="flex items-center gap-2 p-6 border-b border-gray-100 dark:border-gray-800">
         <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center">
@@ -50,7 +47,7 @@ export function DoctorSidebar({ user }) {
         {navItems.map(({ href, label, icon: Icon, exact }) => {
           const active = exact ? pathname === href : pathname.startsWith(href);
           return (
-            <Link key={href} href={href} onClick={() => setMobileOpen(false)}
+            <Link key={href} href={href} onClick={onNavigate}
               className={cn('flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200',
                 active ? 'bg-primary-50 dark:bg-primary-950/60 text-primary-700 dark:text-primary-300' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100')}>
               <Icon className={cn('w-4 h-4 flex-shrink-0', active && 'text-primary-600 dark:text-primary-400')} />
@@ -68,11 +65,16 @@ export function DoctorSidebar({ user }) {
       </div>
     </div>
   );
+}
+
+export function DoctorSidebar({ user }) {
+  const pathname = usePathname();
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
     <>
       <aside className="hidden lg:flex flex-col fixed left-0 top-0 h-full w-64 bg-white dark:bg-gray-900 border-r border-gray-100 dark:border-gray-800 z-30">
-        <SidebarContent />
+        <DoctorSidebarContent user={user} pathname={pathname} onNavigate={() => setMobileOpen(false)} />
       </aside>
       <div className="lg:hidden fixed top-0 inset-x-0 z-30 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -86,7 +88,7 @@ export function DoctorSidebar({ user }) {
           <div className="absolute inset-0 bg-black/60" onClick={() => setMobileOpen(false)} />
           <div className="relative w-64 bg-white dark:bg-gray-900 h-full overflow-y-auto">
             <button onClick={() => setMobileOpen(false)} className="absolute top-4 right-4 p-2 rounded-xl hover:bg-gray-100"><X className="w-5 h-5" /></button>
-            <SidebarContent />
+            <DoctorSidebarContent user={user} pathname={pathname} onNavigate={() => setMobileOpen(false)} />
           </div>
         </div>
       )}
