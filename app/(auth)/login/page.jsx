@@ -1,18 +1,36 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
-import { Eye, EyeOff, Mail, Lock, LogIn, Chrome } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock, LogIn } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { loginSchema } from '@/lib/validators';
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [showPassword, setShowPassword] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+
+  useEffect(() => {
+    const error = searchParams.get('error');
+    if (error) {
+      if (error === 'OAuthSignin' || error === 'OAuthCallback') {
+        toast.error('Google sign-in was cancelled or failed. Please check your Google OAuth configuration.');
+      } else if (error === 'OAuthAccountNotLinked') {
+        toast.error('Email already in use with another login provider.');
+      } else if (error === 'AccessDenied') {
+        toast.error('Access denied. Please check your account status.');
+      } else if (error === 'Configuration') {
+        toast.error('Authentication configuration error. Check GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET.');
+      } else {
+        toast.error(`Authentication error: ${error}`);
+      }
+    }
+  }, [searchParams]);
 
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
     resolver: zodResolver(loginSchema),
@@ -29,8 +47,7 @@ export default function LoginPage() {
         toast.error(result.error === 'CredentialsSignin' ? 'Invalid email or password' : result.error);
       } else {
         toast.success('Welcome back!');
-        const params = new URLSearchParams(window.location.search);
-        const callbackUrl = params.get('callbackUrl');
+        const callbackUrl = searchParams.get('callbackUrl');
         if (callbackUrl && !callbackUrl.startsWith('/login')) {
           router.push(callbackUrl);
         } else {
@@ -130,5 +147,13 @@ export default function LoginPage() {
         <Link href="/register" className="text-primary-400 hover:text-primary-300 font-semibold">Create account</Link>
       </p>
     </>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="text-center py-10 text-gray-400 text-sm">Loading...</div>}>
+      <LoginForm />
+    </Suspense>
   );
 }
