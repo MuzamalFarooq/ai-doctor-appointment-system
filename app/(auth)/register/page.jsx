@@ -38,7 +38,6 @@ export default function RegisterPage() {
         router.push('/login');
       } else {
         router.push(role === 'DOCTOR' ? '/doctor/dashboard' : '/dashboard');
-        router.refresh();
       }
     } catch {
       toast.error('Registration failed. Please try again.');

@@ -29,8 +29,13 @@ export default function LoginPage() {
         toast.error(result.error === 'CredentialsSignin' ? 'Invalid email or password' : result.error);
       } else {
         toast.success('Welcome back!');
-        router.push('/dashboard');
-        router.refresh();
+        const params = new URLSearchParams(window.location.search);
+        const callbackUrl = params.get('callbackUrl');
+        if (callbackUrl && !callbackUrl.startsWith('/login')) {
+          router.push(callbackUrl);
+        } else {
+          router.push('/dashboard');
+        }
       }
     } catch {
       toast.error('Something went wrong. Please try again.');
