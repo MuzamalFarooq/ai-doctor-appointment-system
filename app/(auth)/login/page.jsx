@@ -38,8 +38,9 @@ function LoginForm() {
 
   const onSubmit = async (data) => {
     try {
+      const normalizedEmail = data.email.toLowerCase().trim();
       const result = await signIn('credentials', {
-        email: data.email,
+        email: normalizedEmail,
         password: data.password,
         redirect: false,
       });
@@ -48,11 +49,10 @@ function LoginForm() {
       } else {
         toast.success('Welcome back!');
         const callbackUrl = searchParams.get('callbackUrl');
-        if (callbackUrl && !callbackUrl.startsWith('/login')) {
-          router.push(callbackUrl);
-        } else {
-          router.push('/dashboard');
-        }
+        const target = (callbackUrl && !callbackUrl.startsWith('/login') && !callbackUrl.startsWith('/register'))
+          ? callbackUrl
+          : '/dashboard';
+        window.location.href = target;
       }
     } catch {
       toast.error('Something went wrong. Please try again.');

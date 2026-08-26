@@ -19,20 +19,58 @@ export async function middleware(request) {
 
   // Get JWT token (Edge-safe, no Prisma)
   const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
+  const isSecure = request.nextUrl.protocol === 'https:' || request.headers.get('x-forwarded-proto') === 'https';
 
-  let token = await getToken({ req: request, secret });
+  let token = null;
 
-  if (!token) {
-    token = await getToken({ req: request, secret, cookieName: 'authjs.session-token' });
-  }
-  if (!token) {
-    token = await getToken({ req: request, secret, cookieName: '__Secure-authjs.session-token' });
-  }
-  if (!token) {
-    token = await getToken({ req: request, secret, cookieName: 'next-auth.session-token' });
-  }
-  if (!token) {
-    token = await getToken({ req: request, secret, cookieName: '__Secure-next-auth.session-token' });
+  try {
+    // 1. Try with auto/detected secureCookie flag
+    token = await getToken({ req: request, secret, secureCookie: isSecure });
+
+    // 2. Try opposite secureCookie flag if not found
+    if (!token) {
+      token = await getToken({ req: request, secret, secureCookie: !isSecure });
+    }
+
+    // 3. Fallbacks for Auth.js v5 and NextAuth v4 cookie variants
+    if (!token) {
+      token = await getToken({
+        req: request,
+        secret,
+        cookieName: '__Secure-authjs.session-token',
+        salt: '__Secure-authjs.session-token',
+        secureCookie: true,
+      });
+    }
+    if (!token) {
+      token = await getToken({
+        req: request,
+        secret,
+        cookieName: 'authjs.session-token',
+        salt: 'authjs.session-token',
+        secureCookie: false,
+      });
+    }
+    if (!token) {
+      token = await getToken({
+        req: request,
+        secret,
+        cookieName: '__Secure-next-auth.session-token',
+        salt: '__Secure-next-auth.session-token',
+        secureCookie: true,
+      });
+    }
+    if (!token) {
+      token = await getToken({
+        req: request,
+        secret,
+        cookieName: 'next-auth.session-token',
+        salt: 'next-auth.session-token',
+        secureCookie: false,
+      });
+    }
+  } catch (err) {
+    console.error('Middleware token extraction error:', err);
   }
 
   const isAuthenticated = !!token;

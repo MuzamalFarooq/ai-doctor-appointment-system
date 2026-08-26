@@ -4,13 +4,21 @@ import bcrypt from 'bcryptjs';
 
 export async function registerUser(data) {
   try {
-    const existing = await prisma.user.findUnique({ where: { email: data.email } });
+    if (!data?.email || !data?.password || !data?.name) {
+      return { error: 'Please provide all required fields.' };
+    }
+
+    const email = data.email.toLowerCase().trim();
+    const name = data.name.trim();
+
+    const existing = await prisma.user.findUnique({ where: { email } });
     if (existing) return { error: 'Email already registered. Please sign in.' };
+
     const hashed = await bcrypt.hash(data.password, 12);
     const user = await prisma.user.create({
       data: {
-        name: data.name,
-        email: data.email,
+        name,
+        email,
         password: hashed,
         role: data.role || 'PATIENT',
         ...(data.role === 'PATIENT' && { patient: { create: {} } }),

@@ -29,15 +29,16 @@ export default function RegisterPage() {
 
   const onSubmit = async (data) => {
     try {
-      const result = await registerUser({ ...data, role });
+      const normalizedEmail = data.email.toLowerCase().trim();
+      const result = await registerUser({ ...data, email: normalizedEmail, role });
       if (result?.error) { toast.error(result.error); return; }
       toast.success('Account created! Signing you in...');
-      const res = await signIn('credentials', { email: data.email, password: data.password, redirect: false });
+      const res = await signIn('credentials', { email: normalizedEmail, password: data.password, redirect: false });
       if (res?.error) {
         toast.error('Registered successfully! Please sign in.');
-        router.push('/login');
+        window.location.href = '/login';
       } else {
-        router.push(role === 'DOCTOR' ? '/doctor/dashboard' : '/dashboard');
+        window.location.href = role === 'DOCTOR' ? '/doctor/dashboard' : '/dashboard';
       }
     } catch {
       toast.error('Registration failed. Please try again.');
