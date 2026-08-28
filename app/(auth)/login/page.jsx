@@ -135,7 +135,7 @@ function LoginForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full py-3 bg-gradient-to-r from-primary-600 to-accent-500 text-white font-semibold rounded-xl hover:opacity-90 transition-all flex items-center justify-center gap-2 disabled:opacity-60 text-sm"
+          className="w-full py-3 bg-linear-to-r from-primary-600 to-accent-500 text-white font-semibold rounded-xl hover:opacity-90 transition-all flex items-center justify-center gap-2 disabled:opacity-60 text-sm"
         >
           {isSubmitting ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <LogIn className="w-4 h-4" />}
           {isSubmitting ? 'Signing in...' : 'Sign In'}
