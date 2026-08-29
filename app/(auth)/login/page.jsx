@@ -49,10 +49,21 @@ function LoginForm() {
       } else {
         toast.success('Welcome back!');
         const callbackUrl = searchParams.get('callbackUrl');
-        const target = (callbackUrl && !callbackUrl.startsWith('/login') && !callbackUrl.startsWith('/register'))
-          ? callbackUrl
-          : '/dashboard';
-        window.location.href = target;
+        let target = '/dashboard';
+        if (callbackUrl && typeof callbackUrl === 'string') {
+          const decoded = decodeURIComponent(callbackUrl);
+          if (
+            decoded.startsWith('/') &&
+            !decoded.startsWith('//') &&
+            !decoded.startsWith('/login') &&
+            !decoded.startsWith('/register') &&
+            !decoded.startsWith('/forgot-password')
+          ) {
+            target = decoded;
+          }
+        }
+        router.replace(target);
+        router.refresh();
       }
     } catch {
       toast.error('Something went wrong. Please try again.');

@@ -36,9 +36,11 @@ export default function RegisterPage() {
       const res = await signIn('credentials', { email: normalizedEmail, password: data.password, redirect: false });
       if (res?.error) {
         toast.error('Registered successfully! Please sign in.');
-        window.location.href = '/login';
+        router.replace('/login');
       } else {
-        window.location.href = role === 'DOCTOR' ? '/doctor/dashboard' : '/dashboard';
+        const dest = role === 'DOCTOR' ? '/doctor/dashboard' : '/dashboard';
+        router.replace(dest);
+        router.refresh();
       }
     } catch {
       toast.error('Registration failed. Please try again.');
