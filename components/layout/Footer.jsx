@@ -93,7 +93,7 @@ export function Footer() {
               {/* Contact Info Box */}
               <div className="space-y-3.5 text-sm mb-6 bg-gray-950/60 p-4 rounded-2xl border border-gray-800/40">
                 <div className="flex items-center gap-3.5 text-gray-400 hover:text-gray-300 transition-colors">
-                  <MapPin className="w-4 h-4 text-primary-400 flex-shrink-0" />
+                  <MapPin className="w-4 h-4 text-primary-400 shrink-0" />
                   <span>Blue Area, Islamabad, Pakistan</span>
                 </div>
                 <div className="flex items-center gap-3.5 text-gray-400 hover:text-gray-300 transition-colors">
@@ -101,7 +101,7 @@ export function Footer() {
                   <span>+92 306 7774327</span>
                 </div>
                 <div className="flex items-center gap-3.5 text-gray-400 hover:text-gray-300 transition-colors">
-                  <Mail className="w-4 h-4 text-primary-400 flex-shrink-0" />
+                  <Mail className="w-4 h-4 text-primary-400 shrink-0" />
                   <span>muzamalfarooq111@gmail.com</span>
                 </div>
               </div>
