@@ -159,7 +159,7 @@ export function Footer() {
                 </div>
               </a>
               <a href="#" className="flex items-center gap-3.5 bg-gray-900 hover:bg-gray-800 border border-gray-800 text-white px-5 py-3.5 rounded-2xl transition-all hover:border-gray-700 shadow-sm hover:scale-[1.02]">
-                <svg className="w-6 h-6 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                <svg className="w-6 h-6 shrink-0" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M3.18 23.76c.37.2.8.24 1.2.1L14.9 12 4.38.14c-.4-.14-.83-.1-1.2.1C2.44.66 2 1.56 2 2.56v18.88c0 1 .44 1.9 1.18 2.32M16 13.06L5.88 23.18l9.98-5.75zM20.82 9.1L17.7 7.3 14.1 11l3.6 3.7 3.12-1.8c.9-.52.9-1.64.9-2.4s0-1.88-.9-2.4M5.88.82L16 10.94l3.7-3.7z"/>
                 </svg>
                 <div>
