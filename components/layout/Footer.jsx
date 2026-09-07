@@ -82,7 +82,7 @@ export function Footer() {
           <div className="sm:col-span-2 md:col-span-3 lg:col-span-2 p-6 sm:p-8 rounded-3xl bg-gray-900/40 border border-gray-800/60 backdrop-blur-sm flex flex-col justify-between shadow-lg">
             <div>
               <Link href="/" className="inline-flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center shadow-lg shadow-primary-500/20">
+                <div className="w-10 h-10 rounded-xl bg-linear-to-br from-primary-500 to-accent-500 flex items-center justify-center shadow-lg shadow-primary-500/20">
                   <Stethoscope className="w-5 h-5 text-white" />
                 </div>
                 <span className="font-heading font-bold text-xl text-white tracking-tight">MediConnect AI</span>
@@ -97,7 +97,7 @@ export function Footer() {
                   <span>Blue Area, Islamabad, Pakistan</span>
                 </div>
                 <div className="flex items-center gap-3.5 text-gray-400 hover:text-gray-300 transition-colors">
-                  <Phone className="w-4 h-4 text-primary-400 flex-shrink-0" />
+                  <Phone className="w-4 h-4 text-primary-400 shrink-0" />
                   <span>+92 306 7774327</span>
                 </div>
                 <div className="flex items-center gap-3.5 text-gray-400 hover:text-gray-300 transition-colors">
