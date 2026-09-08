@@ -1,17 +1,20 @@
 import { getToken } from 'next-auth/jwt';
 import { NextResponse } from 'next/server';
 
-const PUBLIC_PATHS = ['/', '/doctors', '/about', '/contact', '/pricing', '/faq', '/privacy-policy', '/terms', '/blog'];
+const PUBLIC_PATHS = ['/', '/doctors', '/about', '/contact', '/pricing', '/faq', '/privacy', '/privacy-policy', '/terms', '/blog'];
 const AUTH_PATHS = ['/login', '/register', '/forgot-password'];
 
 export async function middleware(request) {
   const { pathname } = request.nextUrl;
 
-  // Allow static files and API auth routes
+  // Allow static files, API auth routes, and public legal routes immediately
   if (
     pathname.startsWith('/_next') ||
     pathname.startsWith('/api/auth') ||
     pathname.startsWith('/api/webhooks') ||
+    pathname === '/privacy' ||
+    pathname === '/privacy-policy' ||
+    pathname === '/terms' ||
     pathname.includes('.') // static files
   ) {
     return NextResponse.next();

@@ -208,7 +208,7 @@ export default function RegisterPage() {
       <p className="text-center text-gray-400 text-xs mt-4 leading-relaxed">
         By creating an account, you agree to our{' '}
         <Link href="/terms" className="underline hover:text-gray-300 transition-colors">Terms</Link>{' '}and{' '}
-        <Link href="/privacy-policy" className="underline hover:text-gray-300 transition-colors">Privacy Policy</Link>
+        <Link href="/privacy" className="underline hover:text-gray-300 transition-colors">Privacy Policy</Link>
       </p>
     </>
   );

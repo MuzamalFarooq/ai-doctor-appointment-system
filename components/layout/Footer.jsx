@@ -24,7 +24,7 @@ const footerLinks = {
     { label: 'Patient Guide', href: '/faq' },
     { label: 'Doctor Signup', href: '/register' },
     { label: 'Emergency', href: '/contact' },
-    { label: 'Privacy Policy', href: '/privacy-policy' },
+    { label: 'Privacy Policy', href: '/privacy' },
   ],
   specializations: [
     { label: 'General Physician', href: '/doctors?spec=General+Physician' },
@@ -186,7 +186,7 @@ export function Footer() {
               © {new Date().getFullYear()} MediConnect AI. All rights reserved.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-8 text-sm">
-              <Link href="/privacy-policy" className="text-gray-400 hover:text-primary-400 transition-colors">Privacy Policy</Link>
+              <Link href="/privacy" className="text-gray-400 hover:text-primary-400 transition-colors">Privacy Policy</Link>
               <Link href="/terms" className="text-gray-400 hover:text-primary-400 transition-colors">Terms of Service</Link>
               <Link href="/faq" className="text-gray-400 hover:text-primary-400 transition-colors">FAQ</Link>
             </div>
