@@ -13,6 +13,7 @@ export const metadata = {
     url: 'https://mediconnect.muzamal.site/privacy',
     type: 'website',
   },
+  
 };
 
 export default function PrivacyPolicyPage() {
