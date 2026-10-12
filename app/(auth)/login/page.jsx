@@ -45,7 +45,11 @@ function LoginForm() {
         redirect: false,
       });
       if (result?.error) {
-        toast.error(result.error === 'CredentialsSignin' ? 'Invalid email or password' : result.error);
+        toast.error(
+          result.error === 'CredentialsSignin'
+            ? 'Invalid email or password'
+            : 'Unable to sign in right now. Please try again shortly.'
+        );
       } else {
         toast.success('Welcome back!');
         const callbackUrl = searchParams.get('callbackUrl');

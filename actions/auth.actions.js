@@ -1,28 +1,34 @@
 'use server';
 import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
+import { registerSchema } from '@/lib/validators';
 
 export async function registerUser(data) {
+  const input = {
+    ...data,
+    name: typeof data?.name === 'string' ? data.name.trim() : data?.name,
+    email: typeof data?.email === 'string' ? data.email.trim().toLowerCase() : data?.email,
+  };
+  const validation = registerSchema.safeParse(input);
+  if (!validation.success) {
+    return { error: validation.error.issues[0]?.message || 'Please provide valid registration details.' };
+  }
+
+  const { name, email, password, role } = validation.data;
+
   try {
-    if (!data?.email || !data?.password || !data?.name) {
-      return { error: 'Please provide all required fields.' };
-    }
-
-    const email = data.email.toLowerCase().trim();
-    const name = data.name.trim();
-
     const existing = await prisma.user.findUnique({ where: { email } });
     if (existing) return { error: 'Email already registered. Please sign in.' };
 
-    const hashed = await bcrypt.hash(data.password, 12);
+    const hashed = await bcrypt.hash(password, 12);
     const user = await prisma.user.create({
       data: {
         name,
         email,
         password: hashed,
-        role: data.role || 'PATIENT',
-        ...(data.role === 'PATIENT' && { patient: { create: {} } }),
-        ...(data.role === 'DOCTOR' && { doctor: {
+        role,
+        ...(role === 'PATIENT' && { patient: { create: {} } }),
+        ...(role === 'DOCTOR' && { doctor: {
           create: {
             specialization: 'General Physician',
             experience: 0,
@@ -37,7 +43,11 @@ export async function registerUser(data) {
     });
     return { success: true, userId: user.id };
   } catch (err) {
-    console.error('Register error:', err);
+    const code = typeof err?.code === 'string' ? err.code : 'UNKNOWN';
+    console.error('Registration failed:', { code });
+    if (code === 'P2002') {
+      return { error: 'Email already registered. Please sign in.' };
+    }
     return { error: 'Registration failed. Please try again.' };
   }
 }
