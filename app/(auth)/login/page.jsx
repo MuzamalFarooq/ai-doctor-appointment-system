@@ -16,6 +16,13 @@ function LoginForm() {
   const [googleLoading, setGoogleLoading] = useState(false);
 
   useEffect(() => {
+    const reset = searchParams.get('reset');
+    if (reset === 'success') {
+      toast.success('Your password has been reset successfully. Please sign in with your new password.', {
+        duration: 6000,
+      });
+    }
+
     const error = searchParams.get('error');
     if (error) {
       if (error === 'OAuthSignin' || error === 'OAuthCallback') {
