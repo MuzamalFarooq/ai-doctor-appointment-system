@@ -82,7 +82,7 @@ export function AdminSidebar({ user }) {
       </aside>
       <div className="lg:hidden fixed top-0 inset-x-0 z-30 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-red-500 to-rose-600 flex items-center justify-center"><Shield className="w-4 h-4 text-white" /></div>
+          <div className="w-8 h-8 rounded-xl bg-Linear-to-br from-red-500 to-rose-600 flex items-center justify-center"><Shield className="w-4 h-4 text-white" /></div>
           <span className="font-heading font-bold text-gray-900 dark:text-white">Admin Panel</span>
         </div>
         <button onClick={() => setMobileOpen(true)} className="p-2 rounded-xl text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800"><Menu className="w-5 h-5" /></button>

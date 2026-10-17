@@ -73,8 +73,7 @@ function LoginForm() {
             target = decoded;
           }
         }
-        router.replace(target);
-        router.refresh();
+        window.location.href = target;
       }
     } catch {
       toast.error('Something went wrong. Please try again.');

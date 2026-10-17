@@ -15,7 +15,7 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState('PATIENT');
 
-  const { register, handleSubmit, watch, formState: { errors, isSubmitting } } = useForm({
+  const { register, handleSubmit, watch, setValue, formState: { errors, isSubmitting } } = useForm({
     resolver: zodResolver(registerSchema),
     defaultValues: { role: 'PATIENT' },
   });
@@ -39,8 +39,7 @@ export default function RegisterPage() {
         router.replace('/login');
       } else {
         const dest = role === 'DOCTOR' ? '/doctor/dashboard' : '/dashboard';
-        router.replace(dest);
-        router.refresh();
+        window.location.href = dest;
       }
     } catch {
       toast.error('Registration failed. Please try again.');
@@ -67,7 +66,10 @@ export default function RegisterPage() {
           <button
             key={value}
             type="button"
-            onClick={() => setRole(value)}
+            onClick={() => {
+              setRole(value);
+              setValue('role', value);
+            }}
             className={`p-3.5 rounded-2xl border transition-all text-left flex flex-col justify-between cursor-pointer ${
               role === value
                 ? 'border-primary-400 bg-primary-500/20 shadow-lg shadow-primary-500/10'

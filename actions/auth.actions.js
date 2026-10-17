@@ -44,8 +44,8 @@ export async function registerUser(data) {
     return { success: true, userId: user.id };
   } catch (err) {
     const code = typeof err?.code === 'string' ? err.code : 'UNKNOWN';
-    console.error('Registration failed:', { code });
-    if (code === 'P2002') {
+    console.error('Registration failed:', { code, message: err?.message });
+    if (code === 'P2002' || err?.message?.includes('users_email_key') || err?.message?.includes('E11000')) {
       return { error: 'Email already registered. Please sign in.' };
     }
     return { error: 'Registration failed. Please try again.' };
