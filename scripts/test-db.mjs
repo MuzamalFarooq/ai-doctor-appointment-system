@@ -48,12 +48,11 @@ async function testWithUrl(url) {
 
 async function run() {
   if (process.env.DATABASE_URL) {
-    console.log('--- 1. Testing DATABASE_URL from .env ---');
+    console.log('--- Testing DATABASE_URL from environment ---');
     await testWithUrl(process.env.DATABASE_URL);
+  } else {
+    console.error('DATABASE_URL is not set in environment.');
   }
-
-  console.log('\n--- 2. Testing Local MongoDB (127.0.0.1:27017) ---');
-  await testWithUrl('mongodb://127.0.0.1:27017/ai_doctor_db');
 }
 
 run();
