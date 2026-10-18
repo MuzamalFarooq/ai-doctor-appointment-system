@@ -2,6 +2,7 @@
 import { prisma } from '@/lib/prisma';
 import { auth } from '@/lib/auth';
 import { revalidatePath } from 'next/cache';
+import { getAppointmentBookingKey } from '@/lib/appointment-utils';
 
 async function requireAdmin() {
   const session = await auth();
@@ -79,9 +80,19 @@ export async function getAdminStats() {
 export async function updateAppointmentStatus(appointmentId, status) {
   try {
     await requireAdmin();
+    const current = await prisma.appointment.findUnique({
+      where: { id: appointmentId },
+      select: { doctorId: true, date: true, startTime: true },
+    });
+    if (!current) return { error: 'Appointment not found' };
     const updated = await prisma.appointment.update({
       where: { id: appointmentId },
-      data: { status },
+      data: {
+        status,
+        bookingKey: status === 'CANCELLED'
+          ? null
+          : getAppointmentBookingKey(current.doctorId, current.date, current.startTime),
+      },
     });
     revalidatePath('/admin/appointments');
     revalidatePath('/admin/dashboard');

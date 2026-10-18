@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Share2, Heart, MapPin, Clock, Star, CheckCircle, GraduationCap, Award, MessageSquare, Calendar, ChevronRight, Video } from 'lucide-react';
+import { Share2, Heart, MapPin, Clock, Star, CheckCircle, GraduationCap, Award, MessageSquare, ChevronRight, Stethoscope } from 'lucide-react';
 import { RatingStars } from '@/components/ui/RatingStars';
 import { Badge } from '@/components/ui/Badge';
 import { formatCurrency } from '@/lib/utils';
@@ -10,13 +10,11 @@ import { DoctorCard } from './DoctorCard';
 
 export function DoctorDetailClient({ doctor, similarDoctors }) {
   const [activeTab, setActiveTab] = useState('overview');
-  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
-  const [selectedSlot, setSelectedSlot] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
 
   const name = doctor.user?.name || 'Doctor';
-  const image = doctor.user?.image || null;
-  const hospital = doctor.hospital?.name || 'Private Clinic';
+  const image = doctor.profilePhoto || doctor.user?.image || null;
+  const hospital = doctor.hospital?.name;
 
   const handleShare = () => {
     if (navigator.share) {
@@ -29,12 +27,6 @@ export function DoctorDetailClient({ doctor, similarDoctors }) {
   };
 
   const handleFavorite = () => setIsFavorite(!isFavorite);
-
-  // Fake slots for UI
-  const availableSlots = [
-    '09:00 AM', '09:30 AM', '10:00 AM', '11:00 AM',
-    '02:00 PM', '02:30 PM', '04:00 PM', '05:00 PM'
-  ];
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 pt-20 pb-20">
@@ -70,7 +62,7 @@ export function DoctorDetailClient({ doctor, similarDoctors }) {
                         {doctor.isVerified && <CheckCircle className="w-6 h-6 text-blue-500" />}
                       </div>
                       <p className="text-lg text-primary-600 dark:text-primary-400 font-medium mb-1">{doctor.specialization}</p>
-                      <p className="text-gray-500 dark:text-gray-400 mb-4">{doctor.degrees || 'MBBS, FCPS'}</p>
+                      <p className="text-gray-500 dark:text-gray-400 mb-4">{doctor.degree?.length ? doctor.degree.join(', ') : 'Qualifications not provided'}</p>
                     </div>
                     
                     <div className="flex gap-2">
@@ -94,11 +86,13 @@ export function DoctorDetailClient({ doctor, similarDoctors }) {
                     </div>
                     <div>
                       <p className="text-xs text-gray-500 uppercase font-semibold mb-1">Reviews</p>
-                      <div className="flex items-center gap-1.5">
-                        <Star className="w-4 h-4 text-amber-500 fill-current" />
-                        <span className="font-bold text-gray-900 dark:text-white">{doctor.rating?.toFixed(1) || '0.0'}</span>
-                        <span className="text-sm text-gray-500">({doctor.totalReviews || 0})</span>
-                      </div>
+                      {doctor.totalReviews > 0 ? (
+                        <div className="flex items-center gap-1.5">
+                          <Star className="w-4 h-4 text-amber-500 fill-current" />
+                          <span className="font-bold text-gray-900 dark:text-white">{doctor.rating.toFixed(1)}</span>
+                          <span className="text-sm text-gray-500">({doctor.totalReviews})</span>
+                        </div>
+                      ) : <p className="text-sm text-gray-500">No reviews yet</p>}
                     </div>
                     <div>
                       <p className="text-xs text-gray-500 uppercase font-semibold mb-1">Fee</p>
@@ -107,7 +101,7 @@ export function DoctorDetailClient({ doctor, similarDoctors }) {
                   </div>
 
                   <div className="flex gap-2 flex-wrap">
-                    {(doctor.languages || ['English', 'Urdu']).map(lang => (
+                    {(doctor.languages || []).map(lang => (
                       <Badge key={lang} variant="secondary">{lang}</Badge>
                     ))}
                   </div>
@@ -134,20 +128,23 @@ export function DoctorDetailClient({ doctor, similarDoctors }) {
                     <div>
                       <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">About Doctor</h3>
                       <p className="text-gray-600 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
-                        {doctor.biography || `${name} is a highly qualified ${doctor.specialization} with over ${doctor.experience} years of experience in the field. Dedicated to providing the best patient care with a focus on comprehensive treatment.`}
+                        {doctor.biography || 'A professional biography has not been provided.'}
                       </p>
                     </div>
                     <div>
                       <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Hospital / Clinic</h3>
-                      <div className="flex items-center gap-4 bg-gray-50 dark:bg-gray-800/50 p-4 rounded-xl border border-gray-100 dark:border-gray-800">
-                        <div className="w-12 h-12 bg-primary-100 text-primary-600 rounded-lg flex items-center justify-center">
-                          <MapPin className="w-6 h-6" />
+                      {hospital ? (
+                        <div className="flex items-center gap-4 bg-gray-50 dark:bg-gray-800/50 p-4 rounded-xl border border-gray-100 dark:border-gray-800">
+                          <div className="w-12 h-12 bg-primary-100 text-primary-600 rounded-lg flex items-center justify-center">
+                            <MapPin className="w-6 h-6" />
+                          </div>
+                          <div>
+                            <p className="font-bold text-gray-900 dark:text-white">{hospital}</p>
+                            <p className="text-sm text-gray-500">{doctor.hospital.city || doctor.city}</p>
+                            {doctor.hospital.address && <p className="text-sm text-gray-500">{doctor.hospital.address}</p>}
+                          </div>
                         </div>
-                        <div>
-                          <p className="font-bold text-gray-900 dark:text-white">{hospital}</p>
-                          <p className="text-sm text-gray-500">{doctor.city}</p>
-                        </div>
-                      </div>
+                      ) : <p className="text-sm text-gray-500">No hospital or clinic affiliation has been listed.</p>}
                     </div>
                   </div>
                 )}
@@ -156,18 +153,23 @@ export function DoctorDetailClient({ doctor, similarDoctors }) {
                   <div className="space-y-6">
                     <div>
                       <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2"><GraduationCap className="w-5 h-5 text-primary-500" /> Education</h3>
-                      <ul className="space-y-4">
-                        <li className="relative pl-6 border-l-2 border-gray-200 dark:border-gray-700 pb-2">
-                          <span className="absolute -left-[5px] top-1 w-2 h-2 rounded-full bg-primary-500" />
-                          <p className="font-bold text-gray-900 dark:text-white">MBBS</p>
-                          <p className="text-sm text-gray-500">Medical University • 2010</p>
-                        </li>
-                        <li className="relative pl-6 border-l-2 border-gray-200 dark:border-gray-700">
-                          <span className="absolute -left-[5px] top-1 w-2 h-2 rounded-full bg-primary-500" />
-                          <p className="font-bold text-gray-900 dark:text-white">{doctor.degrees || 'Specialization Degree'}</p>
-                          <p className="text-sm text-gray-500">College of Physicians and Surgeons • 2015</p>
-                        </li>
-                      </ul>
+                      {doctor.education?.length || doctor.degree?.length ? (
+                        <ul className="space-y-3">
+                          {(doctor.education?.length ? doctor.education : doctor.degree).map((item, index) => {
+                            const details = typeof item === 'string'
+                              ? item
+                              : [item?.degree, item?.title, item?.institution, item?.university, item?.year].filter(Boolean).join(' · ');
+                            return details ? (
+                              <li key={`${details}-${index}`} className="relative pl-6">
+                                <span className="absolute -left-[5px] top-2 h-2 w-2 rounded-full bg-primary-500" />
+                                <p className="text-sm font-medium text-gray-900 dark:text-white">{details}</p>
+                              </li>
+                            ) : null;
+                          })}
+                        </ul>
+                      ) : (
+                        <p className="text-sm text-gray-500">Education details have not been provided.</p>
+                      )}
                     </div>
                   </div>
                 )}
@@ -217,69 +219,20 @@ export function DoctorDetailClient({ doctor, similarDoctors }) {
             )}
           </div>
 
-          {/* Sidebar / Booking Widget */}
-          <aside className="w-full lg:w-[400px] flex-shrink-0">
-            <div className="bg-white dark:bg-gray-900 rounded-3xl p-6 border border-gray-100 dark:border-gray-800 sticky top-24 shadow-xl shadow-gray-200/50 dark:shadow-none">
-              <h3 className="text-xl font-black text-gray-900 dark:text-white mb-1">Book Appointment</h3>
-              <p className="text-sm text-gray-500 mb-6">Select a date and time to book</p>
-
-              <div className="space-y-6">
-                {/* Date Picker (Simplified) */}
-                <div>
-                  <label className="block text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
-                    <Calendar className="w-4 h-4 text-primary-500" /> Select Date
-                  </label>
-                  <input type="date" value={selectedDate} onChange={e => setSelectedDate(e.target.value)} min={new Date().toISOString().split('T')[0]}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
-                  />
-                </div>
-
-                {/* Slot Picker */}
-                <div>
-                  <label className="block text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
-                    <Clock className="w-4 h-4 text-primary-500" /> Select Time
-                  </label>
-                  <div className="grid grid-cols-3 gap-2">
-                    {availableSlots.map(slot => (
-                      <button key={slot} onClick={() => setSelectedSlot(slot)}
-                        className={`py-2 text-xs font-semibold rounded-lg transition-colors border ${
-                          selectedSlot === slot ? 'bg-primary-600 border-primary-600 text-white shadow-md shadow-primary-500/20' : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-primary-300'
-                        }`}>
-                        {slot}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Consultation Type */}
-                <div>
-                  <label className="block text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
-                    <Video className="w-4 h-4 text-primary-500" /> Consultation Type
-                  </label>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="border-2 border-primary-600 bg-primary-50 dark:bg-primary-900/20 rounded-xl p-3 cursor-pointer">
-                      <Video className="w-5 h-5 text-primary-600 mb-1" />
-                      <p className="font-bold text-sm text-gray-900 dark:text-white">Video</p>
-                      <p className="text-xs text-gray-500">Online</p>
-                    </div>
-                    <div className="border-2 border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-800 rounded-xl p-3 cursor-pointer hover:border-primary-300 transition-colors opacity-50">
-                      <MapPin className="w-5 h-5 text-gray-400 mb-1" />
-                      <p className="font-bold text-sm text-gray-900 dark:text-white">In-Person</p>
-                      <p className="text-xs text-gray-500">At Clinic</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="pt-4 border-t border-gray-100 dark:border-gray-800">
-                  <div className="flex justify-between items-center mb-4">
-                    <span className="text-gray-500">Consultation Fee</span>
-                    <span className="text-xl font-bold text-gray-900 dark:text-white">{formatCurrency(doctor.consultationFee)}</span>
-                  </div>
-                  <button disabled={!selectedSlot} className="w-full py-4 bg-primary-600 hover:bg-primary-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-colors shadow-lg shadow-primary-600/20">
-                    Proceed to Book
-                  </button>
-                </div>
+          <aside className="w-full flex-shrink-0 lg:w-[340px]">
+            <div className="sticky top-24 rounded-3xl border border-gray-100 bg-white p-6 shadow-xl shadow-gray-200/50 dark:border-gray-800 dark:bg-gray-900 dark:shadow-none">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary-50 text-primary-700 dark:bg-primary-900/30 dark:text-primary-300">
+                <Stethoscope className="h-5 w-5" />
               </div>
+              <h3 className="mt-4 text-xl font-bold text-gray-900 dark:text-white">Book a consultation</h3>
+              <p className="mt-2 text-sm leading-6 text-gray-500">Choose a date and an appointment slot from the doctor&apos;s listed schedule. The booking flow checks availability before you submit.</p>
+              <div className="mt-5 flex items-center justify-between border-y border-gray-100 py-4 dark:border-gray-800">
+                <span className="text-sm text-gray-500">Consultation fee</span>
+                <span className="font-bold text-gray-900 dark:text-white">{formatCurrency(doctor.consultationFee)}</span>
+              </div>
+              <Link href={`/dashboard/book-appointment?doctorId=${encodeURIComponent(doctor.id)}`} className="mt-5 flex w-full items-center justify-center rounded-xl bg-primary-600 px-4 py-3.5 text-sm font-bold text-white shadow-lg shadow-primary-600/20 transition hover:bg-primary-700">
+                Continue to booking
+              </Link>
             </div>
           </aside>
         </div>

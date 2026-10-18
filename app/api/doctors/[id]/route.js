@@ -3,17 +3,18 @@ import { prisma } from '@/lib/prisma';
 
 export async function GET(req, { params }) {
   try {
+    const { id } = await params;
     const doctor = await prisma.doctor.findUnique({
-      where: { id: params.id },
-      include: {
-        user: { select: { name: true, email: true, image: true } },
-        hospital: true,
-        reviews: {
-          include: { patient: { include: { user: { select: { name: true, image: true } } } } },
-          orderBy: { createdAt: 'desc' },
-          take: 10,
-        },
-        availability: { where: { isAvailable: true }, orderBy: { dayOfWeek: 'asc' } },
+      where: { id, status: 'APPROVED' },
+      select: {
+        id: true,
+        specialization: true,
+        degree: true,
+        experience: true,
+        consultationFee: true,
+        city: true,
+        status: true,
+        user: { select: { name: true, image: true } },
       },
     });
     if (!doctor) return NextResponse.json({ error: 'Doctor not found' }, { status: 404 });

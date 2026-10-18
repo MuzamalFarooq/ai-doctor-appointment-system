@@ -160,6 +160,7 @@ model Appointment {
   date          DateTime
   startTime     String
   endTime       String
+  bookingKey    String?             @unique
   status        AppointmentStatus   @default(PENDING)
   type          String              @default("in-person")
   reason        String?

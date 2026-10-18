@@ -60,20 +60,10 @@ function LoginForm() {
       } else {
         toast.success('Welcome back!');
         const callbackUrl = searchParams.get('callbackUrl');
-        let target = '/dashboard';
-        if (callbackUrl && typeof callbackUrl === 'string') {
-          const decoded = decodeURIComponent(callbackUrl);
-          if (
-            decoded.startsWith('/') &&
-            !decoded.startsWith('//') &&
-            !decoded.startsWith('/login') &&
-            !decoded.startsWith('/register') &&
-            !decoded.startsWith('/forgot-password')
-          ) {
-            target = decoded;
-          }
-        }
-        window.location.href = target;
+        const params = new URLSearchParams();
+        if (callbackUrl) params.set('callbackUrl', callbackUrl);
+        const query = params.toString();
+        window.location.href = query ? `/auth/redirect?${query}` : '/auth/redirect';
       }
     } catch {
       toast.error('Something went wrong. Please try again.');
@@ -83,7 +73,11 @@ function LoginForm() {
   const handleGoogleLogin = async () => {
     setGoogleLoading(true);
     try {
-      await signIn('google', { callbackUrl: '/dashboard' });
+      const callbackUrl = searchParams.get('callbackUrl');
+      const redirectUrl = callbackUrl
+        ? `/auth/redirect?${new URLSearchParams({ callbackUrl }).toString()}`
+        : '/auth/redirect';
+      await signIn('google', { callbackUrl: redirectUrl });
     } catch {
       toast.error('Google sign-in failed.');
       setGoogleLoading(false);

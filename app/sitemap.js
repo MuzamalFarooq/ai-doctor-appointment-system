@@ -4,7 +4,8 @@ export default async function sitemap() {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
 
   const staticPages = [
-    '', '/doctors', '/ai-symptom-checker', '/ai-health-assistant',
+    '', '/healthcare', '/doctors', '/doctors/search', '/medicines', '/lab-tests', '/surgery',
+    '/ai-symptom-checker', '/ai-health-assistant',
     '/pricing', '/blog', '/contact', '/faq', '/about', '/privacy', '/privacy-policy', '/terms',
   ].map(path => ({
     url: `${baseUrl}${path}`,

@@ -22,8 +22,10 @@ export function DoctorsClient({ initialData }) {
     city: searchParams.get('city') || '',
     gender: searchParams.get('gender') || '',
     minRating: searchParams.get('minRating') || '0',
+    minFee: searchParams.get('minFee') || '0',
     maxFee: searchParams.get('maxFee') || '99999',
     minExp: searchParams.get('minExp') || '0',
+    available: searchParams.get('available') || '',
     lang: searchParams.get('lang') || '',
     sort: searchParams.get('sort') || 'rating',
   });
@@ -47,7 +49,7 @@ export function DoctorsClient({ initialData }) {
   };
 
   const clearFilters = () => {
-    setFilters({ spec: '', city: '', gender: '', minRating: '0', maxFee: '99999', minExp: '0', lang: '', sort: 'rating' });
+    setFilters({ spec: '', city: '', gender: '', minRating: '0', minFee: '0', maxFee: '99999', minExp: '0', available: '', lang: '', sort: 'rating' });
     setSearchQuery('');
     router.push(pathname);
   };
@@ -64,7 +66,7 @@ export function DoctorsClient({ initialData }) {
           <h1 className="text-3xl font-black font-heading text-gray-900 dark:text-white mb-2">
             Find Your <span className="gradient-text">Doctor</span>
           </h1>
-          <p className="text-gray-500 dark:text-gray-400 text-sm mb-6">{total} verified doctors available</p>
+          <p className="text-gray-500 dark:text-gray-400 text-sm mb-6">{total} approved doctor profiles</p>
 
           {/* Search */}
           <form onSubmit={handleSearch} className="flex gap-3 max-w-2xl">
@@ -159,12 +161,31 @@ export function DoctorsClient({ initialData }) {
               {/* Max Fee */}
               <div className="mb-5">
                 <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
+                  Min Fee: PKR {parseInt(filters.minFee).toLocaleString()}
+                </label>
+                <input type="range" min="0" max="9500" step="500" value={filters.minFee}
+                  onChange={e => handleFilterChange('minFee', e.target.value)}
+                  className="w-full accent-primary-600" />
+              </div>
+
+              <div className="mb-5">
+                <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
                   Max Fee: PKR {parseInt(filters.maxFee) === 99999 ? '∞' : parseInt(filters.maxFee).toLocaleString()}
                 </label>
                 <input type="range" min="500" max="10000" step="500" value={Math.min(parseInt(filters.maxFee), 10000)}
                   onChange={e => handleFilterChange('maxFee', e.target.value)}
                   className="w-full accent-primary-600" />
               </div>
+
+              <label className="mb-5 flex items-center gap-2 text-xs font-semibold text-gray-600 dark:text-gray-300">
+                <input
+                  type="checkbox"
+                  checked={filters.available === 'true'}
+                  onChange={e => handleFilterChange('available', e.target.checked ? 'true' : '')}
+                  className="h-4 w-4 rounded border-gray-300 accent-primary-600"
+                />
+                Has listed availability
+              </label>
 
               {/* Min Experience */}
               <div className="mb-4">
@@ -212,7 +233,12 @@ export function DoctorsClient({ initialData }) {
             {pages > 1 && (
               <div className="flex items-center justify-center gap-2 mt-10">
                 {Array.from({ length: pages }, (_, i) => i + 1).map(p => (
-                  <button key={p} onClick={() => updateURL(filters)}
+                  <button key={p} onClick={() => {
+                    const params = new URLSearchParams(searchParams.toString());
+                    if (p === 1) params.delete('page');
+                    else params.set('page', String(p));
+                    router.push(`${pathname}?${params.toString()}`);
+                  }}
                     className={`w-9 h-9 rounded-xl text-sm font-medium transition-colors ${
                       p === page ? 'bg-primary-600 text-white' : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-700 hover:bg-gray-50'
                     }`}>

@@ -25,6 +25,10 @@ const SPECIALTIES = [
 
 const STEPS = ['Specialty', 'Doctor', 'Date & Time', 'Details', 'Confirm'];
 
+function dateKey(date) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+}
+
 export default function BookAppointmentPage() {
   const router = useRouter();
   const [step, setStep] = useState(1);
@@ -41,6 +45,37 @@ export default function BookAppointmentPage() {
   const [appointmentType, setAppointmentType] = useState('in-person');
   const [reason, setReason] = useState('');
   const [symptoms, setSymptoms] = useState('');
+  const [bookingReference, setBookingReference] = useState('');
+
+  useEffect(() => {
+    const doctorId = new URLSearchParams(window.location.search).get('doctorId');
+    if (!doctorId) return undefined;
+
+    let active = true;
+    const loadDoctor = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(`/api/doctors/${encodeURIComponent(doctorId)}`);
+        if (!response.ok) throw new Error('Doctor profile could not be loaded');
+        const doctor = await response.json();
+        if (!active) return;
+        setDoctors([doctor]);
+        setSelectedSpecialty(doctor.specialization);
+        setSelectedDoctor(doctor);
+        setStep(3);
+      } catch (error) {
+        if (active) {
+          console.error('Could not preselect doctor for appointment:', error);
+          toast.error('We could not load that doctor. Please choose a doctor from the directory.');
+        }
+      } finally {
+        if (active) setLoading(false);
+      }
+    };
+
+    loadDoctor();
+    return () => { active = false; };
+  }, []);
 
   // Generate next 14 days
   const dates = Array.from({ length: 14 }, (_, i) => {
@@ -82,6 +117,7 @@ export default function BookAppointmentPage() {
         symptoms: symptoms.split(',').map(s => s.trim()).filter(Boolean),
       });
       if (result.error) { toast.error(result.error); return; }
+      setBookingReference(result.appointmentId);
       setBooked(true);
     } catch { toast.error('Booking failed. Please try again.'); }
     finally { setSubmitting(false); }
@@ -95,9 +131,10 @@ export default function BookAppointmentPage() {
           <CheckCircle className="w-12 h-12 text-white" />
         </motion.div>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
-          <h2 className="text-3xl font-black font-heading text-gray-900 dark:text-white mb-3">Appointment Booked!</h2>
-          <p className="text-gray-500 dark:text-gray-400 mb-2">With <strong>{selectedDoctor?.user?.name}</strong> on <strong>{new Date(selectedDate).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</strong> at <strong>{selectedSlot?.start}</strong>.</p>
-          <p className="text-sm text-gray-400 mb-8">A confirmation email has been sent to you.</p>
+          <h2 className="text-3xl font-black font-heading text-gray-900 dark:text-white mb-3">Appointment request received</h2>
+          <p className="text-gray-500 dark:text-gray-400 mb-2">Your request with <strong>{selectedDoctor?.user?.name}</strong> for <strong>{new Date(`${selectedDate}T12:00:00`).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</strong> at <strong>{selectedSlot?.start}</strong> has been submitted.</p>
+          <p className="text-sm text-gray-500 mb-2">The appointment is pending confirmation by the provider.</p>
+          {bookingReference && <p className="mb-8 text-xs text-gray-400">Reference: {bookingReference}</p>}
           <div className="flex gap-3 justify-center">
             <button onClick={() => router.push('/dashboard/appointments')} className="px-6 py-3 bg-primary-600 text-white font-semibold rounded-xl hover:bg-primary-700 transition-colors">View Appointments</button>
             <button onClick={() => { setBooked(false); setStep(1); setSelectedSpecialty(''); setSelectedDoctor(null); setSelectedDate(''); setSelectedSlot(null); }} className="px-6 py-3 border-2 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-semibold rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">Book Another</button>
@@ -194,9 +231,9 @@ export default function BookAppointmentPage() {
                 <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Select Date</p>
                 <div className="flex gap-2 overflow-x-auto pb-2">
                   {dates.map(date => (
-                    <button key={date.toISOString()} onClick={() => { const d = date.toISOString().split('T')[0]; setSelectedDate(d); setSelectedSlot(null); fetchSlots(selectedDoctor.id, d); }}
+                    <button key={dateKey(date)} onClick={() => { const d = dateKey(date); setSelectedDate(d); setSelectedSlot(null); fetchSlots(selectedDoctor.id, d); }}
                       className={`flex-shrink-0 flex flex-col items-center p-3 rounded-2xl border-2 transition-all w-16 ${
-                        selectedDate === date.toISOString().split('T')[0] ? 'border-primary-500 bg-primary-50 dark:bg-primary-950/50' : 'border-gray-100 dark:border-gray-700 hover:border-gray-200'
+                        selectedDate === dateKey(date) ? 'border-primary-500 bg-primary-50 dark:bg-primary-950/50' : 'border-gray-100 dark:border-gray-700 hover:border-gray-200'
                       }`}>
                       <span className="text-xs text-gray-400">{date.toLocaleDateString('en-US', { weekday: 'short' })}</span>
                       <span className="text-lg font-bold text-gray-900 dark:text-white">{date.getDate()}</span>
@@ -285,7 +322,7 @@ export default function BookAppointmentPage() {
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-3 text-sm">
-                  <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300"><Calendar className="w-4 h-4 text-primary-500" />{new Date(selectedDate).toLocaleDateString('en-US', { weekday: 'short', month: 'long', day: 'numeric' })}</div>
+                  <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300"><Calendar className="w-4 h-4 text-primary-500" />{new Date(`${selectedDate}T12:00:00`).toLocaleDateString('en-US', { weekday: 'short', month: 'long', day: 'numeric' })}</div>
                   <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300"><Clock className="w-4 h-4 text-primary-500" />{selectedSlot?.start}</div>
                   <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300">{appointmentType === 'video' ? <Video className="w-4 h-4 text-primary-500" /> : <MapPin className="w-4 h-4 text-primary-500" />}{appointmentType === 'video' ? 'Video Consultation' : 'In-Person Visit'}</div>
                   <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300"><CreditCard className="w-4 h-4 text-primary-500" />PKR {(selectedDoctor?.consultationFee || 0).toLocaleString()}</div>

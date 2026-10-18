@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
-import { MapPin, Clock, Star, Users, ChevronRight, Heart, Video, CheckCircle } from 'lucide-react';
+import Image from 'next/image';
+import { MapPin, Clock, Star, Users, ChevronRight, Heart, Video, CheckCircle, Stethoscope } from 'lucide-react';
 import { RatingStars } from '@/components/ui/RatingStars';
 import { Badge } from '@/components/ui/Badge';
 import { formatCurrency } from '@/lib/utils';
@@ -8,7 +9,8 @@ import { motion } from 'framer-motion';
 
 export function DoctorCard({ doctor, viewMode = 'grid' }) {
   const name = doctor.user?.name || 'Doctor';
-  const hospital = doctor.hospital?.name || 'Private Clinic';
+  const hospital = doctor.hospital?.name;
+  const photo = doctor.profilePhoto || doctor.user?.image;
   const gradients = [
     'from-blue-500 to-primary-600',
     'from-pink-500 to-rose-600',
@@ -21,22 +23,22 @@ export function DoctorCard({ doctor, viewMode = 'grid' }) {
   if (viewMode === 'list') {
     return (
       <motion.div whileHover={{ x: 4 }} className="bg-white dark:bg-gray-800 rounded-2xl p-5 border border-gray-100 dark:border-gray-700 flex items-center gap-5">
-        <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${gradient} flex-shrink-0 flex items-center justify-center text-3xl`}>
-          {doctor.gender === 'female' ? '👩⚕️' : '👨⚕️'}
+        <div className={`relative w-20 h-20 rounded-2xl bg-gradient-to-br ${gradient} flex-shrink-0 flex items-center justify-center text-3xl overflow-hidden`}>
+          {photo ? <Image src={photo} alt={name} fill sizes="80px" unoptimized className="object-cover" /> : <span aria-hidden="true"><Stethoscope className="h-8 w-8 text-white" /></span>}
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between">
             <div>
               <h3 className="font-bold text-gray-900 dark:text-white">{name}</h3>
               <p className="text-primary-600 dark:text-primary-400 text-sm">{doctor.specialization}</p>
+              <p className="text-gray-500 dark:text-gray-400 text-xs">{doctor.degree?.length ? doctor.degree.join(', ') : 'Qualifications not provided'}</p>
             </div>
-            <Badge variant={doctor.isVerified ? 'success' : 'default'} dot>{doctor.isVerified ? 'Verified' : 'Unverified'}</Badge>
+            {doctor.isVerified && <Badge variant="success" dot>Verified</Badge>}
           </div>
           <div className="flex items-center gap-4 mt-2 text-xs text-gray-500 dark:text-gray-400">
             <span className="flex items-center gap-1"><MapPin className="w-3 h-3" />{doctor.city}</span>
             <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{doctor.experience}y exp</span>
-            <RatingStars rating={doctor.rating} size="xs" />
-            <span>({doctor.totalReviews} reviews)</span>
+            {doctor.totalReviews > 0 && <><RatingStars rating={doctor.rating} size="xs" /><span>({doctor.totalReviews} reviews)</span></>}
           </div>
         </div>
         <div className="text-right flex-shrink-0">
@@ -56,8 +58,8 @@ export function DoctorCard({ doctor, viewMode = 'grid' }) {
       <div className={`h-1.5 bg-gradient-to-r ${gradient}`} />
       <div className="p-6">
         <div className="flex items-start gap-4 mb-4">
-          <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${gradient} flex-shrink-0 flex items-center justify-center text-2xl`}>
-            {doctor.gender === 'female' ? '👩⚕️' : '👨⚕️'}
+          <div className={`relative w-16 h-16 rounded-2xl bg-gradient-to-br ${gradient} flex-shrink-0 flex items-center justify-center text-2xl overflow-hidden`}>
+            {photo ? <Image src={photo} alt={name} fill sizes="64px" unoptimized className="object-cover" /> : <Stethoscope className="h-7 w-7 text-white" />}
           </div>
           <div className="flex-1 min-w-0 space-y-1">
             <div className="flex items-start justify-between">
@@ -67,11 +69,11 @@ export function DoctorCard({ doctor, viewMode = 'grid' }) {
               )}
             </div>
             <p className="text-primary-600 dark:text-primary-400 text-xs font-medium">{doctor.specialization}</p>
-            <p className="text-gray-400 text-xs truncate">{hospital}</p>
-            <div className="flex items-center gap-1.5 pt-1">
+            {hospital && <p className="text-gray-400 text-xs truncate">{hospital}</p>}
+            {doctor.totalReviews > 0 && <div className="flex items-center gap-1.5 pt-1">
               <RatingStars rating={doctor.rating} size="xs" />
               <span className="text-xs text-gray-500">({doctor.totalReviews})</span>
-            </div>
+            </div>}
           </div>
         </div>
 

@@ -19,15 +19,31 @@ export default async function DoctorDetailPage({ params }) {
   const { id } = await params;
   const doctor = await prisma.doctor.findUnique({
     where: { id, status: 'APPROVED' },
-    include: {
-      user: { select: { name: true, image: true, email: true } },
-      hospital: true,
+    select: {
+      id: true,
+      specialization: true,
+      degree: true,
+      experience: true,
+      consultationFee: true,
+      city: true,
+      location: true,
+      education: true,
+      awards: true,
+      biography: true,
+      rating: true,
+      totalReviews: true,
+      profilePhoto: true,
+      status: true,
+      isVerified: true,
+      languages: true,
+      gender: true,
+      user: { select: { name: true, image: true } },
+      hospital: { select: { name: true, address: true, city: true, image: true } },
       reviews: {
         include: { patient: { include: { user: { select: { name: true, image: true } } } } },
         orderBy: { createdAt: 'desc' },
         take: 10,
       },
-      availability: true,
     },
   });
 

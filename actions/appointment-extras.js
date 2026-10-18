@@ -2,6 +2,7 @@
 import { prisma } from '@/lib/prisma';
 import { auth } from '@/lib/auth';
 import { revalidatePath } from 'next/cache';
+import { getAppointmentBookingKey } from '@/lib/appointment-utils';
 
 export async function updateAppointmentStatus(appointmentId, status) {
   try {
@@ -9,9 +10,21 @@ export async function updateAppointmentStatus(appointmentId, status) {
     if (!session) return { error: 'Not authenticated' };
     if (session.user.role !== 'DOCTOR' && session.user.role !== 'ADMIN') return { error: 'Unauthorized' };
 
+    const appointment = await prisma.appointment.findUnique({
+      where: { id: appointmentId },
+      include: { doctor: { select: { userId: true } } },
+    });
+    if (!appointment) return { error: 'Appointment not found' };
+    if (session.user.role === 'DOCTOR' && appointment.doctor.userId !== session.user.id) return { error: 'Unauthorized' };
+
     await prisma.appointment.update({
       where: { id: appointmentId },
-      data: { status },
+      data: {
+        status,
+        bookingKey: status === 'CANCELLED'
+          ? null
+          : getAppointmentBookingKey(appointment.doctorId, appointment.date, appointment.startTime),
+      },
     });
     revalidatePath('/doctor/appointments');
     revalidatePath('/admin/appointments');

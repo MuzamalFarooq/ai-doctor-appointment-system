@@ -4,6 +4,24 @@ import { NextResponse } from 'next/server';
 const PUBLIC_PATHS = ['/', '/doctors', '/about', '/contact', '/pricing', '/faq', '/privacy', '/privacy-policy', '/terms', '/blog'];
 const AUTH_PATHS = ['/login', '/register', '/forgot-password'];
 
+function getSafeCallbackUrl(request) {
+  const callbackUrl = request.nextUrl.searchParams.get('callbackUrl');
+  if (!callbackUrl || !callbackUrl.startsWith('/') || callbackUrl.startsWith('//')) return null;
+
+  const callbackPath = callbackUrl.split(/[?#]/, 1)[0];
+  if (AUTH_PATHS.some(path => callbackPath.startsWith(path)) || callbackPath.startsWith('/auth/redirect')) {
+    return null;
+  }
+
+  return callbackUrl;
+}
+
+function getRoleDestination(role) {
+  if (role === 'ADMIN') return '/admin/dashboard';
+  if (role === 'DOCTOR') return '/doctor/dashboard';
+  return '/healthcare';
+}
+
 export async function middleware(request) {
   const { pathname } = request.nextUrl;
 
@@ -81,28 +99,36 @@ export async function middleware(request) {
 
   // Redirect authenticated users away from auth pages
   if (isAuthenticated && AUTH_PATHS.some(p => pathname.startsWith(p))) {
-    if (userRole === 'ADMIN') return NextResponse.redirect(new URL('/admin/dashboard', request.url));
-    if (userRole === 'DOCTOR') return NextResponse.redirect(new URL('/doctor/dashboard', request.url));
-    return NextResponse.redirect(new URL('/dashboard', request.url));
+    const destination = getSafeCallbackUrl(request) || getRoleDestination(userRole);
+    return NextResponse.redirect(new URL(destination, request.url));
   }
 
   // Protect patient dashboard
   if (pathname.startsWith('/dashboard')) {
-    if (!isAuthenticated) return NextResponse.redirect(new URL('/login?callbackUrl=' + encodeURIComponent(pathname), request.url));
+    if (!isAuthenticated) {
+      const callbackUrl = `${pathname}${request.nextUrl.search}`;
+      return NextResponse.redirect(new URL(`/login?callbackUrl=${encodeURIComponent(callbackUrl)}`, request.url));
+    }
     if (userRole === 'ADMIN') return NextResponse.redirect(new URL('/admin/dashboard', request.url));
     if (userRole === 'DOCTOR') return NextResponse.redirect(new URL('/doctor/dashboard', request.url));
   }
 
   // Protect doctor dashboard
-  if (pathname.startsWith('/doctor')) {
-    if (!isAuthenticated) return NextResponse.redirect(new URL('/login?callbackUrl=' + encodeURIComponent(pathname), request.url));
+  if (pathname === '/doctor' || pathname.startsWith('/doctor/')) {
+    if (!isAuthenticated) {
+      const callbackUrl = `${pathname}${request.nextUrl.search}`;
+      return NextResponse.redirect(new URL(`/login?callbackUrl=${encodeURIComponent(callbackUrl)}`, request.url));
+    }
     if (userRole === 'ADMIN') return NextResponse.redirect(new URL('/admin/dashboard', request.url));
     if (userRole === 'PATIENT') return NextResponse.redirect(new URL('/dashboard', request.url));
   }
 
   // Protect admin dashboard
   if (pathname.startsWith('/admin')) {
-    if (!isAuthenticated) return NextResponse.redirect(new URL('/login?callbackUrl=' + encodeURIComponent(pathname), request.url));
+    if (!isAuthenticated) {
+      const callbackUrl = `${pathname}${request.nextUrl.search}`;
+      return NextResponse.redirect(new URL(`/login?callbackUrl=${encodeURIComponent(callbackUrl)}`, request.url));
+    }
     if (userRole === 'DOCTOR') return NextResponse.redirect(new URL('/doctor/dashboard', request.url));
     if (userRole === 'PATIENT') return NextResponse.redirect(new URL('/dashboard', request.url));
   }
