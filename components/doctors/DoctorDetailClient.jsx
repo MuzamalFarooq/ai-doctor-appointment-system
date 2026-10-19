@@ -33,7 +33,7 @@ export function DoctorDetailClient({ doctor, similarDoctors }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Breadcrumb */}
         <nav className="flex items-center text-sm text-gray-500 mb-6">
-          <Link href="/" className="hover:text-primary-600">Home</Link>
+          <Link href="/healthcare" className="hover:text-primary-600">Home</Link>
           <ChevronRight className="w-4 h-4 mx-2" />
           <Link href="/doctors" className="hover:text-primary-600">Doctors</Link>
           <ChevronRight className="w-4 h-4 mx-2" />
@@ -43,6 +43,11 @@ export function DoctorDetailClient({ doctor, similarDoctors }) {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Main Content */}
           <div className="flex-1 min-w-0">
+            {doctor.demoData && (
+              <div role="note" className="mb-4 rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm font-medium text-amber-950">
+                Development demonstration profile — this is not a real provider. Credentials, fee, and availability are not verified.
+              </div>
+            )}
             {/* Hero Profile */}
             <div className="bg-white dark:bg-gray-900 rounded-3xl p-6 md:p-8 border border-gray-100 dark:border-gray-800 mb-8">
               <div className="flex flex-col md:flex-row gap-6 items-start">
@@ -59,7 +64,7 @@ export function DoctorDetailClient({ doctor, similarDoctors }) {
                     <div>
                       <div className="flex items-center gap-3 mb-2">
                         <h1 className="text-2xl md:text-3xl font-black text-gray-900 dark:text-white">{name}</h1>
-                        {doctor.isVerified && <CheckCircle className="w-6 h-6 text-blue-500" />}
+                        {doctor.isVerified && !doctor.demoData && <CheckCircle className="w-6 h-6 text-blue-500" />}
                       </div>
                       <p className="text-lg text-primary-600 dark:text-primary-400 font-medium mb-1">{doctor.specialization}</p>
                       <p className="text-gray-500 dark:text-gray-400 mb-4">{doctor.degree?.length ? doctor.degree.join(', ') : 'Qualifications not provided'}</p>
@@ -86,7 +91,7 @@ export function DoctorDetailClient({ doctor, similarDoctors }) {
                     </div>
                     <div>
                       <p className="text-xs text-gray-500 uppercase font-semibold mb-1">Reviews</p>
-                      {doctor.totalReviews > 0 ? (
+                      {!doctor.demoData && doctor.totalReviews > 0 ? (
                         <div className="flex items-center gap-1.5">
                           <Star className="w-4 h-4 text-amber-500 fill-current" />
                           <span className="font-bold text-gray-900 dark:text-white">{doctor.rating.toFixed(1)}</span>
@@ -96,7 +101,7 @@ export function DoctorDetailClient({ doctor, similarDoctors }) {
                     </div>
                     <div>
                       <p className="text-xs text-gray-500 uppercase font-semibold mb-1">Fee</p>
-                      <p className="font-bold text-gray-900 dark:text-white">{formatCurrency(doctor.consultationFee)}</p>
+                      <p className="font-bold text-gray-900 dark:text-white">{doctor.demoData ? 'Demonstration value' : formatCurrency(doctor.consultationFee)}</p>
                     </div>
                   </div>
 
@@ -225,14 +230,20 @@ export function DoctorDetailClient({ doctor, similarDoctors }) {
                 <Stethoscope className="h-5 w-5" />
               </div>
               <h3 className="mt-4 text-xl font-bold text-gray-900 dark:text-white">Book a consultation</h3>
-              <p className="mt-2 text-sm leading-6 text-gray-500">Choose a date and an appointment slot from the doctor&apos;s listed schedule. The booking flow checks availability before you submit.</p>
+              {doctor.demoData ? (
+                <p className="mt-2 text-sm leading-6 text-amber-800">This development demonstration profile is not a real provider. Appointment requests are disabled.</p>
+              ) : (
+                <p className="mt-2 text-sm leading-6 text-gray-500">Choose a date and an appointment slot from the doctor&apos;s listed schedule. The booking flow checks availability before you submit.</p>
+              )}
               <div className="mt-5 flex items-center justify-between border-y border-gray-100 py-4 dark:border-gray-800">
                 <span className="text-sm text-gray-500">Consultation fee</span>
-                <span className="font-bold text-gray-900 dark:text-white">{formatCurrency(doctor.consultationFee)}</span>
+                <span className="font-bold text-gray-900 dark:text-white">{doctor.demoData ? 'Demo value' : formatCurrency(doctor.consultationFee)}</span>
               </div>
-              <Link href={`/dashboard/book-appointment?doctorId=${encodeURIComponent(doctor.id)}`} className="mt-5 flex w-full items-center justify-center rounded-xl bg-primary-600 px-4 py-3.5 text-sm font-bold text-white shadow-lg shadow-primary-600/20 transition hover:bg-primary-700">
-                Continue to booking
-              </Link>
+              {!doctor.demoData && (
+                <Link href={`/dashboard/book-appointment?doctorId=${encodeURIComponent(doctor.id)}`} className="mt-5 flex w-full items-center justify-center rounded-xl bg-primary-600 px-4 py-3.5 text-sm font-bold text-white shadow-lg shadow-primary-600/20 transition hover:bg-primary-700">
+                  Continue to booking
+                </Link>
+              )}
             </div>
           </aside>
         </div>

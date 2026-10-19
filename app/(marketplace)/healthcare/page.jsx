@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { excludeDemoData } from '@/lib/demo-data';
 import { prisma } from '@/lib/prisma';
 import {
   ArrowRight, Brain, CalendarCheck, FlaskConical, HeartPulse,
@@ -13,10 +14,10 @@ export const metadata = {
 
 async function getMarketplaceData() {
   try {
-    const [doctorCount, doctors] = await Promise.all([
-      prisma.doctor.count({ where: { status: 'APPROVED' } }),
+    const [doctorCount, doctors, medicineCount, labTestCount] = await Promise.all([
+      prisma.doctor.count({ where: excludeDemoData({ status: 'APPROVED' }) }),
       prisma.doctor.findMany({
-        where: { status: 'APPROVED' },
+        where: excludeDemoData({ status: 'APPROVED' }),
         orderBy: [{ rating: 'desc' }, { experience: 'desc' }],
         take: 3,
         select: {
@@ -34,52 +35,60 @@ async function getMarketplaceData() {
           hospital: { select: { name: true } },
         },
       }),
+      prisma.medicineProduct.count({ where: excludeDemoData({ isActive: true }) }),
+      prisma.labTest.count({ where: excludeDemoData({ isActive: true }) }),
     ]);
-    return { doctorCount, doctors, error: false };
+    return { doctorCount, doctors, medicineCount, labTestCount, error: false };
   } catch (error) {
     console.error('Marketplace homepage data could not be loaded:', error);
-    return { doctorCount: null, doctors: [], error: true };
+    return { doctorCount: null, doctors: [], medicineCount: null, labTestCount: null, error: true };
   }
 }
 
-const services = [
-  {
-    title: 'Book a Doctor',
-    description: 'Explore real doctor profiles, credentials, consultation fees, and appointment options.',
-    href: '/doctors',
-    icon: Stethoscope,
-    tone: 'bg-teal-50 text-teal-800',
-    available: true,
-    action: 'Find a doctor',
-  },
-  {
-    title: 'Order Medicines',
-    description: 'Medicine catalog, pharmacy stock, prescription checks, and online ordering are not connected yet.',
-    href: '/medicines',
-    icon: Pill,
-    tone: 'bg-sky-50 text-sky-800',
-    available: false,
-    action: 'Service details',
-  },
-  {
-    title: 'Book a Lab Test',
-    description: 'Laboratory listings, test prices, schedules, and booking are not connected yet.',
-    href: '/lab-tests',
-    icon: FlaskConical,
-    tone: 'bg-violet-50 text-violet-800',
-    available: false,
-    action: 'Service details',
-  },
-  {
-    title: 'Surgery Consultation',
-    description: 'Explore listed surgeons and request a regular consultation for clinical assessment.',
-    href: '/surgery',
-    icon: HeartPulse,
-    tone: 'bg-rose-50 text-rose-800',
-    available: true,
-    action: 'Explore surgeons',
-  },
-];
+function getServices(medicineCount, labTestCount) {
+  return [
+    {
+      title: 'Book a Doctor',
+      description: 'Explore real doctor profiles, credentials, consultation fees, and appointment options.',
+      href: '/doctors',
+      icon: Stethoscope,
+      tone: 'bg-teal-50 text-teal-800',
+      available: true,
+      action: 'Find a doctor',
+    },
+    {
+      title: 'Order Medicines',
+      description: medicineCount > 0
+        ? `${medicineCount} listed products. Pharmacy stock, prescription checks, and online ordering are not connected.`
+        : 'Medicine catalog, pharmacy stock, prescription checks, and online ordering are not connected yet.',
+      href: '/medicines',
+      icon: Pill,
+      tone: 'bg-sky-50 text-sky-800',
+      available: false,
+      action: 'Browse catalog',
+    },
+    {
+      title: 'Book a Lab Test',
+      description: labTestCount > 0
+        ? `${labTestCount} catalog tests. Participating laboratories, schedules, verified prices, and booking are not connected.`
+        : 'Laboratory listings, test prices, schedules, and booking are not connected yet.',
+      href: '/lab-tests',
+      icon: FlaskConical,
+      tone: 'bg-violet-50 text-violet-800',
+      available: false,
+      action: 'Browse catalog',
+    },
+    {
+      title: 'Surgery Consultation',
+      description: 'Explore listed surgeons and request a regular consultation for clinical assessment.',
+      href: '/surgery',
+      icon: HeartPulse,
+      tone: 'bg-rose-50 text-rose-800',
+      available: true,
+      action: 'Explore surgeons',
+    },
+  ];
+}
 
 function DoctorPreview({ doctor }) {
   const name = doctor.user?.name || 'Doctor';
@@ -113,7 +122,8 @@ function DoctorPreview({ doctor }) {
 }
 
 export default async function HealthcareHomePage() {
-  const { doctorCount, doctors, error } = await getMarketplaceData();
+  const { doctorCount, doctors, medicineCount, labTestCount, error } = await getMarketplaceData();
+  const services = getServices(medicineCount, labTestCount);
 
   return (
     <div className="bg-white">
@@ -138,8 +148,8 @@ export default async function HealthcareHomePage() {
             </form>
 
             <div className="mt-6 flex flex-wrap gap-x-6 gap-y-3 text-sm text-slate-600">
-              <span className="flex items-center gap-2"><Users className="h-4 w-4 text-teal-700" /> {error ? 'Doctor directory temporarily unavailable' : `${doctorCount} approved doctors listed`}</span>
-              <span className="flex items-center gap-2"><CalendarCheck className="h-4 w-4 text-teal-700" /> Book appointments online</span>
+              <span className="flex items-center gap-2"><Users className="h-4 w-4 text-teal-700" /> {error ? 'Doctor directory temporarily unavailable' : `${doctorCount} approved doctor profiles listed`}</span>
+              <span className="flex items-center gap-2"><CalendarCheck className="h-4 w-4 text-teal-700" /> {doctorCount ? 'Request an appointment with a listed doctor' : 'Appointment requests open when doctors are listed'}</span>
             </div>
           </div>
 
@@ -194,7 +204,7 @@ export default async function HealthcareHomePage() {
         </div>
       </section>
 
-      <section className="bg-slate-50 py-16 lg:py-20">
+      <section id="specialties" className="scroll-mt-24 bg-slate-50 py-16 lg:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
             <div>

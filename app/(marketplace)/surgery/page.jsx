@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ArrowRight, HeartPulse, ShieldCheck, Stethoscope } from 'lucide-react';
+import { excludeDemoData } from '@/lib/demo-data';
 import { prisma } from '@/lib/prisma';
 import { ServiceUnavailable } from '@/components/marketplace/ServiceUnavailable';
 
@@ -14,10 +15,10 @@ export default async function SurgeryPage() {
 
   try {
     surgeons = await prisma.doctor.findMany({
-      where: {
+      where: excludeDemoData({
         status: 'APPROVED',
         specialization: { contains: 'surgeon', mode: 'insensitive' },
-      },
+      }),
       take: 12,
       orderBy: { experience: 'desc' },
       select: {
@@ -82,6 +83,37 @@ export default async function SurgeryPage() {
         )}
         <p className="mt-8 text-xs leading-5 text-slate-500">The existing booking flow records standard doctor appointments only. It does not place a surgery booking or request a procedure.</p>
       </section>
+      <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
+        <h2 className="font-heading text-2xl font-bold text-slate-950">Surgical consultation specialties</h2>
+        <p className="mt-2 text-sm text-slate-600">Development catalog categories are not a claim of service availability or a surgical booking.</p>
+        <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {await getSurgicalSpecialties()}
+        </div>
+      </section>
     </div>
   );
+}
+
+async function getSurgicalSpecialties() {
+  try {
+    const specialties = await prisma.surgicalSpecialty.findMany({
+      where: process.env.NODE_ENV === 'development'
+        ? { isActive: true }
+        : excludeDemoData({ isActive: true }),
+      orderBy: { name: 'asc' },
+      select: { id: true, name: true, description: true, demoData: true },
+    });
+    return specialties.map(specialty => (
+      <article key={specialty.id} className="rounded-2xl border border-slate-200 bg-white p-5">
+        <div className="flex items-start justify-between gap-2">
+          <h3 className="font-semibold text-slate-950">{specialty.name}</h3>
+          {specialty.demoData && <span className="shrink-0 rounded-full bg-amber-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-amber-900">Demo</span>}
+        </div>
+        <p className="mt-2 text-sm leading-6 text-slate-600">{specialty.description}</p>
+      </article>
+    ));
+  } catch (error) {
+    console.error('Surgical specialty catalog could not be loaded:', error);
+    return <p role="alert" className="rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-900">Surgical specialties could not be loaded. No consultation has been requested.</p>;
+  }
 }

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { openai } from '@/lib/openai';
 import { prisma } from '@/lib/prisma';
 import { aiLimiter } from '@/lib/rate-limit';
+import { excludeDemoData } from '@/lib/demo-data';
 
 export async function POST(req) {
   try {
@@ -20,7 +21,7 @@ export async function POST(req) {
     let doctors = [];
     try {
       doctors = await prisma.doctor.findMany({
-        where: { status: 'APPROVED' },
+        where: excludeDemoData({ status: 'APPROVED' }),
         include: { user: { select: { name: true } }, hospital: { select: { name: true } } },
         orderBy: { rating: 'desc' },
         take: 20,

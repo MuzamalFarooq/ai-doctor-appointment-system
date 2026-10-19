@@ -13,7 +13,7 @@ const links = [
   { href: '/medicines', label: 'Medicines' },
   { href: '/lab-tests', label: 'Lab Tests' },
   { href: '/surgery', label: 'Surgery' },
-  { href: '/healthcare#services', label: 'Health Services' },
+  { href: '/healthcare#specialties', label: 'Health Services' },
   { href: '/about', label: 'About Us' },
   { href: '/contact', label: 'Contact' },
 ];
@@ -27,6 +27,10 @@ function getAccountLinks(role) {
     { href: '/dashboard/prescriptions', label: 'My prescriptions' },
     { href: '/dashboard/notifications', label: 'Notifications' },
   ];
+}
+
+function isPatient(session) {
+  return session?.user?.role === 'PATIENT';
 }
 
 function isActiveLink(pathname, href) {
@@ -81,14 +85,14 @@ export function HealthcareNavbar() {
         </div>
 
         <div className="hidden shrink-0 items-center gap-3 sm:flex">
+          {isPatient(session) && (
+            <Link href="/dashboard/appointments" className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">
+              <CalendarDays className="h-4 w-4 text-teal-700" />
+              <span className="hidden 2xl:inline">Appointments</span>
+            </Link>
+          )}
           {session ? (
             <>
-              {session.user?.role === 'PATIENT' && (
-                <Link href="/dashboard/appointments" className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">
-                  <CalendarDays className="h-4 w-4 text-teal-700" />
-                  <span className="hidden 2xl:inline">Appointments</span>
-                </Link>
-              )}
               <div className="relative">
                 <button
                   type="button"
@@ -150,7 +154,7 @@ export function HealthcareNavbar() {
                 </Link>
               );
             })}
-            {session ? accountLinks.map(item => (
+              {session ? accountLinks.map(item => (
               <Link key={item.href} href={item.href} onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2.5 text-sm font-medium text-teal-800 hover:bg-teal-50">
                 {item.label}
               </Link>
@@ -161,7 +165,9 @@ export function HealthcareNavbar() {
               </>
             )}
           </div>
-          {session && <button onClick={() => signOut({ callbackUrl: '/' })} className="mt-2 w-full rounded-lg border-t border-slate-100 px-3 py-3 text-left text-sm text-rose-700">Sign out</button>}
+          {session && (
+            <button onClick={() => signOut({ callbackUrl: '/' })} className="mt-2 w-full rounded-lg border-t border-slate-100 px-3 py-3 text-left text-sm text-rose-700">Sign out</button>
+          )}
         </div>
       )}
     </header>

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { apiLimiter } from '@/lib/rate-limit';
+import { excludeDemoData } from '@/lib/demo-data';
 
 export async function GET(req) {
   try {
@@ -13,18 +14,18 @@ export async function GET(req) {
     const specialization = searchParams.get('specialization') || '';
     const city = searchParams.get('city') || '';
     const search = searchParams.get('search') || '';
-    const status = searchParams.get('status') || 'APPROVED';
     const minFee = parseFloat(searchParams.get('minFee') || '0');
     const maxFee = parseFloat(searchParams.get('maxFee') || '999999');
     const sort = searchParams.get('sort') || 'rating';
 
-    const where = {
-      status,
+    const baseWhere = {
+      status: 'APPROVED',
       ...(specialization && { specialization: { contains: specialization, mode: 'insensitive' } }),
       ...(city && { city: { contains: city, mode: 'insensitive' } }),
       ...(search && { user: { name: { contains: search, mode: 'insensitive' } } }),
       consultationFee: { gte: minFee, lte: maxFee },
     };
+    const where = process.env.NODE_ENV === 'development' ? baseWhere : excludeDemoData(baseWhere);
 
     const orderBy = sort === 'fee_asc' ? { consultationFee: 'asc' } :
       sort === 'fee_desc' ? { consultationFee: 'desc' } :

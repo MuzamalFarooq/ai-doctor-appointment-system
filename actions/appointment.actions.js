@@ -1,5 +1,6 @@
 'use server';
 import { prisma } from '@/lib/prisma';
+import { excludeDemoData } from '@/lib/demo-data';
 import { auth } from '@/lib/auth';
 import { revalidatePath } from 'next/cache';
 import { sendAppointmentConfirmation } from '@/lib/resend';
@@ -43,6 +44,7 @@ export async function createAppointment(data) {
       },
     });
     if (!doctor) return { error: 'This doctor is not available for booking.' };
+    if (doctor.demoData) return { error: 'Development demonstration profiles cannot accept appointments.' };
 
     const availability = doctor.availability[0];
     const isBlockedDate = availability?.blockedDates.some(blockedDate => blockedDate.toISOString().slice(0, 10) === input.date);
@@ -170,8 +172,8 @@ export async function getAvailableSlots(doctorId, date) {
   try {
     const appointmentDate = parseAppointmentDate(date);
     if (!appointmentDate || !/^[a-f\d]{24}$/i.test(doctorId)) return { slots: [] };
-    const doctor = await prisma.doctor.findUnique({
-      where: { id: doctorId, status: 'APPROVED' },
+    const doctor = await prisma.doctor.findFirst({
+      where: excludeDemoData({ id: doctorId, status: 'APPROVED' }),
       select: { id: true },
     });
     if (!doctor) return { slots: [] };

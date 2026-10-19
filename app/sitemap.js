@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma';
+import { excludeDemoData } from '@/lib/demo-data';
 
 export default async function sitemap() {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
@@ -17,7 +18,10 @@ export default async function sitemap() {
   let doctorPages = [];
   let blogPages = [];
   try {
-    const doctors = await prisma.doctor.findMany({ where: { status: 'APPROVED' }, select: { id: true, updatedAt: true } });
+    const doctors = await prisma.doctor.findMany({
+      where: excludeDemoData({ status: 'APPROVED' }),
+      select: { id: true, updatedAt: true },
+    });
     doctorPages = doctors.map(d => ({
       url: `${baseUrl}/doctors/${d.id}`,
       lastModified: d.updatedAt,

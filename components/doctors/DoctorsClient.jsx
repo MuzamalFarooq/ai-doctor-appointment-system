@@ -5,7 +5,6 @@ import { Search, Filter, Grid, List, SlidersHorizontal, X, Star, MapPin, Clock, 
 import { DoctorCard } from './DoctorCard';
 import { DoctorCardSkeleton } from '@/components/ui/Skeleton';
 import { Badge } from '@/components/ui/Badge';
-import { SPECIALIZATIONS } from '@/lib/utils';
 
 const CITIES = ['Islamabad', 'Lahore', 'Karachi', 'Rawalpindi', 'Peshawar', 'Quetta', 'Faisalabad', 'Multan'];
 const LANGUAGES = ['Urdu', 'English', 'Punjabi', 'Sindhi', 'Pashto'];
@@ -56,7 +55,7 @@ export function DoctorsClient({ initialData }) {
 
   const activeFiltersCount = Object.values(filters).filter(v => v && v !== '0' && v !== '99999' && v !== 'rating').length;
 
-  const { doctors, total, pages, page } = initialData;
+  const { doctors, total, pages, page, specialties = [], demoCatalogVisible = false } = initialData;
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 pt-20">
@@ -66,7 +65,8 @@ export function DoctorsClient({ initialData }) {
           <h1 className="text-3xl font-black font-heading text-gray-900 dark:text-white mb-2">
             Find Your <span className="gradient-text">Doctor</span>
           </h1>
-          <p className="text-gray-500 dark:text-gray-400 text-sm mb-6">{total} approved doctor profiles</p>
+          <p className="text-gray-500 dark:text-gray-400 text-sm mb-6">{total} {demoCatalogVisible ? 'development demo profiles' : 'approved doctor profiles'}</p>
+          {demoCatalogVisible && <p role="note" className="mb-5 max-w-3xl rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-950">Development demo profiles are clearly labelled and cannot accept appointments.</p>}
 
           {/* Search */}
           <form onSubmit={handleSearch} className="flex gap-3 max-w-2xl">
@@ -114,12 +114,12 @@ export function DoctorsClient({ initialData }) {
               <div className="mb-5">
                 <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Specialization</label>
                 <div className="space-y-1 max-h-48 overflow-y-auto">
-                  {(SPECIALIZATIONS || []).map(s => (
-                    <button key={s.name} onClick={() => handleFilterChange('spec', filters.spec === s.name ? '' : s.name)}
+                  {specialties.map(specialty => (
+                    <button key={specialty.name} onClick={() => handleFilterChange('spec', filters.spec === specialty.name ? '' : specialty.name)}
                       className={`w-full text-left px-3 py-2 rounded-lg text-xs font-medium transition-colors ${
-                        filters.spec === s.name ? 'bg-primary-50 dark:bg-primary-950 text-primary-700 dark:text-primary-300' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'
+                        filters.spec === specialty.name ? 'bg-primary-50 dark:bg-primary-950 text-primary-700 dark:text-primary-300' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'
                       }`}>
-                      {s.icon} {s.name}
+                      {specialty.name}
                     </button>
                   ))}
                 </div>

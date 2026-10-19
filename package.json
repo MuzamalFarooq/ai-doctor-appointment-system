@@ -10,6 +10,7 @@
     "postinstall": "prisma generate",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
+    "db:seed:demo": "node prisma/seed-demo.mjs",
     "db:studio": "prisma studio"
   },
   "dependencies": {

@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { prisma } from '@/lib/prisma';
 import { DoctorsClient } from '@/components/doctors/DoctorsClient';
+import { excludeDemoData } from '@/lib/demo-data';
 
 export const metadata = {
   title: 'Find a Doctor',
@@ -36,7 +37,8 @@ export default async function DoctorSearchPage({ searchParams }) {
     q, spec, city, gender, minExp, minFee, maxFee, minRating, available, page, sort, lang,
   } = filters;
 
-  const where = {
+  const includeDemo = process.env.NODE_ENV === 'development';
+  const baseWhere = {
     status: 'APPROVED',
     ...(q && {
       OR: [
@@ -53,13 +55,15 @@ export default async function DoctorSearchPage({ searchParams }) {
     ...(minExp > 0 && { experience: { gte: minExp } }),
     ...(available && { availability: { some: { isAvailable: true } } }),
   };
+  const where = includeDemo ? baseWhere : excludeDemoData(baseWhere);
+  const specialtyWhere = { isActive: true };
 
   const orderBy = sort === 'fee_asc' ? { consultationFee: 'asc' }
     : sort === 'fee_desc' ? { consultationFee: 'desc' }
       : sort === 'experience' ? { experience: 'desc' }
         : { rating: 'desc' };
   const limit = 12;
-  const [doctors, total] = await Promise.all([
+  const [doctors, total, specialties] = await Promise.all([
     prisma.doctor.findMany({
       where,
       orderBy,
@@ -71,7 +75,12 @@ export default async function DoctorSearchPage({ searchParams }) {
       },
     }),
     prisma.doctor.count({ where }),
+    prisma.specialization.findMany({
+      where: includeDemo ? specialtyWhere : excludeDemoData(specialtyWhere),
+      select: { name: true },
+      orderBy: { name: 'asc' },
+    }),
   ]);
 
-  return <DoctorsClient initialData={{ doctors, total, pages: Math.ceil(total / limit), page }} />;
+  return <DoctorsClient initialData={{ doctors, total, pages: Math.ceil(total / limit), page, specialties, demoCatalogVisible: includeDemo }} />;
 }

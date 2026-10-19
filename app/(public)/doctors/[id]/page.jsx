@@ -1,11 +1,12 @@
 import { prisma } from '@/lib/prisma';
 import { notFound } from 'next/navigation';
 import { DoctorDetailClient } from '@/components/doctors/DoctorDetailClient';
+import { excludeDemoData } from '@/lib/demo-data';
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
-  const doctor = await prisma.doctor.findUnique({
-    where: { id },
+  const doctor = await prisma.doctor.findFirst({
+    where: process.env.NODE_ENV === 'development' ? { id } : excludeDemoData({ id }),
     include: { user: { select: { name: true } } },
   });
   if (!doctor) return { title: 'Doctor Not Found' };
@@ -17,8 +18,10 @@ export async function generateMetadata({ params }) {
 
 export default async function DoctorDetailPage({ params }) {
   const { id } = await params;
-  const doctor = await prisma.doctor.findUnique({
-    where: { id, status: 'APPROVED' },
+  const doctor = await prisma.doctor.findFirst({
+    where: process.env.NODE_ENV === 'development'
+      ? { id, status: 'APPROVED' }
+      : excludeDemoData({ id, status: 'APPROVED' }),
     select: {
       id: true,
       specialization: true,
@@ -33,6 +36,7 @@ export default async function DoctorDetailPage({ params }) {
       rating: true,
       totalReviews: true,
       profilePhoto: true,
+      demoData: true,
       status: true,
       isVerified: true,
       languages: true,
@@ -48,10 +52,19 @@ export default async function DoctorDetailPage({ params }) {
   });
 
   if (!doctor) notFound();
+  if (doctor.demoData && process.env.NODE_ENV !== 'development') notFound();
 
   // Similar doctors
   const similarDoctors = await prisma.doctor.findMany({
-    where: { specialization: doctor.specialization, status: 'APPROVED', NOT: { id } },
+    where: process.env.NODE_ENV === 'development' ? {
+      specialization: doctor.specialization,
+      status: 'APPROVED',
+      NOT: { id },
+    } : excludeDemoData({
+      specialization: doctor.specialization,
+      status: 'APPROVED',
+      NOT: { id },
+    }),
     take: 4,
     include: { user: { select: { name: true } }, hospital: { select: { name: true } } },
   });

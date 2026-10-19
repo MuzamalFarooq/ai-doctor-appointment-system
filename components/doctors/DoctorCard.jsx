@@ -32,20 +32,21 @@ export function DoctorCard({ doctor, viewMode = 'grid' }) {
               <h3 className="font-bold text-gray-900 dark:text-white">{name}</h3>
               <p className="text-primary-600 dark:text-primary-400 text-sm">{doctor.specialization}</p>
               <p className="text-gray-500 dark:text-gray-400 text-xs">{doctor.degree?.length ? doctor.degree.join(', ') : 'Qualifications not provided'}</p>
+              {doctor.demoData && <p className="mt-1 text-xs font-semibold text-amber-700">Development demonstration — not a real provider</p>}
             </div>
-            {doctor.isVerified && <Badge variant="success" dot>Verified</Badge>}
+            {doctor.isVerified && !doctor.demoData && <Badge variant="success" dot>Verified</Badge>}
           </div>
           <div className="flex items-center gap-4 mt-2 text-xs text-gray-500 dark:text-gray-400">
             <span className="flex items-center gap-1"><MapPin className="w-3 h-3" />{doctor.city}</span>
             <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{doctor.experience}y exp</span>
-            {doctor.totalReviews > 0 && <><RatingStars rating={doctor.rating} size="xs" /><span>({doctor.totalReviews} reviews)</span></>}
+            {!doctor.demoData && doctor.totalReviews > 0 && <><RatingStars rating={doctor.rating} size="xs" /><span>({doctor.totalReviews} reviews)</span></>}
           </div>
         </div>
         <div className="text-right flex-shrink-0">
-          <p className="text-xs text-gray-400">Consultation</p>
-          <p className="font-bold text-gray-900 dark:text-white text-sm">{formatCurrency(doctor.consultationFee)}</p>
+          <p className="text-xs text-gray-400">{doctor.demoData ? 'Demo profile' : 'Consultation'}</p>
+          <p className="font-bold text-gray-900 dark:text-white text-sm">{doctor.demoData ? 'Not a real fee' : formatCurrency(doctor.consultationFee)}</p>
           <Link href={`/doctors/${doctor.id}`} className="mt-2 inline-block px-4 py-2 bg-primary-600 text-white text-xs font-semibold rounded-xl hover:bg-primary-700 transition-colors">
-            Book Now
+            View profile
           </Link>
         </div>
       </motion.div>
@@ -64,13 +65,14 @@ export function DoctorCard({ doctor, viewMode = 'grid' }) {
           <div className="flex-1 min-w-0 space-y-1">
             <div className="flex items-start justify-between">
               <h3 className="font-bold text-gray-900 dark:text-white text-sm truncate">{name}</h3>
-              {doctor.isVerified && (
+              {doctor.isVerified && !doctor.demoData && (
                 <CheckCircle className="w-4 h-4 text-blue-500 flex-shrink-0" />
               )}
             </div>
             <p className="text-primary-600 dark:text-primary-400 text-xs font-medium">{doctor.specialization}</p>
+            {doctor.demoData && <p className="text-xs font-semibold text-amber-700">Development demo · not a real provider</p>}
             {hospital && <p className="text-gray-400 text-xs truncate">{hospital}</p>}
-            {doctor.totalReviews > 0 && <div className="flex items-center gap-1.5 pt-1">
+            {!doctor.demoData && doctor.totalReviews > 0 && <div className="flex items-center gap-1.5 pt-1">
               <RatingStars rating={doctor.rating} size="xs" />
               <span className="text-xs text-gray-500">({doctor.totalReviews})</span>
             </div>}
@@ -96,15 +98,13 @@ export function DoctorCard({ doctor, viewMode = 'grid' }) {
         <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-700">
           <div>
             <p className="text-xs text-gray-400">Fee</p>
-            <p className="font-bold text-gray-900 dark:text-white text-sm">{formatCurrency(doctor.consultationFee)}</p>
+            <p className="font-bold text-gray-900 dark:text-white text-sm">{doctor.demoData ? 'Not a real fee' : formatCurrency(doctor.consultationFee)}</p>
           </div>
           <div className="flex gap-2.5">
             <Link href={`/doctors/${doctor.id}`} className="px-3.5 py-2 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-400 text-xs font-medium rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
               Profile
             </Link>
-            <Link href={`/doctors/${doctor.id}?action=book`} className="px-3.5 py-2 bg-primary-600 text-white text-xs font-semibold rounded-xl hover:bg-primary-700 transition-colors">
-              Book
-            </Link>
+            {!doctor.demoData && <Link href={`/doctors/${doctor.id}?action=book`} className="px-3.5 py-2 bg-primary-600 text-white text-xs font-semibold rounded-xl hover:bg-primary-700 transition-colors">Book</Link>}
           </div>
         </div>
       </div>
