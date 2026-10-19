@@ -51,9 +51,9 @@ function LoginForm() {
         password: data.password,
         redirect: false,
       });
-      if (result?.error) {
+      if (!result?.ok || result.error) {
         toast.error(
-          result.error === 'CredentialsSignin'
+          result?.error === 'CredentialsSignin'
             ? 'Invalid email or password'
             : 'Unable to sign in right now. Please try again shortly.'
         );

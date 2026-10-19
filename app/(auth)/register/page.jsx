@@ -31,22 +31,24 @@ export default function RegisterPage() {
     try {
       const normalizedEmail = data.email.toLowerCase().trim();
       const result = await registerUser({ ...data, email: normalizedEmail, role });
-      if (result?.error) { toast.error(result.error); return; }
+      if (!result?.success) {
+        toast.error(result?.error || 'Registration could not be completed. Please try again.');
+        return;
+      }
       toast.success('Account created! Signing you in...');
       const res = await signIn('credentials', { email: normalizedEmail, password: data.password, redirect: false });
-      if (res?.error) {
+      if (!res?.ok || res.error) {
         toast.error('Registered successfully! Please sign in.');
         router.replace('/login');
       } else {
-        const dest = role === 'DOCTOR' ? '/doctor/dashboard' : '/dashboard';
-        window.location.href = dest;
+        window.location.href = '/auth/redirect';
       }
     } catch {
       toast.error('Registration failed. Please try again.');
     }
   };
 
-  const handleGoogle = () => signIn('google', { callbackUrl: '/dashboard' });
+  const handleGoogle = () => signIn('google', { callbackUrl: '/auth/redirect' });
 
   return (
     <>
@@ -215,4 +217,3 @@ export default function RegisterPage() {
     </>
   );
 }
-
