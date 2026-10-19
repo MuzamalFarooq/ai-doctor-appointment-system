@@ -89,7 +89,7 @@ export default function RegisterPage() {
 
       {role === 'DOCTOR' && (
         <div className="flex items-start gap-2.5 bg-amber-500/10 border border-amber-500/30 rounded-xl p-3.5 mb-6">
-          <Info className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
+          <Info className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
           <p className="text-xs leading-relaxed text-amber-300">
             Doctor accounts require admin approval before you can start accepting patients. You&apos;ll be notified by email.
           </p>
@@ -170,7 +170,7 @@ export default function RegisterPage() {
             <div className="flex flex-wrap items-center gap-x-3.5 gap-y-1.5 mt-2.5 px-0.5">
               {strengthChecks.map(({ label, ok }) => (
                 <div key={label} className={`flex items-center gap-1.5 text-xs font-medium ${ok ? 'text-emerald-400' : 'text-gray-400'}`}>
-                  <CheckCircle className="w-3.5 h-3.5 flex-shrink-0" />
+                  <CheckCircle className="w-3.5 h-3.5 shrink-0" />
                   <span>{label}</span>
                 </div>
               ))}
@@ -196,13 +196,12 @@ export default function RegisterPage() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full py-3.5 px-4 bg-gradient-to-r from-primary-600 to-accent-500 text-white font-semibold rounded-xl hover:opacity-90 transition-all flex items-center justify-center gap-2 disabled:opacity-60 text-sm mt-3 shadow-lg shadow-primary-600/20 cursor-pointer"
+          className="w-full py-3.5 px-4 bg-linear-to-r from-primary-600 to-accent-500 text-white font-semibold rounded-xl hover:opacity-90 transition-all flex items-center justify-center gap-2 disabled:opacity-60 text-sm mt-3 shadow-lg shadow-primary-600/20 cursor-pointer"
         >
           {isSubmitting ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : null}
           {isSubmitting ? 'Creating account...' : 'Create Account'}
         </button>
       </form>
-
       <p className="text-center text-gray-400 text-sm mt-6">
         Already have an account?{' '}
         <Link href="/login" className="text-primary-400 hover:text-primary-300 font-semibold transition-colors">
