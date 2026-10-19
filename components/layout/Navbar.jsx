@@ -103,6 +103,7 @@ function MenuItem({ href, icon, children, onClick }) {
 
 export function Navbar() {
   const pathname = usePathname();
+  const isHomePage = pathname === '/';
   const { data: session } = useSession();
   const { theme, setTheme } = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -119,6 +120,8 @@ export function Navbar() {
 
   useEffect(() => { setMobileOpen(false); }, [pathname]);
 
+  const homeHero = isHomePage && !scrolled;
+
   return (
     <header
       className={cn(
@@ -132,11 +135,11 @@ export function Navbar() {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 flex-shrink-0">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center shadow-glow">
+            <div className={cn('w-9 h-9 rounded-xl flex items-center justify-center', isHomePage ? 'bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg shadow-emerald-900/20' : 'bg-gradient-to-br from-primary-500 to-accent-500 shadow-glow')}>
               <Stethoscope className="w-5 h-5 text-white" />
             </div>
-            <span className="font-heading font-bold text-xl text-gray-900 dark:text-white">
-              Medi<span className="gradient-text">Connect</span>
+            <span className={cn('font-heading font-bold text-xl', homeHero ? 'text-white' : 'text-gray-900 dark:text-white')}>
+              Medi<span className={isHomePage ? (homeHero ? 'text-emerald-300' : 'text-emerald-700 dark:text-emerald-400') : 'gradient-text'}>Connect</span>
             </span>
           </Link>
 
@@ -149,8 +152,12 @@ export function Navbar() {
                 className={cn(
                   'px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200',
                   pathname === link.href || pathname.startsWith(link.href + '/')
-                    ? 'bg-primary-50 dark:bg-primary-950 text-primary-700 dark:text-primary-300'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800'
+                    ? isHomePage
+                      ? homeHero ? 'bg-white/10 text-white' : 'bg-emerald-50 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300'
+                      : 'bg-primary-50 dark:bg-primary-950 text-primary-700 dark:text-primary-300'
+                    : homeHero
+                      ? 'text-white/85 hover:text-white hover:bg-white/10'
+                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800'
                 )}
               >
                 {link.label}
@@ -164,7 +171,7 @@ export function Navbar() {
             {mounted && (
               <button
                 onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                className="p-2.5 rounded-xl text-gray-500 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                className={cn('p-2.5 rounded-xl transition-colors', homeHero ? 'text-white/80 hover:text-white hover:bg-white/10' : 'text-gray-500 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800')}
                 aria-label="Toggle theme"
               >
                 {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
@@ -176,7 +183,7 @@ export function Navbar() {
                 {/* Notifications */}
                 <Link
                   href={session.user.role === 'DOCTOR' ? '/doctor/notifications' : '/dashboard/notifications'}
-                  className="relative p-2.5 rounded-xl text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                  className={cn('relative p-2.5 rounded-xl transition-colors', homeHero ? 'text-white/80 hover:bg-white/10' : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800')}
                 >
                   <Bell className="w-5 h-5" />
                   <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full" />
@@ -187,13 +194,13 @@ export function Navbar() {
               <div className="hidden sm:flex items-center gap-3 sm:gap-4">
                 <Link
                   href="/login"
-                  className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 transition-colors"
+                  className={cn('px-4 py-2 text-sm font-medium transition-colors', homeHero ? 'text-white/90 hover:text-white' : isHomePage ? 'text-gray-700 dark:text-gray-300 hover:text-emerald-700 dark:hover:text-emerald-400' : 'text-gray-700 dark:text-gray-300 hover:text-primary-600')}
                 >
                   Sign In
                 </Link>
                 <Link
                   href="/register"
-                  className="px-5 py-2.5 bg-gradient-to-r from-primary-600 to-accent-500 text-white text-sm font-semibold rounded-xl hover:opacity-90 transition-all hover:shadow-glow"
+                  className={cn('px-5 py-2.5 text-white text-sm font-semibold rounded-xl hover:opacity-90 transition-all', isHomePage ? 'bg-gradient-to-r from-emerald-600 to-teal-600 hover:shadow-lg hover:shadow-emerald-900/20' : 'bg-gradient-to-r from-primary-600 to-accent-500 hover:shadow-glow')}
                 >
                   Get Started
                 </Link>
@@ -203,7 +210,7 @@ export function Navbar() {
             {/* Mobile Menu Toggle */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="lg:hidden p-2.5 rounded-xl text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              className={cn('lg:hidden p-2.5 rounded-xl transition-colors', homeHero ? 'text-white/80 hover:bg-white/10' : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800')}
             >
               {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -228,8 +235,8 @@ export function Navbar() {
                   className={cn(
                     'block px-4 py-3 rounded-xl text-sm font-medium transition-colors',
                     pathname === link.href
-                      ? 'bg-primary-50 dark:bg-primary-950 text-primary-700 dark:text-primary-300'
-                      : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800'
+                      ? isHomePage ? 'bg-emerald-50 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300' : 'bg-primary-50 dark:bg-primary-950 text-primary-700 dark:text-primary-300'
+                      : isHomePage ? 'text-gray-600 dark:text-gray-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/50' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800'
                   )}
                 >
                   {link.label}
@@ -237,8 +244,8 @@ export function Navbar() {
               ))}
               {!session && (
                 <div className="pt-4 mt-2 border-t border-gray-100 dark:border-gray-800 flex gap-4">
-                  <Link href="/login" className="flex-1 py-3 text-center text-sm font-medium border-2 border-gray-200 dark:border-gray-700 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-50">Sign In</Link>
-                  <Link href="/register" className="flex-1 py-3 text-center text-sm font-semibold bg-gradient-to-r from-primary-600 to-accent-500 text-white rounded-xl">Get Started</Link>
+                  <Link href="/login" className={cn('flex-1 py-3 text-center text-sm font-medium border-2 rounded-xl transition-colors', isHomePage ? 'border-emerald-200 dark:border-emerald-800 text-gray-700 dark:text-gray-300 hover:bg-emerald-50 dark:hover:bg-emerald-950/50' : 'border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50')}>Sign In</Link>
+                  <Link href="/register" className={cn('flex-1 py-3 text-center text-sm font-semibold text-white rounded-xl', isHomePage ? 'bg-gradient-to-r from-emerald-600 to-teal-600' : 'bg-gradient-to-r from-primary-600 to-accent-500')}>Get Started</Link>
                 </div>
               )}
             </div>

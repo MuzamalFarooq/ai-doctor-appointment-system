@@ -15,10 +15,10 @@ import { RatingStars } from '@/components/ui/RatingStars';
 
 // --- Data ---
 const SPECIALIZATIONS = [
-  { name: 'General Physician', icon: '🩺', color: 'blue', count: 120 },
+  { name: 'General Physician', icon: '🩺', color: 'emerald', count: 120 },
   { name: 'Cardiologist', icon: '❤️', color: 'red', count: 45 },
   { name: 'Dermatologist', icon: '🧴', color: 'pink', count: 38 },
-  { name: 'Neurologist', icon: '🧠', color: 'purple', count: 32 },
+  { name: 'Neurologist', icon: '🧠', color: 'emerald', count: 32 },
   { name: 'Orthopedic', icon: '🦴', color: 'orange', count: 41 },
   { name: 'Pediatrician', icon: '👶', color: 'yellow', count: 55 },
   { name: 'Gynecologist', icon: '👩⚕️', color: 'rose', count: 48 },
@@ -72,7 +72,7 @@ function AnimatedCounter({ target, suffix = '' }) {
 
 // --- Doctor Card ---
 function DoctorCard({ doctor }) {
-  const avatarColors = ['from-blue-500 to-blue-600', 'from-pink-500 to-rose-600', 'from-purple-500 to-violet-600', 'from-emerald-500 to-teal-600', 'from-orange-500 to-amber-600', 'from-cyan-500 to-blue-500'];
+  const avatarColors = ['from-emerald-500 to-teal-600', 'from-green-500 to-emerald-600', 'from-teal-500 to-emerald-600', 'from-emerald-600 to-teal-600', 'from-green-600 to-emerald-600', 'from-teal-600 to-green-600'];
   const idx = parseInt(doctor.id) - 1;
   const gradient = avatarColors[idx % avatarColors.length];
   return (
@@ -86,7 +86,7 @@ function DoctorCard({ doctor }) {
         </div>
         <div className="flex-1 min-w-0 space-y-1">
           <h3 className="font-bold text-gray-900 dark:text-white text-sm truncate">{doctor.name}</h3>
-          <p className="text-primary-600 dark:text-primary-400 text-xs font-medium">{doctor.spec}</p>
+          <p className="text-emerald-700 dark:text-emerald-400 text-xs font-medium">{doctor.spec}</p>
           <p className="text-gray-400 text-xs">{doctor.hospital}</p>
           <div className="flex items-center gap-1.5 pt-1">
             <RatingStars rating={doctor.rating} size="xs" />
@@ -107,7 +107,7 @@ function DoctorCard({ doctor }) {
           <p className="text-xs text-gray-400">Consultation Fee</p>
           <p className="text-sm font-bold text-gray-900 dark:text-white">PKR {doctor.fee.toLocaleString()}</p>
         </div>
-        <Link href={`/doctors/${doctor.id}`} className="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white text-xs font-semibold rounded-xl transition-colors">
+        <Link href={`/doctors/${doctor.id}`} className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 text-white text-xs font-semibold rounded-xl transition-colors">
           Book Now
         </Link>
       </div>
@@ -130,13 +130,13 @@ export default function HomePage() {
   const stagger = { visible: { transition: { staggerChildren: 0.1 } } };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950">
+    <div id="public-home" className="min-h-screen bg-white dark:bg-gray-950">
       {/* ===== HERO ===== */}
       <section className="relative min-h-screen flex items-center overflow-hidden">
         {/* Animated Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary-950 via-gray-900 to-accent-950">
-          <div className="blob w-96 h-96 bg-primary-500 top-20 -left-20" />
-          <div className="blob w-80 h-80 bg-accent-500 top-1/2 right-0" style={{ animationDelay: '3s' }} />
+        <div className="absolute inset-0 bg-gradient-to-br from-emerald-950 via-green-950 to-teal-950">
+          <div className="blob w-96 h-96 bg-emerald-500 top-20 -left-20" />
+          <div className="blob w-80 h-80 bg-green-500 top-1/2 right-0" style={{ animationDelay: '3s' }} />
           <div className="blob w-72 h-72 bg-teal-500 bottom-0 left-1/3" style={{ animationDelay: '6s' }} />
           {/* Grid Pattern */}
           <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px)', backgroundSize: '48px 48px' }} />
@@ -153,7 +153,7 @@ export default function HomePage() {
               <motion.h1 variants={fadeUp} className="text-4xl sm:text-5xl lg:text-6xl font-black font-heading text-white leading-snug sm:leading-tight mb-8">
                 AI-Powered
                 <br />
-                <span className="gradient-text">Healthcare</span>
+                <span className="text-emerald-300">Healthcare</span>
                 <br />
                 at Your Fingertips
               </motion.h1>
@@ -172,14 +172,14 @@ export default function HomePage() {
                     className="flex-1 bg-transparent text-white placeholder-gray-400 text-sm focus:outline-none"
                   />
                 </div>
-                <button type="submit" className="px-6 py-3 bg-gradient-to-r from-primary-500 to-accent-500 text-white font-semibold rounded-xl hover:opacity-90 transition-all text-sm">
+                <button type="submit" className="px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-semibold rounded-xl hover:from-emerald-400 hover:to-teal-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white transition-all text-sm">
                   Search
                 </button>
               </motion.form>
 
               {/* CTA Buttons */}
               <motion.div variants={fadeUp} className="flex flex-wrap gap-4 mb-12">
-                <Link href="/doctors" className="flex items-center gap-2.5 px-7 py-4 bg-white pt-2 text-primary-700 font-bold rounded-xl hover:bg-gray-50 transition-all shadow-lg text-sm">
+                <Link href="/doctors" className="flex items-center gap-2.5 px-7 py-4 bg-white pt-2 text-emerald-800 font-bold rounded-xl hover:bg-emerald-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white transition-all shadow-lg text-sm">
                   <Calendar className="w-4 h-4" /> Book Appointment
                 </Link>
                 <Link href="/ai-symptom-checker" className="flex items-center gap-2.5 px-7 py-4 bg-white/10 backdrop-blur-sm border border-white/30 text-white font-bold rounded-xl hover:bg-white/20 transition-all text-sm">
@@ -220,10 +220,10 @@ export default function HomePage() {
                 className="absolute top-12 right-0 w-72 bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-6 shadow-2xl"
               >
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-primary-600 flex items-center justify-center text-xl">👨⚕️</div>
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-xl">👨⚕️</div>
                   <div>
                     <p className="text-white font-semibold text-sm">Dr. Ahmed Khan</p>
-                    <p className="text-primary-300 text-xs">Cardiologist</p>
+                    <p className="text-emerald-200 text-xs">Cardiologist</p>
                   </div>
                 </div>
                 <div className="space-y-2">
@@ -243,7 +243,7 @@ export default function HomePage() {
               <motion.div
                 animate={{ y: [0, 10, 0] }}
                 transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-                className="absolute top-60 left-0 w-64 bg-gradient-to-br from-accent-600/80 to-primary-600/80 backdrop-blur-xl border border-white/20 rounded-3xl p-5 shadow-2xl"
+                className="absolute top-60 left-0 w-64 bg-gradient-to-br from-emerald-600/90 to-teal-700/90 backdrop-blur-xl border border-white/20 rounded-3xl p-5 shadow-2xl"
               >
                 <div className="flex items-center gap-2 mb-3">
                   <Brain className="w-5 h-5 text-white" />
@@ -288,9 +288,9 @@ export default function HomePage() {
       <section className="py-16 sm:py-24 bg-white dark:bg-gray-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center space-y-4">
-            <Badge variant="primary" className="mb-2">Browse by Specialty</Badge>
+            <Badge variant="success" className="mb-2">Browse by Specialty</Badge>
             <h2 className="text-3xl lg:text-4xl font-black font-heading text-gray-900 dark:text-white leading-snug">
-              Find the Right <span className="gradient-text">Specialist</span>
+              Find the Right <span className="text-emerald-700 dark:text-emerald-400">Specialist</span>
             </h2>
             <p className="text-gray-500 dark:text-gray-400 max-w-xl mx-auto leading-relaxed">From general physicians to specialized surgeons — find expert care for every health need.</p>
           </motion.div>
@@ -302,17 +302,17 @@ export default function HomePage() {
               <motion.div key={spec.name} variants={fadeUp}>
                 <Link
                   href={`/doctors?spec=${encodeURIComponent(spec.name)}`}
-                  className="group flex flex-col items-center p-5 sm:p-6 rounded-2xl border border-gray-100 dark:border-gray-700 hover:border-primary-200 dark:hover:border-primary-700 hover:bg-primary-50 dark:hover:bg-primary-950/50 transition-all duration-300 hover:-translate-y-1 space-y-2"
+                  className="group flex flex-col items-center p-5 sm:p-6 rounded-2xl border border-gray-100 dark:border-gray-700 hover:border-emerald-200 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 transition-all duration-300 hover:-translate-y-1 space-y-2"
                 >
                   <div className="text-3xl group-hover:scale-110 transition-transform duration-300">{spec.icon}</div>
-                  <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 text-center group-hover:text-primary-700 dark:group-hover:text-primary-300 transition-colors leading-tight">{spec.name}</p>
+                  <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 text-center group-hover:text-emerald-800 dark:group-hover:text-emerald-300 transition-colors leading-tight">{spec.name}</p>
                   <p className="text-xs text-gray-400">{spec.count} doctors</p>
                 </Link>
               </motion.div>
             ))}
           </motion.div>
           <div className="text-center pt-4">
-            <Link href="/doctors" className="inline-flex items-center gap-2 text-primary-600 dark:text-primary-400 font-semibold hover:gap-3 transition-all text-sm">
+            <Link href="/doctors" className="inline-flex items-center gap-2 text-emerald-700 dark:text-emerald-400 font-semibold hover:gap-3 transition-all text-sm">
               View all specializations <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -320,22 +320,22 @@ export default function HomePage() {
       </section>
 
       {/* ===== HOW IT WORKS ===== */}
-      <section className="py-16 sm:py-24 bg-gray-50 dark:bg-gray-900">
+      <section className="py-16 sm:py-24 bg-emerald-50/50 dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center space-y-4">
-            <Badge variant="primary" className="mb-2">Simple & Fast</Badge>
+            <Badge variant="success" className="mb-2">Simple & Fast</Badge>
             <h2 className="text-3xl lg:text-4xl font-black font-heading text-gray-900 dark:text-white leading-snug">
-              Get Care in <span className="gradient-text">4 Easy Steps</span>
+              Get Care in <span className="text-emerald-700 dark:text-emerald-400">4 Easy Steps</span>
             </h2>
           </motion.div>
           <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-8 sm:gap-10 lg:gap-12 relative">
-            <div className="hidden md:block absolute top-12 left-[20%] right-[20%] h-0.5 bg-gradient-to-r from-primary-200 via-accent-200 to-teal-200 dark:from-primary-800 dark:via-accent-800 dark:to-teal-800" />
+            <div className="hidden md:block absolute top-12 left-[20%] right-[20%] h-0.5 bg-gradient-to-r from-emerald-200 via-green-200 to-teal-200 dark:from-emerald-800 dark:via-green-800 dark:to-teal-800" />
             {[
-              { step: '01', icon: Search, title: 'Search & Compare', desc: 'Search doctors by specialty, city, fee, and rating. Compare profiles to find your best match.', color: 'blue' },
-              { step: '02', icon: Brain, title: 'AI Recommendation', desc: 'Enter your symptoms and let our AI analyze your condition and suggest the ideal specialist.', color: 'purple' },
-              { step: '03', icon: Calendar, title: 'Book Appointment', desc: 'Select an available time slot, provide your details, and confirm your booking instantly.', color: 'teal' },
-              { step: '04', icon: Video, title: 'Consult & Heal', desc: 'Meet your doctor in-person or via secure video call. Get prescriptions and follow-up care.', color: 'green' },
-            ].map(({ step, icon: Icon, title, desc, color }, i) => (
+              { step: '01', icon: Search, title: 'Search & Compare', desc: 'Search doctors by specialty, city, fee, and rating. Compare profiles to find your best match.' },
+              { step: '02', icon: Brain, title: 'AI Recommendation', desc: 'Enter your symptoms and let our AI analyze your condition and suggest the ideal specialist.' },
+              { step: '03', icon: Calendar, title: 'Book Appointment', desc: 'Select an available time slot, provide your details, and confirm your booking instantly.' },
+              { step: '04', icon: Video, title: 'Consult & Heal', desc: 'Meet your doctor in-person or via secure video call. Get prescriptions and follow-up care.' },
+            ].map(({ step, icon: Icon, title, desc }, i) => (
               <motion.div
                 key={step}
                 initial={{ opacity: 0, y: 30 }}
@@ -344,9 +344,9 @@ export default function HomePage() {
                 transition={{ delay: i * 0.15 }}
                 className="relative text-center space-y-3 p-4"
               >
-                <div className={`w-20 h-20 rounded-2xl mx-auto mb-6 flex items-center justify-center bg-${color}-100 dark:bg-${color}-900/30 relative z-10`}>
-                  <Icon className={`w-9 h-9 text-${color}-600 dark:text-${color}-400`} />
-                  <span className={`absolute -top-2 -right-2 w-7 h-7 rounded-full bg-${color}-600 text-white text-xs font-bold flex items-center justify-center`}>{step}</span>
+                <div className="w-20 h-20 rounded-2xl mx-auto mb-6 flex items-center justify-center bg-emerald-100 dark:bg-emerald-900/30 relative z-10">
+                  <Icon className="w-9 h-9 text-emerald-700 dark:text-emerald-400" />
+                  <span className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-emerald-600 text-white text-xs font-bold flex items-center justify-center">{step}</span>
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 dark:text-white leading-snug">{title}</h3>
                 <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">{desc}</p>
@@ -361,12 +361,12 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="flex items-end justify-between border-b border-gray-100 dark:border-gray-800 pb-6">
             <div className="space-y-2">
-              <Badge variant="primary" className="mb-2">Top Rated</Badge>
+              <Badge variant="success" className="mb-2">Top Rated</Badge>
               <h2 className="text-3xl lg:text-4xl font-black font-heading text-gray-900 dark:text-white leading-snug">
-                Featured <span className="gradient-text">Doctors</span>
+                Featured <span className="text-emerald-700 dark:text-emerald-400">Doctors</span>
               </h2>
             </div>
-            <Link href="/doctors" className="hidden md:flex items-center gap-2 text-primary-600 dark:text-primary-400 font-semibold hover:gap-3 transition-all text-sm">
+            <Link href="/doctors" className="hidden md:flex items-center gap-2 text-emerald-700 dark:text-emerald-400 font-semibold hover:gap-3 transition-all text-sm">
               View all <ArrowRight className="w-4 h-4" />
             </Link>
           </motion.div>
@@ -384,14 +384,14 @@ export default function HomePage() {
       </section>
 
       {/* ===== AI FEATURES ===== */}
-      <section className="py-16 sm:py-24 bg-gradient-to-br from-primary-950 via-gray-900 to-accent-950 relative overflow-hidden">
-        <div className="blob w-72 h-72 bg-primary-500 top-0 right-0 opacity-20" />
-        <div className="blob w-60 h-60 bg-accent-500 bottom-0 left-0 opacity-20" style={{ animationDelay: '4s' }} />
+      <section className="py-16 sm:py-24 bg-gradient-to-br from-emerald-950 via-green-950 to-teal-950 relative overflow-hidden">
+        <div className="blob w-72 h-72 bg-emerald-500 top-0 right-0 opacity-20" />
+        <div className="blob w-60 h-60 bg-teal-500 bottom-0 left-0 opacity-20" style={{ animationDelay: '4s' }} />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative space-y-16">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center space-y-4">
-            <Badge variant="gradient" className="mb-2">Powered by GPT-4o</Badge>
+            <Badge variant="success" className="mb-2">Powered by GPT-4o</Badge>
             <h2 className="text-3xl lg:text-4xl font-black font-heading text-white leading-snug">
-              AI That Understands <span className="gradient-text">Your Health</span>
+              AI That Understands <span className="text-emerald-300">Your Health</span>
             </h2>
             <p className="text-gray-300 max-w-xl mx-auto leading-relaxed">Two powerful AI tools to guide your healthcare journey</p>
           </motion.div>
@@ -400,7 +400,7 @@ export default function HomePage() {
               {
                 href: '/ai-symptom-checker',
                 icon: Brain,
-                gradient: 'from-primary-600 to-primary-700',
+                gradient: 'from-emerald-600 to-emerald-700',
                 title: 'AI Symptom Analyzer',
                 desc: 'Describe your symptoms and get intelligent specialist recommendations powered by GPT-4o. Our AI analyzes your age, medical history, and symptoms to suggest the right doctor.',
                 features: ['Specialist recommendation', 'Urgency assessment', 'Top doctor matching', 'Explains reasoning'],
@@ -409,7 +409,7 @@ export default function HomePage() {
               {
                 href: '/ai-health-assistant',
                 icon: Sparkles,
-                gradient: 'from-accent-600 to-accent-700',
+                gradient: 'from-teal-600 to-teal-700',
                 title: 'AI Health Assistant',
                 desc: 'Chat with your personal AI health assistant 24/7. Get answers to medical questions, medication information, lifestyle advice, diet tips, and help booking appointments.',
                 features: ['Medical Q&A', 'Medicine information', 'Diet & lifestyle advice', 'Appointment help'],
@@ -427,14 +427,14 @@ export default function HomePage() {
                   <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${gradient} flex items-center justify-center group-hover:scale-110 transition-transform`}>
                     <Icon className="w-7 h-7 text-white" />
                   </div>
-                  <Badge variant="gradient">{badge}</Badge>
+                  <Badge variant="success">{badge}</Badge>
                 </div>
                 <h3 className="text-xl font-bold text-white leading-snug">{title}</h3>
                 <p className="text-gray-300 text-sm leading-relaxed">{desc}</p>
                 <ul className="space-y-3 pt-2">
                   {features.map(f => (
                     <li key={f} className="flex items-center gap-3 text-sm text-gray-300">
-                      <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" /> {f}
+                      <CheckCircle className="w-4 h-4 text-emerald-400 flex-shrink-0" /> {f}
                     </li>
                   ))}
                 </ul>
@@ -454,11 +454,11 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10">
             {[
-              { icon: Users, value: 10000, suffix: '+', label: 'Happy Patients', color: 'blue', desc: 'Trusted by thousands' },
-              { icon: Stethoscope, value: 500, suffix: '+', label: 'Expert Doctors', color: 'purple', desc: 'Verified specialists' },
-              { icon: Calendar, value: 50000, suffix: '+', label: 'Appointments', color: 'teal', desc: 'Successfully booked' },
-              { icon: Award, value: 4.9, suffix: '★', label: 'Avg. Rating', color: 'orange', noCount: true, desc: 'Patient satisfaction' },
-            ].map(({ icon: Icon, value, suffix, label, color, noCount, desc }) => (
+              { icon: Users, value: 10000, suffix: '+', label: 'Happy Patients', desc: 'Trusted by thousands' },
+              { icon: Stethoscope, value: 500, suffix: '+', label: 'Expert Doctors', desc: 'Verified specialists' },
+              { icon: Calendar, value: 50000, suffix: '+', label: 'Appointments', desc: 'Successfully booked' },
+              { icon: Award, value: 4.9, suffix: '★', label: 'Avg. Rating', noCount: true, desc: 'Patient satisfaction' },
+            ].map(({ icon: Icon, value, suffix, label, noCount, desc }) => (
               <motion.div
                 key={label}
                 initial={{ opacity: 0, y: 20 }}
@@ -466,8 +466,8 @@ export default function HomePage() {
                 viewport={{ once: true }}
                 className="text-center p-8 sm:p-10 rounded-2xl bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 space-y-2"
               >
-                <div className={`w-12 h-12 rounded-xl bg-${color}-100 dark:bg-${color}-900/30 flex items-center justify-center mx-auto mb-4`}>
-                  <Icon className={`w-6 h-6 text-${color}-600 dark:text-${color}-400`} />
+                <div className="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center mx-auto mb-4">
+                  <Icon className="w-6 h-6 text-emerald-700 dark:text-emerald-400" />
                 </div>
                 <div className="text-4xl font-black text-gray-900 dark:text-white mb-1">
                   {noCount ? `${value}${suffix}` : <AnimatedCounter target={value} suffix={suffix} />}
@@ -481,12 +481,12 @@ export default function HomePage() {
       </section>
 
       {/* ===== TESTIMONIALS ===== */}
-      <section className="py-16 sm:py-24 bg-gray-50 dark:bg-gray-900">
+      <section className="py-16 sm:py-24 bg-emerald-50/50 dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center space-y-4">
             <Badge variant="success" className="mb-2">Patient Stories</Badge>
             <h2 className="text-3xl lg:text-4xl font-black font-heading text-gray-900 dark:text-white leading-snug">
-              What Our Patients <span className="gradient-text">Say</span>
+              What Our Patients <span className="text-emerald-700 dark:text-emerald-400">Say</span>
             </h2>
           </motion.div>
           <motion.div
@@ -504,7 +504,7 @@ export default function HomePage() {
                   <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed italic">&quot;{t.text}&quot;</p>
                 </div>
                 <div className="flex items-center gap-3.5 pt-4 border-t border-gray-100 dark:border-gray-700/60">
-                  <div className="w-11 h-11 rounded-full bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center text-white text-sm font-bold shadow-md">
+                  <div className="w-11 h-11 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white text-sm font-bold shadow-md">
                     {t.avatar}
                   </div>
                   <div>
@@ -523,12 +523,12 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="flex items-end justify-between border-b border-gray-100 dark:border-gray-800 pb-6">
             <div className="space-y-2">
-              <Badge variant="info" className="mb-2">Health Articles</Badge>
+              <Badge variant="success" className="mb-2">Health Articles</Badge>
               <h2 className="text-3xl lg:text-4xl font-black font-heading text-gray-900 dark:text-white leading-snug">
-                Stay <span className="gradient-text">Informed</span>
+                Stay <span className="text-emerald-700 dark:text-emerald-400">Informed</span>
               </h2>
             </div>
-            <Link href="/blog" className="hidden md:flex items-center gap-2 text-primary-600 dark:text-primary-400 font-semibold text-sm">
+            <Link href="/blog" className="hidden md:flex items-center gap-2 text-emerald-700 dark:text-emerald-400 font-semibold text-sm">
               All Articles <ArrowRight className="w-4 h-4" />
             </Link>
           </motion.div>
@@ -541,10 +541,10 @@ export default function HomePage() {
                 <Link href={`/blog/${post.slug}`} className="group block bg-white dark:bg-gray-800 rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
                   <div className="relative h-52 overflow-hidden">
                     <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                    <Badge variant="primary" className="absolute top-4 left-4">{post.category}</Badge>
+                    <Badge variant="success" className="absolute top-4 left-4">{post.category}</Badge>
                   </div>
                   <div className="p-6 sm:p-7 space-y-3">
-                    <h3 className="font-bold text-gray-900 dark:text-white text-base leading-snug group-hover:text-primary-600 transition-colors line-clamp-2">{post.title}</h3>
+                    <h3 className="font-bold text-gray-900 dark:text-white text-base leading-snug group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors line-clamp-2">{post.title}</h3>
                     <p className="text-gray-500 dark:text-gray-400 text-xs leading-relaxed line-clamp-2">{post.excerpt}</p>
                     <div className="flex items-center gap-3 text-xs text-gray-400 pt-2 border-t border-gray-100 dark:border-gray-700/60">
                       <span>{post.date}</span>
@@ -560,12 +560,12 @@ export default function HomePage() {
       </section>
 
       {/* ===== CTA / DOWNLOAD APP ===== */}
-      <section className="py-16 sm:py-24 bg-gradient-to-br from-primary-950 via-gray-900 to-accent-950 relative overflow-hidden">
-        <div className="blob w-80 h-80 bg-primary-500 top-0 left-1/4 opacity-20" />
+      <section className="py-16 sm:py-24 bg-gradient-to-br from-emerald-950 via-green-950 to-teal-950 relative overflow-hidden">
+        <div className="blob w-80 h-80 bg-emerald-500 top-0 left-1/4 opacity-20" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center">
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-              <Badge variant="gradient" className="mb-6">Download App</Badge>
+              <Badge variant="success" className="mb-6">Download App</Badge>
               <h2 className="text-3xl lg:text-5xl font-black font-heading text-white mb-4">
                 Healthcare in Your Pocket
               </h2>
@@ -598,7 +598,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== TRUST SECTION ===== */}
-      <section className="mt-8 sm:mt-12 py-12 sm:py-16 bg-gray-50 dark:bg-gray-900 border-y border-gray-100 dark:border-gray-800">
+      <section className="mt-8 sm:mt-12 py-12 sm:py-16 bg-emerald-50/50 dark:bg-gray-900 border-y border-emerald-100 dark:border-gray-800">
         <div className="max-w-7xl mx-auto px-6 sm:px-6 lg:px-8">
           <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10 lg:gap-12">
             <p className="text-gray-500 text-sm font-medium">Trusted & Verified:</p>
@@ -610,7 +610,7 @@ export default function HomePage() {
               { label: 'ISO 27001', icon: Award },
             ].map(({ label, icon: Icon }) => (
               <div key={label} className="flex items-center gap-2 mt-1 text-gray-600 dark:text-gray-400">
-                <Icon className="w-5 h-5 text-primary-500" />
+                <Icon className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
                 <span className="text-sm font-medium">{label}</span>
               </div>
             ))}
