@@ -64,8 +64,8 @@ export default function BlogPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary-50 dark:bg-primary-950/60 border border-primary-200 dark:border-primary-800 text-primary-700 dark:text-primary-300 text-xs font-semibold mb-4">
-            <Sparkles className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-green-50 dark:bg-green-950/60 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-300 text-xs font-semibold mb-4">
+            <Sparkles className="w-3.5 h-3.5 text-green-600" />
             <span>Health Insights & Research</span>
           </div>
           <h1 className="text-3xl sm:text-5xl font-extrabold text-gray-900 dark:text-white font-heading tracking-tight mb-4">
@@ -78,7 +78,7 @@ export default function BlogPage() {
 
         {/* Featured Post */}
         {featuredPost && (
-          <div className="mb-16 bg-white dark:bg-gray-900 rounded-3xl border border-gray-100 dark:border-gray-800 shadow-xl overflow-hidden grid grid-cols-1 lg:grid-cols-2">
+          <div className="mb-16 bg-white dark:bg-gray-900 rounded-3xl border border-[#D1FAE5] dark:border-emerald-950/40 shadow-sm overflow-hidden grid grid-cols-1 lg:grid-cols-2">
             <div className="relative h-64 lg:h-auto min-h-[320px]">
               <Image
                 src={featuredPost.image}
@@ -95,13 +95,13 @@ export default function BlogPage() {
             <div className="p-8 sm:p-12 flex flex-col justify-between">
               <div>
                 <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400 mb-4">
-                  <span className="font-semibold text-primary-600 dark:text-primary-400">{featuredPost.category}</span>
+                  <span className="font-semibold text-green-700 dark:text-green-400">{featuredPost.category}</span>
                   <span>•</span>
                   <span className="flex items-center gap-1"><Calendar className="w-3.5 h-3.5" /> {featuredPost.date}</span>
                   <span>•</span>
                   <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> {featuredPost.readTime}</span>
                 </div>
-                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white font-heading mb-4 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white font-heading mb-4 hover:text-green-700 dark:hover:text-green-400 transition-colors">
                   {featuredPost.title}
                 </h2>
                 <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base leading-relaxed mb-6">
@@ -110,12 +110,12 @@ export default function BlogPage() {
               </div>
               <div className="flex items-center justify-between pt-6 border-t border-gray-100 dark:border-gray-800">
                 <div className="flex items-center gap-2 text-xs font-medium text-gray-700 dark:text-gray-300">
-                  <User className="w-4 h-4 text-primary-500" />
+                  <User className="w-4 h-4 text-green-600 dark:text-green-400" />
                   <span>{featuredPost.author}</span>
                 </div>
                 <Link
                   href="/ai-symptom-checker"
-                  className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary-600 dark:text-primary-400 hover:gap-2.5 transition-all"
+                  className="inline-flex items-center gap-1.5 text-sm font-semibold text-green-700 dark:text-green-400 hover:text-green-800 hover:gap-2.5 transition-all"
                 >
                   Explore AI Tools <ArrowRight className="w-4 h-4" />
                 </Link>
@@ -129,7 +129,7 @@ export default function BlogPage() {
           {otherPosts.map((post) => (
             <article
               key={post.id}
-              className="bg-white dark:bg-gray-900 rounded-3xl border border-gray-100 dark:border-gray-800 shadow-lg overflow-hidden flex flex-col hover:shadow-xl transition-all hover:-translate-y-1"
+              className="bg-white dark:bg-gray-900 rounded-3xl border border-[#D1FAE5] dark:border-emerald-950/40 shadow-sm overflow-hidden flex flex-col hover:border-green-300 dark:hover:border-green-700 transition-all hover:-translate-y-1"
             >
               <div className="relative h-48 w-full">
                 <Image
@@ -163,7 +163,7 @@ export default function BlogPage() {
                   <span className="text-gray-500 dark:text-gray-400 truncate max-w-[140px]">{post.author}</span>
                   <Link
                     href="/doctors"
-                    className="font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 inline-flex items-center gap-1"
+                    className="font-semibold text-green-700 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 inline-flex items-center gap-1"
                   >
                     Find Doctors <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
@@ -174,7 +174,7 @@ export default function BlogPage() {
         </div>
 
         {/* CTA */}
-        <div className="bg-linear-to-r from-primary-600 to-accent-600 rounded-3xl p-8 sm:p-12 text-center text-white shadow-2xl">
+        <div className="bg-gradient-to-r from-green-700 via-green-600 to-emerald-700 rounded-3xl p-8 sm:p-12 text-center text-white shadow-xl">
           <BookOpen className="w-10 h-10 mx-auto mb-4 text-white/90" />
           <h2 className="text-2xl sm:text-3xl font-bold font-heading mb-3">Need Personalized Medical Advice?</h2>
           <p className="text-white/80 max-w-xl mx-auto text-sm sm:text-base mb-6">
@@ -183,13 +183,13 @@ export default function BlogPage() {
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link
               href="/doctors"
-              className="px-6 py-3 bg-white text-primary-700 font-semibold rounded-xl hover:bg-gray-100 transition-all text-sm shadow-md"
+              className="px-6 py-3 bg-white text-green-800 font-semibold rounded-xl hover:bg-green-50 transition-all text-sm shadow-md"
             >
               Book an Appointment
             </Link>
             <Link
               href="/ai-symptom-checker"
-              className="px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/30 text-white font-semibold rounded-xl transition-all text-sm"
+              className="px-6 py-3 bg-green-800/40 hover:bg-green-800/60 border border-green-300/40 text-white font-semibold rounded-xl transition-all text-sm"
             >
               Start AI Symptom Checker
             </Link>

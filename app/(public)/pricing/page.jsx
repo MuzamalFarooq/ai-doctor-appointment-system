@@ -35,7 +35,7 @@ const PLANS = [
     period: 'per month',
     description: 'Everything you need for comprehensive healthcare',
     icon: Zap,
-    color: 'from-primary-500 to-accent-500',
+    color: 'from-green-600 to-green-800',
     popular: true,
     features: [
       { text: 'Unlimited doctor bookings', included: true },
@@ -86,7 +86,7 @@ export default function PricingPage() {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 pt-20">
       {/* Hero */}
       <div className="max-w-4xl mx-auto px-4 py-16 text-center">
-        <span className="inline-block px-4 py-1.5 bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 rounded-full text-sm font-semibold mb-4">Simple, Transparent Pricing</span>
+        <span className="inline-block px-4 py-1.5 bg-green-100 dark:bg-green-950/60 text-green-800 dark:text-green-300 border border-green-200 dark:border-green-800 rounded-full text-sm font-semibold mb-4">Simple, Transparent Pricing</span>
         <h1 className="text-4xl md:text-5xl font-black font-heading text-gray-900 dark:text-white mb-4">
           Invest in Your <span className="gradient-text">Health</span>
         </h1>
@@ -102,10 +102,10 @@ export default function PricingPage() {
             const Icon = plan.icon;
             return (
               <div key={plan.id} className={`relative bg-white dark:bg-gray-800 rounded-3xl border-2 ${
-                plan.popular ? 'border-primary-500 shadow-glow' : 'border-gray-100 dark:border-gray-700'
+                plan.popular ? 'border-green-600 shadow-lg shadow-green-950/10' : 'border-[#D1FAE5] dark:border-emerald-950/40 shadow-xs'
               } overflow-hidden flex flex-col`}>
                 {plan.popular && (
-                  <div className="bg-gradient-to-r from-primary-600 to-accent-500 text-white text-xs font-bold text-center py-2 uppercase tracking-widest">
+                  <div className="bg-gradient-to-r from-green-600 to-green-800 text-white text-xs font-bold text-center py-2 uppercase tracking-widest">
                     Most Popular
                   </div>
                 )}
@@ -123,7 +123,7 @@ export default function PricingPage() {
                     {plan.features.map(f => (
                       <li key={f.text} className={`flex items-center gap-3 text-sm ${f.included ? 'text-gray-700 dark:text-gray-300' : 'text-gray-400 line-through'}`}>
                         {f.included
-                          ? <div className="w-5 h-5 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center flex-shrink-0"><Check className="w-3 h-3 text-green-600 dark:text-green-400" /></div>
+                          ? <div className="w-5 h-5 rounded-full bg-green-100 dark:bg-green-950/80 flex items-center justify-center flex-shrink-0"><Check className="w-3 h-3 text-green-700 dark:text-green-300" /></div>
                           : <div className="w-5 h-5 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center flex-shrink-0"><X className="w-3 h-3 text-gray-400" /></div>
                         }
                         {f.text}
@@ -135,8 +135,8 @@ export default function PricingPage() {
                   <Link href={plan.href}
                     className={`block w-full text-center py-3.5 rounded-2xl font-bold text-sm transition-all hover:scale-[1.02] ${
                       plan.popular
-                        ? 'bg-gradient-to-r from-primary-600 to-accent-500 text-white shadow-glow hover:opacity-90'
-                        : 'border-2 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+                        ? 'bg-gradient-to-r from-green-600 to-green-800 text-white shadow-md shadow-green-900/10 hover:from-green-700 hover:to-green-900'
+                        : 'border-2 border-green-200 dark:border-green-800 text-green-800 dark:text-green-300 hover:bg-green-50 dark:hover:bg-green-950/30'
                     }`}>
                     {plan.cta}
                   </Link>
@@ -152,7 +152,7 @@ export default function PricingPage() {
         <h2 className="text-2xl font-black font-heading text-gray-900 dark:text-white text-center mb-8">Frequently Asked Questions</h2>
         <div className="space-y-4">
           {FAQ.map(({ q, a }, i) => (
-            <div key={i} className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6">
+            <div key={i} className="bg-white dark:bg-gray-800 rounded-2xl border border-[#D1FAE5] dark:border-emerald-950/40 shadow-xs p-6">
               <h3 className="font-semibold text-gray-900 dark:text-white mb-2">{q}</h3>
               <p className="text-gray-500 dark:text-gray-400 text-sm">{a}</p>
             </div>

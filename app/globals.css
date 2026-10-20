@@ -142,7 +142,7 @@ body:has(#public-home) .public-home-footer .public-footer-app-link:hover {
 
 /* Gradient Text */
 .gradient-text {
-  background: linear-gradient(135deg, #1d7ceb 0%, #cc45f1 50%, #14b8a6 100%);
+  background: linear-gradient(135deg, #16A34A 0%, #15803D 50%, #166534 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -216,6 +216,77 @@ body:has(#public-home) .public-home-footer .public-footer-app-link:hover {
   100% { background-position: 200% 0; }
 }
 
+/* MediConnect AI Premium Loading Animations */
+@keyframes mc-pulse-halo {
+  0%, 100% {
+    transform: scale(0.94);
+    opacity: 0.45;
+  }
+  50% {
+    transform: scale(1.06);
+    opacity: 0.85;
+  }
+}
+
+@keyframes mc-spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes mc-spin-reverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+@keyframes mc-indeterminate {
+  0% { transform: translateX(-100%); }
+  50% { transform: translateX(50%); }
+  100% { transform: translateX(200%); }
+}
+
+@keyframes mc-dot-pulse {
+  0%, 80%, 100% {
+    opacity: 0.25;
+    transform: scale(0.75);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+.mc-animate-pulse-halo {
+  animation: mc-pulse-halo 3s ease-in-out infinite;
+}
+
+.mc-animate-spin {
+  animation: mc-spin-slow 2s linear infinite;
+}
+
+.mc-animate-spin-reverse {
+  animation: mc-spin-reverse 7s linear infinite;
+}
+
+.mc-animate-indeterminate {
+  animation: mc-indeterminate 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.mc-animate-dot {
+  animation: mc-dot-pulse 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mc-animate-pulse-halo,
+  .mc-animate-spin,
+  .mc-animate-spin-reverse,
+  .mc-animate-indeterminate,
+  .mc-animate-dot {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+
 /* Status Badges */
 .badge-pending { @apply bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800/60; }
 .badge-confirmed { @apply bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800/60; }
@@ -248,8 +319,8 @@ body:has(#public-home) .public-home-footer .public-footer-app-link:hover {
 }
 
 .btn-gradient {
-  background: linear-gradient(135deg, #1d7ceb, #cc45f1);
-  @apply px-6 py-3 text-white font-semibold rounded-xl transition-all duration-200 hover:opacity-90 hover:shadow-lg active:scale-95;
+  background: linear-gradient(135deg, #16A34A, #166534);
+  @apply px-6 py-3 text-white font-semibold rounded-xl transition-all duration-200 hover:opacity-95 hover:shadow-lg hover:shadow-green-900/10 active:scale-95;
 }
 
 /* Section Container */

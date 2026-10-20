@@ -91,7 +91,7 @@ export default function AISymptomCheckerPage() {
       <div className="max-w-2xl mx-auto px-4 py-12 md:py-16">
         {/* Header */}
         <motion.div initial="hidden" animate="visible" variants={fadeUp} className="text-center mb-10">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center mx-auto mb-4 shadow-glow">
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-600 to-green-800 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-green-900/20">
             <Brain className="w-8 h-8 text-white" />
           </div>
           <Badge variant="gradient" className="mb-3">Powered by GPT-4o</Badge>
@@ -120,7 +120,7 @@ export default function AISymptomCheckerPage() {
             </div>
             <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
               <motion.div
-                className="h-full bg-gradient-to-r from-primary-500 to-accent-500 rounded-full"
+                className="h-full bg-gradient-to-r from-green-600 to-green-800 rounded-full"
                 initial={{ width: 0 }}
                 animate={{ width: `${progress}%` }}
                 transition={{ duration: 0.4 }}
@@ -128,14 +128,14 @@ export default function AISymptomCheckerPage() {
             </div>
             <div className="flex justify-between mt-2">
               {['Basic Info', 'Symptoms', 'Details'].map((label, i) => (
-                <span key={label} className={`text-xs font-medium ${i + 1 <= step ? 'text-primary-600 dark:text-primary-400' : 'text-gray-400'}`}>{label}</span>
+                <span key={label} className={`text-xs font-medium ${i + 1 <= step ? 'text-green-700 dark:text-green-400 font-semibold' : 'text-gray-400'}`}>{label}</span>
               ))}
             </div>
           </div>
         )}
 
         {/* Form Card */}
-        <div className="bg-white dark:bg-gray-800 rounded-3xl border border-gray-100 dark:border-gray-700 shadow-card p-8">
+        <div className="bg-white dark:bg-gray-800 rounded-3xl border border-[#D1FAE5] dark:border-emerald-950/40 shadow-sm p-8">
           <AnimatePresence mode="wait">
             {/* Step 1: Basic Info */}
             {step === 1 && (
@@ -147,7 +147,7 @@ export default function AISymptomCheckerPage() {
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Age <span className="text-red-500">*</span></label>
                       <input type="number" min="0" max="120" value={formData.age}
                         onChange={e => setFormData(p => ({ ...p, age: e.target.value }))}
-                        placeholder="e.g. 32" className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm" />
+                        placeholder="e.g. 32" className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 text-sm" />
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Gender <span className="text-red-500">*</span></label>
@@ -155,7 +155,7 @@ export default function AISymptomCheckerPage() {
                         {['male', 'female', 'other'].map(g => (
                           <button key={g} type="button" onClick={() => setFormData(p => ({ ...p, gender: g }))}
                             className={`py-3 text-xs font-medium rounded-xl border-2 transition-all capitalize ${
-                              formData.gender === g ? 'border-primary-500 bg-primary-50 dark:bg-primary-950 text-primary-700 dark:text-primary-300' : 'border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-300'
+                              formData.gender === g ? 'border-green-600 bg-green-50 dark:bg-green-950/40 text-green-800 dark:text-green-300 font-semibold' : 'border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-green-200'
                             }`}>{g}</button>
                         ))}
                       </div>
@@ -168,7 +168,7 @@ export default function AISymptomCheckerPage() {
                       {COMMON_DISEASES.map(d => (
                         <button key={d} type="button" onClick={() => toggleDisease(d)}
                           className={`px-3 py-1.5 text-xs font-medium rounded-full border-2 transition-all ${
-                            formData.existingDiseases.includes(d) ? 'border-primary-500 bg-primary-50 dark:bg-primary-950 text-primary-700 dark:text-primary-300' : 'border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-300'
+                            formData.existingDiseases.includes(d) ? 'border-green-600 bg-green-50 dark:bg-green-950/40 text-green-800 dark:text-green-300 font-semibold' : 'border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-green-200'
                           }`}>{d}</button>
                       ))}
                     </div>
@@ -177,12 +177,12 @@ export default function AISymptomCheckerPage() {
                   <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Known Allergies</label>
                     <input type="text" value={formData.allergies} onChange={e => setFormData(p => ({ ...p, allergies: e.target.value }))}
-                      placeholder="e.g. Penicillin, Peanuts (or None)" className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm" />
+                      placeholder="e.g. Penicillin, Peanuts (or None)" className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 text-sm" />
                   </div>
                 </div>
 
                 <button onClick={() => { if (!formData.age || !formData.gender) { toast.error('Please fill in age and gender'); return; } setStep(2); }}
-                  className="w-full mt-6 py-3 bg-gradient-to-r from-primary-600 to-accent-500 text-white font-semibold rounded-xl hover:opacity-90 transition-all flex items-center justify-center gap-2">
+                  className="w-full mt-6 py-3.5 bg-gradient-to-r from-green-600 to-green-800 text-white font-semibold rounded-xl hover:from-green-700 hover:to-green-900 shadow-md shadow-green-900/10 transition-all flex items-center justify-center gap-2">
                   Continue <ChevronRight className="w-4 h-4" />
                 </button>
               </motion.div>
@@ -199,9 +199,9 @@ export default function AISymptomCheckerPage() {
                   <div className="flex gap-2">
                     <input type="text" value={symptomInput} onChange={e => setSymptomInput(e.target.value)}
                       onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); if (symptomInput.trim()) addSymptom(symptomInput.trim()); } }}
-                      placeholder="Type a symptom and press Enter..." className="flex-1 px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm" />
+                      placeholder="Type a symptom and press Enter..." className="flex-1 px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 text-sm" />
                     <button onClick={() => { if (symptomInput.trim()) addSymptom(symptomInput.trim()); }}
-                      className="px-4 py-3 bg-primary-600 text-white rounded-xl hover:bg-primary-700 transition-colors">
+                      className="px-4 py-3 bg-green-600 text-white rounded-xl hover:bg-green-700 transition-colors">
                       <Plus className="w-4 h-4" />
                     </button>
                   </div>
@@ -210,7 +210,7 @@ export default function AISymptomCheckerPage() {
                   {formData.symptoms.length > 0 && (
                     <div className="flex flex-wrap gap-2 mt-3">
                       {formData.symptoms.map(symptom => (
-                        <span key={symptom} className="flex items-center gap-1.5 px-3 py-1.5 bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 rounded-full text-xs font-medium">
+                        <span key={symptom} className="flex items-center gap-1.5 px-3 py-1.5 bg-green-100 dark:bg-green-950/60 text-green-800 dark:text-green-300 border border-green-200 dark:border-green-800 rounded-full text-xs font-medium">
                           {symptom}
                           <button onClick={() => removeSymptom(symptom)} className="hover:text-red-500 transition-colors">
                             <X className="w-3 h-3" />
@@ -227,7 +227,7 @@ export default function AISymptomCheckerPage() {
                   <div className="flex flex-wrap gap-1.5">
                     {COMMON_SYMPTOMS.filter(s => !formData.symptoms.includes(s)).slice(0, 12).map(s => (
                       <button key={s} onClick={() => addSymptom(s)}
-                        className="px-2.5 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-xs rounded-full hover:bg-primary-100 dark:hover:bg-primary-900 hover:text-primary-700 transition-colors flex items-center gap-1">
+                        className="px-2.5 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-xs rounded-full hover:bg-green-50 dark:hover:bg-green-950/50 hover:text-green-700 hover:border-green-300 transition-colors flex items-center gap-1">
                         <Plus className="w-3 h-3" /> {s}
                       </button>
                     ))}
@@ -239,7 +239,7 @@ export default function AISymptomCheckerPage() {
                     <ChevronLeft className="w-4 h-4" /> Back
                   </button>
                   <button onClick={() => { if (formData.symptoms.length === 0) { toast.error('Add at least one symptom'); return; } setStep(3); }}
-                    className="flex-1 py-3 bg-gradient-to-r from-primary-600 to-accent-500 text-white font-semibold rounded-xl hover:opacity-90 transition-all flex items-center justify-center gap-2">
+                    className="flex-1 py-3.5 bg-gradient-to-r from-green-600 to-green-800 text-white font-semibold rounded-xl hover:from-green-700 hover:to-green-900 shadow-md shadow-green-900/10 transition-all flex items-center justify-center gap-2">
                     Continue <ChevronRight className="w-4 h-4" />
                   </button>
                 </div>
@@ -257,7 +257,7 @@ export default function AISymptomCheckerPage() {
                       {['1-2 days', '3-7 days', '1-2 weeks', '3-4 weeks', '1-3 months', '3+ months'].map(d => (
                         <button key={d} type="button" onClick={() => setFormData(p => ({ ...p, duration: d }))}
                           className={`py-2 text-xs font-medium rounded-xl border-2 transition-all ${
-                            formData.duration === d ? 'border-primary-500 bg-primary-50 dark:bg-primary-950 text-primary-700 dark:text-primary-300' : 'border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-300'
+                            formData.duration === d ? 'border-green-600 bg-green-50 dark:bg-green-950/40 text-green-800 dark:text-green-300 font-semibold' : 'border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-green-200'
                           }`}>{d}</button>
                       ))}
                     </div>
@@ -265,12 +265,12 @@ export default function AISymptomCheckerPage() {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Pain/Discomfort Level: <span className="text-primary-600 dark:text-primary-400 font-bold">{formData.painLevel}/10</span>
+                      Pain/Discomfort Level: <span className="text-green-700 dark:text-green-400 font-bold">{formData.painLevel}/10</span>
                     </label>
                     <div className="relative">
                       <input type="range" min="0" max="10" value={formData.painLevel}
                         onChange={e => setFormData(p => ({ ...p, painLevel: parseInt(e.target.value) }))}
-                        className="w-full accent-primary-600" />
+                        className="w-full accent-green-600" />
                       <div className="flex justify-between text-xs text-gray-400 mt-1">
                         <span>No pain</span>
                         <span>Moderate</span>
@@ -278,7 +278,7 @@ export default function AISymptomCheckerPage() {
                       </div>
                     </div>
                     <div className={`mt-2 text-xs font-medium ${
-                      formData.painLevel >= 8 ? 'text-red-500' : formData.painLevel >= 5 ? 'text-amber-500' : 'text-green-500'
+                      formData.painLevel >= 8 ? 'text-red-500' : formData.painLevel >= 5 ? 'text-amber-500' : 'text-green-600'
                     }`}>
                       {formData.painLevel >= 8 ? 'Severe — Consider immediate care' : formData.painLevel >= 5 ? 'Moderate — See a doctor soon' : 'Mild — Monitor symptoms'}
                     </div>
@@ -289,7 +289,7 @@ export default function AISymptomCheckerPage() {
                     <textarea rows={3} value={formData.additionalInfo}
                       onChange={e => setFormData(p => ({ ...p, additionalInfo: e.target.value }))}
                       placeholder="Any other relevant information: recent travel, medications, family history..."
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm resize-none" />
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 text-sm resize-none" />
                   </div>
                 </div>
 
@@ -298,7 +298,7 @@ export default function AISymptomCheckerPage() {
                     <ChevronLeft className="w-4 h-4" /> Back
                   </button>
                   <button onClick={handleAnalyze} disabled={!formData.duration}
-                    className="flex-1 py-3 bg-gradient-to-r from-primary-600 to-accent-500 text-white font-semibold rounded-xl hover:opacity-90 transition-all flex items-center justify-center gap-2 disabled:opacity-60">
+                    className="flex-1 py-3.5 bg-gradient-to-r from-green-600 to-green-800 text-white font-semibold rounded-xl hover:from-green-700 hover:to-green-900 shadow-md shadow-green-900/10 transition-all flex items-center justify-center gap-2 disabled:opacity-60">
                     <Brain className="w-4 h-4" /> Analyze with AI
                   </button>
                 </div>
@@ -313,14 +313,14 @@ export default function AISymptomCheckerPage() {
                     <motion.div
                       animate={{ rotate: 360 }}
                       transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-                      className="w-16 h-16 rounded-full border-4 border-primary-100 dark:border-primary-900 border-t-primary-600 mx-auto mb-6"
+                      className="w-16 h-16 rounded-full border-4 border-green-100 dark:border-green-950 border-t-green-600 mx-auto mb-6"
                     />
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Analyzing Your Symptoms</h3>
                     <p className="text-gray-500 text-sm">Our AI is reviewing your health data...</p>
                     <div className="flex justify-center gap-1 mt-4">
                       {['Checking symptoms', 'Finding specialists', 'Matching doctors'].map((label, i) => (
                         <motion.span key={label} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.8 }}
-                          className="text-xs text-primary-500 bg-primary-50 dark:bg-primary-950 px-3 py-1 rounded-full">
+                          className="text-xs text-green-700 dark:text-green-300 bg-green-50 dark:bg-green-950/40 border border-green-200 dark:border-green-800 px-3 py-1 rounded-full">
                           {label}
                         </motion.span>
                       ))}
@@ -355,9 +355,9 @@ export default function AISymptomCheckerPage() {
 
                     {/* Recommended Specialist */}
                     {result.recommendedSpecialization && (
-                      <div className="bg-primary-50 dark:bg-primary-950/50 border border-primary-200 dark:border-primary-800 rounded-2xl p-4">
-                        <p className="text-xs font-semibold text-primary-600 dark:text-primary-400 uppercase tracking-wider mb-1">Recommended Specialist</p>
-                        <p className="text-xl font-bold text-primary-800 dark:text-primary-200">{result.recommendedSpecialization}</p>
+                      <div className="bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-800 rounded-2xl p-4">
+                        <p className="text-xs font-semibold text-green-700 dark:text-green-400 uppercase tracking-wider mb-1">Recommended Specialist</p>
+                        <p className="text-xl font-bold text-green-900 dark:text-green-100">{result.recommendedSpecialization}</p>
                       </div>
                     )}
 
@@ -375,13 +375,13 @@ export default function AISymptomCheckerPage() {
                         <p className="text-sm font-bold text-gray-900 dark:text-white mb-3">Recommended Doctors</p>
                         <div className="space-y-3">
                           {result.recommendedDoctors.map((doctor, i) => (
-                            <div key={doctor.id} className="flex items-center gap-3 p-4 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700">
-                              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center text-white text-sm font-bold flex-shrink-0">{i + 1}</div>
+                            <div key={doctor.id} className="flex items-center gap-3 p-4 bg-white dark:bg-gray-800 rounded-2xl border border-[#D1FAE5] dark:border-emerald-950/40">
+                              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-green-600 to-green-800 flex items-center justify-center text-white text-sm font-bold flex-shrink-0">{i + 1}</div>
                               <div className="flex-1">
                                 <p className="font-semibold text-gray-900 dark:text-white text-sm">{doctor.user?.name}</p>
                                 <p className="text-xs text-gray-400">{doctor.specialization} • {doctor.experience}y exp • ★ {doctor.rating}</p>
                               </div>
-                              <Link href={`/doctors/${doctor.id}?action=book`} className="px-3 py-2 bg-primary-600 text-white text-xs font-semibold rounded-xl hover:bg-primary-700 transition-colors">
+                              <Link href={`/doctors/${doctor.id}?action=book`} className="px-3 py-2 bg-green-600 text-white text-xs font-semibold rounded-xl hover:bg-green-700 transition-colors">
                                 Book
                               </Link>
                             </div>
@@ -403,7 +403,7 @@ export default function AISymptomCheckerPage() {
                   </div>
                 ) : (
                   <div className="text-center py-10">
-                    <p className="text-gray-500">Analysis failed. <button onClick={() => setStep(3)} className="text-primary-600 underline">Try again</button></p>
+                    <p className="text-gray-500">Analysis failed. <button onClick={() => setStep(3)} className="text-green-600 underline">Try again</button></p>
                   </div>
                 )}
               </motion.div>

@@ -8,13 +8,13 @@ export function Button({
   const base = 'inline-flex items-center justify-center gap-2 font-semibold rounded-xl transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed active:scale-95';
 
   const variants = {
-    primary: 'bg-primary-600 hover:bg-primary-700 text-white shadow-sm hover:shadow-md',
-    secondary: 'bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300',
-    outline: 'border-2 border-primary-600 text-primary-600 hover:bg-primary-50 dark:hover:bg-primary-950',
-    ghost: 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800',
+    primary: 'bg-green-600 hover:bg-green-700 text-white shadow-sm hover:shadow-md',
+    secondary: 'bg-green-50 hover:bg-green-100 dark:bg-gray-800 dark:hover:bg-gray-700 text-green-900 dark:text-green-300 border border-green-200 dark:border-green-800',
+    outline: 'border-2 border-green-600 text-green-600 hover:bg-green-50 dark:hover:bg-green-950',
+    ghost: 'text-gray-600 dark:text-gray-400 hover:bg-green-50 dark:hover:bg-gray-800 hover:text-green-700',
     danger: 'bg-red-600 hover:bg-red-700 text-white',
-    gradient: 'text-white shadow-sm hover:shadow-glow',
-    success: 'bg-emerald-600 hover:bg-emerald-700 text-white',
+    gradient: 'text-white shadow-sm hover:shadow-md',
+    success: 'bg-green-600 hover:bg-green-700 text-white',
   };
 
   const sizes = {
@@ -28,7 +28,7 @@ export function Button({
 
   return (
     <button
-      className={cn(base, variants[variant], sizes[size], variant === 'gradient' && 'bg-gradient-to-r from-primary-600 to-accent-500', className)}
+      className={cn(base, variants[variant], sizes[size], variant === 'gradient' && 'bg-gradient-to-r from-green-600 to-green-800', className)}
       disabled={disabled || loading}
       {...props}
     >

@@ -101,13 +101,13 @@ export default function AIHealthAssistantPage() {
       <div className="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 px-4 py-4">
         <div className="max-w-3xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3.5">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center shadow-glow">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-green-600 to-green-800 flex items-center justify-center shadow-md shadow-green-900/20">
               <Bot className="w-5 h-5 text-white" />
             </div>
             <div>
               <h1 className="font-bold text-gray-900 dark:text-white text-sm">MediConnect AI Assistant</h1>
               <div className="flex items-center gap-1.5 mt-0.5">
-                <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
                 <span className="text-xs text-gray-500">Online • Powered by GPT-4o</span>
               </div>
             </div>
@@ -136,15 +136,15 @@ export default function AIHealthAssistantPage() {
             <motion.div key={message.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
               className={`flex gap-3 ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
               {message.role === 'assistant' && (
-                <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center flex-shrink-0 mt-1">
+                <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-green-600 to-green-800 flex items-center justify-center flex-shrink-0 mt-1 shadow-xs">
                   <Bot className="w-4 h-4 text-white" />
                 </div>
               )}
               <div className={`max-w-[80%] group ${ message.role === 'user' ? 'items-end' : 'items-start'} flex flex-col gap-1`}>
                 <div className={`px-4 py-3 rounded-2xl text-sm leading-relaxed ${
                   message.role === 'user'
-                    ? 'bg-primary-600 text-white rounded-br-sm'
-                    : 'bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border border-gray-100 dark:border-gray-700 rounded-bl-sm shadow-sm'
+                    ? 'bg-green-600 text-white rounded-br-sm shadow-sm'
+                    : 'bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border border-[#D1FAE5] dark:border-emerald-950/40 rounded-bl-sm shadow-xs'
                 }`}>
                   {message.role === 'assistant' ? (
                     <span dangerouslySetInnerHTML={{ __html: formatMessage(message.content) }} />
@@ -152,21 +152,21 @@ export default function AIHealthAssistantPage() {
                   {message.streaming && (
                     <span className="inline-flex gap-1 ml-2">
                       {[0, 1, 2].map(i => (
-                        <motion.span key={i} className="w-1.5 h-1.5 rounded-full bg-gray-400" animate={{ opacity: [0.3, 1, 0.3] }} transition={{ duration: 0.8, delay: i * 0.2, repeat: Infinity }} />
+                        <motion.span key={i} className="w-1.5 h-1.5 rounded-full bg-green-500" animate={{ opacity: [0.3, 1, 0.3] }} transition={{ duration: 0.8, delay: i * 0.2, repeat: Infinity }} />
                       ))}
                     </span>
                   )}
                 </div>
                 {message.role === 'assistant' && message.content && !message.streaming && (
                   <button onClick={() => copyMessage(message.id, message.content)}
-                    className="opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 text-xs text-gray-400 hover:text-gray-600 px-2 py-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
-                    {copiedId === message.id ? <><CheckCheck className="w-3 h-3 text-green-500" /> Copied</> : <><Copy className="w-3 h-3" /> Copy</>}
+                    className="opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 text-xs text-gray-400 hover:text-green-700 px-2 py-1 rounded-lg hover:bg-green-50 dark:hover:bg-green-950/30">
+                    {copiedId === message.id ? <><CheckCheck className="w-3 h-3 text-green-600" /> Copied</> : <><Copy className="w-3 h-3" /> Copy</>}
                   </button>
                 )}
               </div>
               {message.role === 'user' && (
-                <div className="w-8 h-8 rounded-xl bg-gray-200 dark:bg-gray-700 flex items-center justify-center flex-shrink-0 mt-1">
-                  <User className="w-4 h-4 text-gray-500" />
+                <div className="w-8 h-8 rounded-xl bg-green-100 dark:bg-green-950/50 flex items-center justify-center flex-shrink-0 mt-1">
+                  <User className="w-4 h-4 text-green-800 dark:text-green-300" />
                 </div>
               )}
             </motion.div>
@@ -183,8 +183,8 @@ export default function AIHealthAssistantPage() {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
               {QUICK_ACTIONS.map(({ icon: Icon, label, prompt }) => (
                 <button key={label} onClick={() => sendMessage(prompt)}
-                  className="flex items-center gap-2 p-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 hover:border-primary-300 dark:hover:border-primary-700 hover:bg-primary-50 dark:hover:bg-primary-950/50 transition-all text-sm text-gray-700 dark:text-gray-300 hover:text-primary-700">
-                  <Icon className="w-4 h-4 flex-shrink-0" />
+                  className="flex items-center gap-2 p-3 rounded-xl bg-white dark:bg-gray-800 border border-[#D1FAE5] dark:border-emerald-950/40 hover:border-green-300 dark:hover:border-green-700 hover:bg-green-50 dark:hover:bg-green-950/50 transition-all text-sm text-gray-700 dark:text-gray-300 hover:text-green-800">
+                  <Icon className="w-4 h-4 flex-shrink-0 text-green-600 dark:text-green-400" />
                   <span className="text-xs font-medium">{label}</span>
                 </button>
               ))}
@@ -206,19 +206,19 @@ export default function AIHealthAssistantPage() {
                 placeholder="Ask me anything about your health... (Press Enter to send)"
                 rows={1}
                 disabled={isStreaming}
-                className="w-full px-4 py-3 pr-12 rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm resize-none max-h-32 disabled:opacity-60"
+                className="w-full px-4 py-3 pr-12 rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 text-sm resize-none max-h-32 disabled:opacity-60"
               />
             </div>
             <button
               onClick={() => sendMessage(input)}
               disabled={!input.trim() || isStreaming}
-              className="p-3.5 bg-gradient-to-r from-primary-600 to-accent-500 text-white rounded-2xl hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
+              className="p-3.5 bg-gradient-to-r from-green-600 to-green-800 text-white rounded-2xl hover:from-green-700 hover:to-green-900 transition-all shadow-md shadow-green-900/10 disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
             >
               {isStreaming ? <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }} className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full" /> : <Send className="w-5 h-5" />}
             </button>
           </div>
           <p className="text-xs text-gray-400 text-center mt-2">
-            <Sparkles className="w-3 h-3 inline mr-1" /> AI responses are for informational purposes only. Not medical advice.
+            <Sparkles className="w-3 h-3 inline mr-1 text-green-600 dark:text-green-400" /> AI responses are for informational purposes only. Not medical advice.
           </p>
         </div>
       </div>

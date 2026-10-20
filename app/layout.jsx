@@ -5,6 +5,7 @@ import { AuthProvider } from '@/components/providers/AuthProvider';
 import { QueryProvider } from '@/components/providers/QueryProvider';
 import { Toaster } from 'react-hot-toast';
 import { auth } from '@/lib/auth';
+import { RouteProgressBar } from '@/components/ui/RouteProgressBar';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -43,6 +44,17 @@ export const metadata = {
     description: 'AI-powered doctor appointment platform',
     images: ['/og-image.png'],
   },
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+  },
   robots: { index: true, follow: true },
   manifest: '/manifest.json',
   verification: {
@@ -55,11 +67,14 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning className={`${inter.variable} ${outfit.variable}`}>
       <head>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+        <link rel="alternate icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body className={`${inter.className} antialiased min-h-screen`}>
+        <RouteProgressBar />
         <AuthProvider session={session}>
           <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange={false}>
             <QueryProvider>

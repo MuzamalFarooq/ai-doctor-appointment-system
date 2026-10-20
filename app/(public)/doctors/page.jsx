@@ -60,7 +60,7 @@ export default async function DoctorSpecialtiesPage() {
   return (
     <div className="min-h-screen bg-slate-50 pt-8">
       <section className="mx-auto max-w-7xl px-4 pb-8 pt-6 sm:px-6 lg:px-8">
-        <p className="text-sm font-semibold uppercase tracking-[.16em] text-teal-800">Explore care</p>
+        <p className="text-sm font-semibold uppercase tracking-[.16em] text-green-700">Explore care</p>
         <h1 className="mt-2 font-heading text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">Find a doctor by specialty</h1>
         <p className="mt-3 max-w-2xl text-slate-600">Browse specialties and review provider profiles, consultation fees, and appointment options.</p>
         {demoCatalogVisible && (
@@ -75,7 +75,7 @@ export default async function DoctorSpecialtiesPage() {
             We could not load specialties right now. Please try again later.
           </p>
         ) : specialties.length === 0 ? (
-          <p className="rounded-xl border border-slate-200 bg-white p-8 text-center text-slate-600">
+          <p className="rounded-xl border border-[#D1FAE5] bg-white p-8 text-center text-slate-600">
             No specialties are currently listed.
           </p>
         ) : (
@@ -83,8 +83,8 @@ export default async function DoctorSpecialtiesPage() {
             {specialties.map(specialty => {
               const Icon = specialtyIcons[specialty.name] || Stethoscope;
               return (
-                <article key={specialty.name} className="group rounded-2xl border border-slate-200 bg-white p-5 transition hover:-translate-y-1 hover:border-teal-200 hover:shadow-xl hover:shadow-teal-950/5">
-                  <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-teal-50 text-teal-800 transition group-hover:bg-teal-700 group-hover:text-white">
+                <article key={specialty.name} className="group rounded-2xl border border-[#D1FAE5] bg-white p-5 transition hover:-translate-y-1 hover:border-green-300 hover:shadow-lg hover:shadow-green-950/5">
+                  <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#F0FDF4] text-green-700 transition group-hover:bg-green-600 group-hover:text-white">
                     <Icon className="h-6 w-6" aria-hidden="true" />
                   </span>
                   <h2 className="mt-5 text-lg font-semibold text-slate-950">{specialty.name}</h2>
@@ -93,7 +93,7 @@ export default async function DoctorSpecialtiesPage() {
                     <span className="text-xs font-medium text-slate-500">
                       {specialty.doctorCount} {specialty.doctorCount === 1 ? 'doctor' : 'doctors'}
                     </span>
-                    <Link href={`/doctors/search?spec=${encodeURIComponent(specialty.name)}`} className="rounded-lg px-3 py-2 text-sm font-semibold text-teal-800 hover:bg-teal-50">
+                    <Link href={`/doctors/search?spec=${encodeURIComponent(specialty.name)}`} className="rounded-lg px-3 py-2 text-sm font-semibold text-green-700 hover:bg-[#F0FDF4] transition-colors">
                       View doctors
                     </Link>
                   </div>

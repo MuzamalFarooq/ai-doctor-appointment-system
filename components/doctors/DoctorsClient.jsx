@@ -76,10 +76,10 @@ export function DoctorsClient({ initialData }) {
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
                 placeholder="Search by name, specialization, hospital..."
-                className="w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
+                className="w-full pl-11 pr-4 py-3 rounded-xl border border-[#D1FAE5] dark:border-emerald-900/60 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm shadow-xs"
               />
             </div>
-            <button type="submit" className="px-6 py-3 bg-primary-600 text-white font-semibold rounded-xl hover:bg-primary-700 transition-colors text-sm">Search</button>
+            <button type="submit" className="px-6 py-3 bg-green-600 text-white font-semibold rounded-xl hover:bg-green-700 shadow-xs transition-colors text-sm">Search</button>
           </form>
         </div>
       </div>
@@ -88,11 +88,11 @@ export function DoctorsClient({ initialData }) {
         <div className="flex gap-8">
           {/* Sidebar */}
           <aside className="hidden lg:block w-64 flex-shrink-0">
-            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-5 sticky top-24">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-[#D1FAE5] dark:border-emerald-900/40 p-5 sticky top-24 shadow-xs">
               <div className="flex items-center justify-between mb-5">
                 <h3 className="font-bold text-gray-900 dark:text-white">Filters</h3>
                 {activeFiltersCount > 0 && (
-                  <button onClick={clearFilters} className="text-xs text-red-500 hover:text-red-600 flex items-center gap-1">
+                  <button onClick={clearFilters} className="text-xs text-red-500 hover:text-red-600 flex items-center gap-1 font-medium">
                     <X className="w-3 h-3" /> Clear ({activeFiltersCount})
                   </button>
                 )}
@@ -102,7 +102,7 @@ export function DoctorsClient({ initialData }) {
               <div className="mb-5">
                 <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Sort By</label>
                 <select value={filters.sort} onChange={e => handleFilterChange('sort', e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500">
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500">
                   <option value="rating">Top Rated</option>
                   <option value="experience">Most Experienced</option>
                   <option value="fee_asc">Fee: Low to High</option>
@@ -117,7 +117,7 @@ export function DoctorsClient({ initialData }) {
                   {specialties.map(specialty => (
                     <button key={specialty.name} onClick={() => handleFilterChange('spec', filters.spec === specialty.name ? '' : specialty.name)}
                       className={`w-full text-left px-3 py-2 rounded-lg text-xs font-medium transition-colors ${
-                        filters.spec === specialty.name ? 'bg-primary-50 dark:bg-primary-950 text-primary-700 dark:text-primary-300' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'
+                        filters.spec === specialty.name ? 'bg-green-50 dark:bg-green-950/80 text-green-800 dark:text-green-300 font-semibold border border-green-200/60 dark:border-green-800/60' : 'text-gray-600 dark:text-gray-400 hover:bg-green-50/50 dark:hover:bg-gray-700 hover:text-green-800'
                       }`}>
                       {specialty.name}
                     </button>
@@ -129,7 +129,7 @@ export function DoctorsClient({ initialData }) {
               <div className="mb-5">
                 <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">City</label>
                 <select value={filters.city} onChange={e => handleFilterChange('city', e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500">
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500">
                   <option value="">All Cities</option>
                   {CITIES.map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
@@ -142,7 +142,7 @@ export function DoctorsClient({ initialData }) {
                   {['', 'male', 'female'].map(g => (
                     <button key={g} onClick={() => handleFilterChange('gender', g)}
                       className={`flex-1 py-2 text-xs font-medium rounded-lg transition-colors border ${
-                        filters.gender === g ? 'border-primary-400 bg-primary-50 dark:bg-primary-950 text-primary-700' : 'border-gray-200 dark:border-gray-700 text-gray-500 hover:bg-gray-50'
+                        filters.gender === g ? 'border-green-600 bg-green-50 dark:bg-green-950/80 text-green-800 dark:text-green-300 font-semibold' : 'border-gray-200 dark:border-gray-700 text-gray-500 hover:bg-green-50/50'
                       }`}>
                       {g === '' ? 'Any' : g.charAt(0).toUpperCase() + g.slice(1)}
                     </button>
@@ -155,7 +155,7 @@ export function DoctorsClient({ initialData }) {
                 <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Min Rating: {filters.minRating}★</label>
                 <input type="range" min="0" max="5" step="0.5" value={filters.minRating}
                   onChange={e => handleFilterChange('minRating', e.target.value)}
-                  className="w-full accent-primary-600" />
+                  className="w-full accent-green-600" />
               </div>
 
               {/* Max Fee */}
@@ -165,7 +165,7 @@ export function DoctorsClient({ initialData }) {
                 </label>
                 <input type="range" min="0" max="9500" step="500" value={filters.minFee}
                   onChange={e => handleFilterChange('minFee', e.target.value)}
-                  className="w-full accent-primary-600" />
+                  className="w-full accent-green-600" />
               </div>
 
               <div className="mb-5">
@@ -174,7 +174,7 @@ export function DoctorsClient({ initialData }) {
                 </label>
                 <input type="range" min="500" max="10000" step="500" value={Math.min(parseInt(filters.maxFee), 10000)}
                   onChange={e => handleFilterChange('maxFee', e.target.value)}
-                  className="w-full accent-primary-600" />
+                  className="w-full accent-green-600" />
               </div>
 
               <label className="mb-5 flex items-center gap-2 text-xs font-semibold text-gray-600 dark:text-gray-300">
@@ -182,7 +182,7 @@ export function DoctorsClient({ initialData }) {
                   type="checkbox"
                   checked={filters.available === 'true'}
                   onChange={e => handleFilterChange('available', e.target.checked ? 'true' : '')}
-                  className="h-4 w-4 rounded border-gray-300 accent-primary-600"
+                  className="h-4 w-4 rounded border-gray-300 accent-green-600"
                 />
                 Has listed availability
               </label>
@@ -192,7 +192,7 @@ export function DoctorsClient({ initialData }) {
                 <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Min Experience: {filters.minExp}y+</label>
                 <input type="range" min="0" max="30" step="1" value={filters.minExp}
                   onChange={e => handleFilterChange('minExp', e.target.value)}
-                  className="w-full accent-primary-600" />
+                  className="w-full accent-green-600" />
               </div>
             </div>
           </aside>
@@ -206,10 +206,10 @@ export function DoctorsClient({ initialData }) {
                 <span className="font-semibold text-gray-900 dark:text-white">{total}</span> doctors
               </p>
               <div className="flex items-center gap-2">
-                <button onClick={() => setViewMode('grid')} className={`p-2 rounded-lg transition-colors ${viewMode === 'grid' ? 'bg-primary-100 dark:bg-primary-900 text-primary-600' : 'text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'}`}>
+                <button onClick={() => setViewMode('grid')} className={`p-2 rounded-lg transition-colors ${viewMode === 'grid' ? 'bg-green-100 dark:bg-green-950 text-green-700 dark:text-green-300 border border-green-200 dark:border-green-800' : 'text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'}`}>
                   <Grid className="w-4 h-4" />
                 </button>
-                <button onClick={() => setViewMode('list')} className={`p-2 rounded-lg transition-colors ${viewMode === 'list' ? 'bg-primary-100 dark:bg-primary-900 text-primary-600' : 'text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'}`}>
+                <button onClick={() => setViewMode('list')} className={`p-2 rounded-lg transition-colors ${viewMode === 'list' ? 'bg-green-100 dark:bg-green-950 text-green-700 dark:text-green-300 border border-green-200 dark:border-green-800' : 'text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'}`}>
                   <List className="w-4 h-4" />
                 </button>
               </div>
@@ -217,11 +217,11 @@ export function DoctorsClient({ initialData }) {
 
             {/* Doctor Grid */}
             {doctors.length === 0 ? (
-              <div className="text-center py-20">
+              <div className="text-center py-20 bg-white dark:bg-gray-800 rounded-3xl border border-[#D1FAE5] dark:border-emerald-900/40 p-8 shadow-xs">
                 <div className="text-5xl mb-4">🔍</div>
                 <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">No doctors found</h3>
                 <p className="text-gray-500 text-sm mb-4">Try adjusting your search filters</p>
-                <button onClick={clearFilters} className="px-4 py-2 bg-primary-600 text-white rounded-xl text-sm font-medium hover:bg-primary-700">Clear Filters</button>
+                <button onClick={clearFilters} className="px-5 py-2.5 bg-green-600 text-white rounded-xl text-sm font-semibold hover:bg-green-700 shadow-xs transition-colors">Clear Filters</button>
               </div>
             ) : (
               <div className={viewMode === 'grid' ? 'grid sm:grid-cols-2 xl:grid-cols-3 gap-5' : 'space-y-4'}>
@@ -239,8 +239,8 @@ export function DoctorsClient({ initialData }) {
                     else params.set('page', String(p));
                     router.push(`${pathname}?${params.toString()}`);
                   }}
-                    className={`w-9 h-9 rounded-xl text-sm font-medium transition-colors ${
-                      p === page ? 'bg-primary-600 text-white' : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-700 hover:bg-gray-50'
+                    className={`w-9 h-9 rounded-xl text-sm font-semibold transition-colors ${
+                      p === page ? 'bg-green-600 text-white shadow-xs' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-[#D1FAE5] dark:border-emerald-900/40 hover:bg-green-50'
                     }`}>
                     {p}
                   </button>

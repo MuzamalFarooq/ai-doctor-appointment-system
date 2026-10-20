@@ -135,11 +135,11 @@ export function Navbar() {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 flex-shrink-0">
-            <div className={cn('w-9 h-9 rounded-xl flex items-center justify-center', isHomePage ? 'bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg shadow-emerald-900/20' : 'bg-gradient-to-br from-primary-500 to-accent-500 shadow-glow')}>
+            <div className={cn('w-9 h-9 rounded-xl flex items-center justify-center bg-gradient-to-br from-green-600 to-green-700 shadow-md shadow-green-900/20')}>
               <Stethoscope className="w-5 h-5 text-white" />
             </div>
             <span className={cn('font-heading font-bold text-xl', homeHero ? 'text-white' : 'text-gray-900 dark:text-white')}>
-              Medi<span className={isHomePage ? (homeHero ? 'text-emerald-300' : 'text-emerald-700 dark:text-emerald-400') : 'gradient-text'}>Connect</span>
+              Medi<span className={homeHero ? 'text-green-300' : 'text-green-600 dark:text-green-400'}>Connect</span>
             </span>
           </Link>
 
@@ -152,12 +152,12 @@ export function Navbar() {
                 className={cn(
                   'px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200',
                   pathname === link.href || pathname.startsWith(link.href + '/')
-                    ? isHomePage
-                      ? homeHero ? 'bg-white/10 text-white' : 'bg-emerald-50 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300'
-                      : 'bg-primary-50 dark:bg-primary-950 text-primary-700 dark:text-primary-300'
+                    ? homeHero
+                      ? 'bg-white/10 text-white'
+                      : 'bg-green-50 dark:bg-green-950/80 text-green-800 dark:text-green-300 border border-green-200/60 dark:border-green-800/40'
                     : homeHero
                       ? 'text-white/85 hover:text-white hover:bg-white/10'
-                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800'
+                      : 'text-gray-600 dark:text-gray-400 hover:text-green-800 dark:hover:text-white hover:bg-green-50/60 dark:hover:bg-gray-800'
                 )}
               >
                 {link.label}
@@ -194,13 +194,13 @@ export function Navbar() {
               <div className="hidden sm:flex items-center gap-3 sm:gap-4">
                 <Link
                   href="/login"
-                  className={cn('px-4 py-2 text-sm font-medium transition-colors', homeHero ? 'text-white/90 hover:text-white' : isHomePage ? 'text-gray-700 dark:text-gray-300 hover:text-emerald-700 dark:hover:text-emerald-400' : 'text-gray-700 dark:text-gray-300 hover:text-primary-600')}
+                  className={cn('px-4 py-2 text-sm font-medium transition-colors', homeHero ? 'text-white/90 hover:text-white' : 'text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400')}
                 >
                   Sign In
                 </Link>
                 <Link
                   href="/register"
-                  className={cn('px-5 py-2.5 text-white text-sm font-semibold rounded-xl hover:opacity-90 transition-all', isHomePage ? 'bg-gradient-to-r from-emerald-600 to-teal-600 hover:shadow-lg hover:shadow-emerald-900/20' : 'bg-gradient-to-r from-primary-600 to-accent-500 hover:shadow-glow')}
+                  className="px-5 py-2.5 text-white text-sm font-semibold rounded-xl bg-gradient-to-r from-green-600 to-green-700 hover:bg-green-700 shadow-md shadow-green-900/15 hover:shadow-lg transition-all"
                 >
                   Get Started
                 </Link>
@@ -235,8 +235,8 @@ export function Navbar() {
                   className={cn(
                     'block px-4 py-3 rounded-xl text-sm font-medium transition-colors',
                     pathname === link.href
-                      ? isHomePage ? 'bg-emerald-50 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300' : 'bg-primary-50 dark:bg-primary-950 text-primary-700 dark:text-primary-300'
-                      : isHomePage ? 'text-gray-600 dark:text-gray-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/50' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800'
+                      ? 'bg-green-50 dark:bg-green-950 text-green-800 dark:text-green-300'
+                      : 'text-gray-600 dark:text-gray-400 hover:bg-green-50 dark:hover:bg-green-950/50 hover:text-green-700'
                   )}
                 >
                   {link.label}
@@ -244,8 +244,8 @@ export function Navbar() {
               ))}
               {!session && (
                 <div className="pt-4 mt-2 border-t border-gray-100 dark:border-gray-800 flex gap-4">
-                  <Link href="/login" className={cn('flex-1 py-3 text-center text-sm font-medium border-2 rounded-xl transition-colors', isHomePage ? 'border-emerald-200 dark:border-emerald-800 text-gray-700 dark:text-gray-300 hover:bg-emerald-50 dark:hover:bg-emerald-950/50' : 'border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50')}>Sign In</Link>
-                  <Link href="/register" className={cn('flex-1 py-3 text-center text-sm font-semibold text-white rounded-xl', isHomePage ? 'bg-gradient-to-r from-emerald-600 to-teal-600' : 'bg-gradient-to-r from-primary-600 to-accent-500')}>Get Started</Link>
+                  <Link href="/login" className="flex-1 py-3 text-center text-sm font-medium border-2 border-green-200 dark:border-green-800 text-gray-700 dark:text-gray-300 hover:bg-green-50 rounded-xl transition-colors">Sign In</Link>
+                  <Link href="/register" className="flex-1 py-3 text-center text-sm font-semibold text-white rounded-xl bg-gradient-to-r from-green-600 to-green-700">Get Started</Link>
                 </div>
               )}
             </div>

@@ -8,6 +8,7 @@ import { signIn } from 'next-auth/react';
 import { Eye, EyeOff, Mail, Lock, LogIn } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { loginSchema } from '@/lib/validators';
+import { MediConnectLoader } from '@/components/ui/MediConnectLoader';
 
 function LoginForm() {
   const router = useRouter();
@@ -167,7 +168,7 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={<div className="text-center py-10 text-gray-400 text-sm">Loading...</div>}>
+    <Suspense fallback={<MediConnectLoader variant="compact" text="Loading sign in..." className="bg-transparent border-none shadow-none text-white py-8" />}>
       <LoginForm />
     </Suspense>
   );

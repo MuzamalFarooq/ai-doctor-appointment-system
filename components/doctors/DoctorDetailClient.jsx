@@ -33,11 +33,11 @@ export function DoctorDetailClient({ doctor, similarDoctors }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Breadcrumb */}
         <nav className="flex items-center text-sm text-gray-500 mb-6">
-          <Link href="/healthcare" className="hover:text-primary-600">Home</Link>
+          <Link href="/healthcare" className="hover:text-green-700 transition-colors">Home</Link>
           <ChevronRight className="w-4 h-4 mx-2" />
-          <Link href="/doctors" className="hover:text-primary-600">Doctors</Link>
+          <Link href="/doctors" className="hover:text-green-700 transition-colors">Doctors</Link>
           <ChevronRight className="w-4 h-4 mx-2" />
-          <span className="text-gray-900 dark:text-gray-100">{name}</span>
+          <span className="text-gray-900 dark:text-gray-100 font-medium">{name}</span>
         </nav>
 
         <div className="flex flex-col lg:flex-row gap-8">
@@ -49,9 +49,9 @@ export function DoctorDetailClient({ doctor, similarDoctors }) {
               </div>
             )}
             {/* Hero Profile */}
-            <div className="bg-white dark:bg-gray-900 rounded-3xl p-6 md:p-8 border border-gray-100 dark:border-gray-800 mb-8">
+            <div className="bg-white dark:bg-gray-900 rounded-3xl p-6 md:p-8 border border-[#D1FAE5] dark:border-emerald-900/40 mb-8 shadow-xs">
               <div className="flex flex-col md:flex-row gap-6 items-start">
-                <div className="w-32 h-32 md:w-40 md:h-40 rounded-3xl bg-primary-100 dark:bg-primary-900 flex-shrink-0 flex items-center justify-center text-6xl shadow-sm border border-primary-200 dark:border-primary-800 overflow-hidden">
+                <div className="w-32 h-32 md:w-40 md:h-40 rounded-3xl bg-green-50 dark:bg-green-950/80 flex-shrink-0 flex items-center justify-center text-6xl shadow-xs border border-green-200 dark:border-green-800 overflow-hidden">
                   {image ? (
                     <img src={image} alt={name} className="w-full h-full object-cover" />
                   ) : (
@@ -63,18 +63,18 @@ export function DoctorDetailClient({ doctor, similarDoctors }) {
                   <div className="flex justify-between items-start">
                     <div>
                       <div className="flex items-center gap-3 mb-2">
-                        <h1 className="text-2xl md:text-3xl font-black text-gray-900 dark:text-white">{name}</h1>
-                        {doctor.isVerified && !doctor.demoData && <CheckCircle className="w-6 h-6 text-blue-500" />}
+                        <h1 className="text-2xl md:text-3xl font-black text-gray-900 dark:text-white font-heading">{name}</h1>
+                        {doctor.isVerified && !doctor.demoData && <CheckCircle className="w-6 h-6 text-green-600" />}
                       </div>
-                      <p className="text-lg text-primary-600 dark:text-primary-400 font-medium mb-1">{doctor.specialization}</p>
+                      <p className="text-lg text-green-700 dark:text-green-400 font-semibold mb-1">{doctor.specialization}</p>
                       <p className="text-gray-500 dark:text-gray-400 mb-4">{doctor.degree?.length ? doctor.degree.join(', ') : 'Qualifications not provided'}</p>
                     </div>
                     
                     <div className="flex gap-2">
-                      <button onClick={handleShare} className="p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                      <button onClick={handleShare} className="p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-green-50 dark:hover:bg-gray-800 transition-colors">
                         <Share2 className="w-5 h-5" />
                       </button>
-                      <button onClick={handleFavorite} className={`p-2.5 rounded-xl border transition-colors ${isFavorite ? 'border-red-200 bg-red-50 text-red-500' : 'border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'}`}>
+                      <button onClick={handleFavorite} className={`p-2.5 rounded-xl border transition-colors ${isFavorite ? 'border-red-200 bg-red-50 text-red-500' : 'border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-green-50 dark:hover:bg-gray-800'}`}>
                         <Heart className={`w-5 h-5 ${isFavorite ? 'fill-current' : ''}`} />
                       </button>
                     </div>
@@ -83,11 +83,11 @@ export function DoctorDetailClient({ doctor, similarDoctors }) {
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 py-4 border-y border-gray-100 dark:border-gray-800 mb-4">
                     <div>
                       <p className="text-xs text-gray-500 uppercase font-semibold mb-1">Experience</p>
-                      <p className="font-bold text-gray-900 dark:text-white flex items-center gap-1.5"><Clock className="w-4 h-4 text-primary-500" /> {doctor.experience}+ Years</p>
+                      <p className="font-bold text-gray-900 dark:text-white flex items-center gap-1.5"><Clock className="w-4 h-4 text-green-600" /> {doctor.experience}+ Years</p>
                     </div>
                     <div>
                       <p className="text-xs text-gray-500 uppercase font-semibold mb-1">Location</p>
-                      <p className="font-bold text-gray-900 dark:text-white flex items-center gap-1.5"><MapPin className="w-4 h-4 text-primary-500" /> {doctor.city}</p>
+                      <p className="font-bold text-gray-900 dark:text-white flex items-center gap-1.5"><MapPin className="w-4 h-4 text-green-600" /> {doctor.city}</p>
                     </div>
                     <div>
                       <p className="text-xs text-gray-500 uppercase font-semibold mb-1">Reviews</p>
@@ -115,12 +115,12 @@ export function DoctorDetailClient({ doctor, similarDoctors }) {
             </div>
 
             {/* Tabs */}
-            <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 overflow-hidden mb-8">
+            <div className="bg-white dark:bg-gray-900 rounded-2xl border border-[#D1FAE5] dark:border-emerald-900/40 overflow-hidden mb-8 shadow-xs">
               <div className="flex border-b border-gray-100 dark:border-gray-800 overflow-x-auto">
                 {['overview', 'education', 'reviews'].map(tab => (
                   <button key={tab} onClick={() => setActiveTab(tab)}
                     className={`px-6 py-4 text-sm font-semibold whitespace-nowrap transition-colors border-b-2 ${
-                      activeTab === tab ? 'border-primary-600 text-primary-600' : 'border-transparent text-gray-500 hover:text-gray-900 dark:hover:text-white'
+                      activeTab === tab ? 'border-green-600 text-green-700 dark:text-green-400 font-bold' : 'border-transparent text-gray-500 hover:text-green-700 dark:hover:text-white'
                     }`}>
                     {tab.charAt(0).toUpperCase() + tab.slice(1)}
                   </button>

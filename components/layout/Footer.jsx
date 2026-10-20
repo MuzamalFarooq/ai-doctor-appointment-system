@@ -82,7 +82,7 @@ export function Footer() {
           <div className="public-footer-card sm:col-span-2 md:col-span-3 lg:col-span-2 p-6 sm:p-8 rounded-3xl bg-gray-900/40 border border-gray-800/60 backdrop-blur-sm flex flex-col justify-between shadow-lg">
             <div>
               <Link href="/" className="inline-flex items-center gap-3 mb-6">
-                <div className="public-footer-logo-icon w-10 h-10 rounded-xl bg-linear-to-br from-primary-500 to-accent-500 flex items-center justify-center shadow-lg shadow-primary-500/20">
+                <div className="public-footer-logo-icon w-10 h-10 rounded-xl bg-gradient-to-br from-green-600 to-green-700 flex items-center justify-center shadow-lg shadow-green-900/30">
                   <Stethoscope className="w-5 h-5 text-white" />
                 </div>
                 <span className="font-heading font-bold text-xl text-white tracking-tight">MediConnect AI</span>
@@ -93,15 +93,15 @@ export function Footer() {
               {/* Contact Info Box */}
               <div className="public-footer-contact space-y-3.5 text-sm mb-6 bg-gray-950/60 p-4 rounded-2xl border border-gray-800/40">
                 <div className="flex items-center gap-3.5 text-gray-400 hover:text-gray-300 transition-colors">
-                  <MapPin className="public-footer-contact-icon w-4 h-4 text-primary-400 shrink-0" />
+                  <MapPin className="public-footer-contact-icon w-4 h-4 text-green-400 shrink-0" />
                   <span>Blue Area, Islamabad, Pakistan</span>
                 </div>
                 <div className="flex items-center gap-3.5 text-gray-400 hover:text-gray-300 transition-colors">
-                  <Phone className="public-footer-contact-icon w-4 h-4 text-primary-400 shrink-0" />
+                  <Phone className="public-footer-contact-icon w-4 h-4 text-green-400 shrink-0" />
                   <span>+92 306 7774327</span>
                 </div>
                 <div className="flex items-center gap-3.5 text-gray-400 hover:text-gray-300 transition-colors">
-                  <Mail className="public-footer-contact-icon w-4 h-4 text-primary-400 shrink-0" />
+                  <Mail className="public-footer-contact-icon w-4 h-4 text-green-400 shrink-0" />
                   <span>muzamalfarooq111@gmail.com</span>
                 </div>
               </div>
@@ -113,7 +113,7 @@ export function Footer() {
                   key={label}
                   href={href}
                   aria-label={label}
-                  className="public-footer-social w-10 h-10 rounded-xl bg-gray-900 border border-gray-800 flex items-center justify-center text-gray-400 hover:bg-primary-600 hover:border-primary-500 hover:text-white transition-all duration-200"
+                  className="public-footer-social w-10 h-10 rounded-xl bg-gray-900 border border-gray-800 flex items-center justify-center text-gray-400 hover:bg-green-600 hover:border-green-500 hover:text-white transition-all duration-200"
                 >
                   <Icon className="w-4 h-4" />
                 </a>
@@ -133,7 +133,7 @@ export function Footer() {
                     <li key={link.label}>
                       <Link
                         href={link.href}
-                        className="public-footer-link text-gray-400 hover:text-primary-400 text-sm transition-colors duration-200 inline-block"
+                        className="public-footer-link text-gray-400 hover:text-green-400 text-sm transition-colors duration-200 inline-block"
                       >
                         {link.label}
                       </Link>
