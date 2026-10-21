@@ -38,12 +38,15 @@ module.exports = {
         },
         healthcare: {
           primary: '#16A34A',
-          dark: '#166534',
+          dark: '#15803D',
+          deep: '#166534',
           light: '#F0FDF4',
+          surface: '#F7FEF8',
           soft: '#DCFCE7',
           border: '#D1FAE5',
-          text: '#1F2937',
-          secondary: '#6B7280',
+          text: '#172B22',
+          secondary: '#64748B',
+          ring: '#22C55E',
         },
         medical: {
           green: '#16A34A',

@@ -74,12 +74,12 @@ export default function AboutPage() {
       </div>
 
       {/* CTA */}
-      <div className="bg-gradient-to-r from-primary-600 to-accent-500 py-20 md:py-24">
+      <div className="bg-gradient-to-r from-green-700 via-emerald-700 to-green-800 py-20 md:py-24">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
           <h2 className="text-3xl font-black font-heading mb-4">Ready to Transform Your Healthcare?</h2>
           <p className="text-white/80 mb-8 sm:mb-10 text-lg">Join thousands of patients who have already discovered the future of healthcare.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/register" className="px-8 py-4 bg-white text-primary-600 font-bold rounded-2xl hover:bg-gray-50 transition-colors">
+            <Link href="/register" className="px-8 py-4 bg-white text-green-700 font-bold rounded-2xl hover:bg-gray-50 transition-colors shadow-lg shadow-green-900/20">
               Get Started Free
             </Link>
             <Link href="/doctors" className="px-8 py-4 border-2 border-white text-white font-bold rounded-2xl hover:bg-white/10 transition-colors">

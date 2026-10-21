@@ -19,6 +19,16 @@
   --text-primary-dark: #f1f5f9;
   --text-secondary-light: #64748b;
   --text-secondary-dark: #94a3b8;
+  --healthcare-primary: #16A34A;
+  --healthcare-dark: #15803D;
+  --healthcare-deep: #166534;
+  --healthcare-light: #F0FDF4;
+  --healthcare-surface: #F7FEF8;
+  --healthcare-soft: #DCFCE7;
+  --healthcare-border: #D1FAE5;
+  --healthcare-text: #172B22;
+  --healthcare-secondary: #64748B;
+  --healthcare-ring: #22C55E;
 }
 
 * {
