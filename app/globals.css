@@ -3,9 +3,9 @@
 @config "../tailwind.config.js";
 
 :root {
-  --primary: #1d7ceb;
-  --primary-dark: #1564d8;
-  --accent: #cc45f1;
+  --primary: #16A34A;
+  --primary-dark: #15803D;
+  --accent: #14b8a6;
   --medical-green: #10b981;
   --medical-teal: #14b8a6;
   --medical-red: #ef4444;
@@ -62,7 +62,7 @@ body {
 .dark ::-webkit-scrollbar-thumb { background: #475569; }
 
 /* Selection */
-::selection { background: rgba(29, 124, 235, 0.2); }
+::selection { background: rgba(16, 185, 129, 0.2); }
 
 /* Focus */
 *:focus-visible {
@@ -70,82 +70,74 @@ body {
   outline-offset: 2px;
 }
 
-body:has(#public-home) *:focus-visible {
-  outline-color: #059669;
-}
-
-body:has(#public-home) ::selection {
-  background: rgba(16, 185, 129, 0.2);
-}
-
-body:has(#public-home) .public-home-footer {
+.public-home-footer {
   background-color: #022c22;
   border-color: #064e3b;
 }
 
-body:has(#public-home) .public-home-footer .public-footer-divider,
-body:has(#public-home) .public-home-footer .public-footer-bottom {
+.public-home-footer .public-footer-divider,
+.public-home-footer .public-footer-bottom {
   border-color: rgba(6, 78, 59, 0.8);
 }
 
-body:has(#public-home) .public-home-footer .public-footer-newsletter {
+.public-home-footer .public-footer-newsletter {
   background-image: linear-gradient(115deg, rgba(6, 78, 59, 0.9), rgba(17, 94, 89, 0.85));
   border-color: rgba(6, 95, 70, 0.7);
 }
 
-body:has(#public-home) .public-home-footer .public-footer-input:focus {
+.public-home-footer .public-footer-input:focus {
   --tw-ring-color: #34d399;
 }
 
-body:has(#public-home) .public-home-footer .public-footer-button {
+.public-home-footer .public-footer-button {
   background-image: linear-gradient(110deg, #059669, #0d9488);
   box-shadow: 0 8px 24px rgba(6, 78, 59, 0.25);
 }
 
-body:has(#public-home) .public-home-footer .public-footer-card {
+.public-home-footer .public-footer-card {
   background-color: rgba(6, 78, 59, 0.35);
   border-color: rgba(6, 95, 70, 0.55);
 }
 
-body:has(#public-home) .public-home-footer .public-footer-logo-icon {
+.public-home-footer .public-footer-logo-icon {
   background-image: linear-gradient(135deg, #10b981, #0d9488);
   box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2);
 }
 
-body:has(#public-home) .public-home-footer .public-footer-contact {
+.public-home-footer .public-footer-contact {
   background-color: rgba(2, 44, 34, 0.65);
   border-color: rgba(6, 95, 70, 0.45);
 }
 
-body:has(#public-home) .public-home-footer .public-footer-contact-icon {
+.public-home-footer .public-footer-contact-icon {
   color: #6ee7b7;
 }
 
-body:has(#public-home) .public-home-footer .public-footer-social {
+.public-home-footer .public-footer-social {
   background-color: #064e3b;
   border-color: #065f46;
 }
 
-body:has(#public-home) .public-home-footer .public-footer-social:hover {
+.public-home-footer .public-footer-social:hover {
   background-color: #059669;
   border-color: #10b981;
 }
 
-body:has(#public-home) .public-home-footer .public-footer-heading {
+.public-home-footer .public-footer-heading {
   border-color: rgba(6, 95, 70, 0.7);
 }
 
-body:has(#public-home) .public-home-footer .public-footer-link:hover,
-body:has(#public-home) .public-home-footer .public-footer-bottom-link:hover {
+.public-home-footer .public-footer-link:hover,
+.public-home-footer .public-footer-bottom-link:hover {
   color: #6ee7b7;
 }
 
-body:has(#public-home) .public-home-footer .public-footer-app-link {
+.public-home-footer .public-footer-app-link {
   background-color: #064e3b;
   border-color: #065f46;
 }
 
-body:has(#public-home) .public-home-footer .public-footer-app-link:hover {
+.public-home-footer .public-footer-app-link:hover {
   background-color: #065f46;
   border-color: #047857;
 }
@@ -173,7 +165,7 @@ body:has(#public-home) .public-home-footer .public-footer-app-link:hover {
 
 /* Animated Gradient Background */
 .animated-gradient {
-  background: linear-gradient(-45deg, #1d7ceb, #cc45f1, #14b8a6, #1564d8);
+  background: linear-gradient(-45deg, #16A34A, #10b981, #14b8a6, #15803D);
   background-size: 400% 400%;
   animation: gradientShift 15s ease infinite;
 }

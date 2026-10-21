@@ -29,7 +29,7 @@ function PatientSidebarContent({ user, pathname, onNavigate }) {
     <div className="flex flex-col h-full">
       {/* Logo */}
       <div className="flex items-center gap-2 p-6 border-b border-gray-100 dark:border-gray-800">
-        <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center">
+        <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-green-600 to-emerald-600 flex items-center justify-center shadow-sm shadow-green-900/20">
           <Stethoscope className="w-4 h-4 text-white" />
         </div>
         <span className="font-heading font-bold text-gray-900 dark:text-white">MediConnect</span>
@@ -37,7 +37,7 @@ function PatientSidebarContent({ user, pathname, onNavigate }) {
 
       {/* User Info */}
       <div className="p-4 border-b border-gray-100 dark:border-gray-800">
-        <div className="flex items-center gap-3 p-3 rounded-2xl bg-gradient-to-r from-primary-50 to-accent-50 dark:from-primary-950/50 dark:to-accent-950/50">
+        <div className="flex items-center gap-3 p-3 rounded-2xl bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-950/40 dark:to-emerald-950/40 border border-green-100 dark:border-green-900/40">
           <Avatar src={user?.image} name={user?.name} size="md" />
           <div className="flex-1 min-w-0">
             <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">{user?.name}</p>
@@ -54,7 +54,7 @@ function PatientSidebarContent({ user, pathname, onNavigate }) {
             <Link key={href} href={href} onClick={onNavigate}
               className={cn(
                 'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200',
-                highlight && !active && 'bg-gradient-to-r from-primary-600 to-accent-500 text-white hover:opacity-90',
+                highlight && !active && 'bg-gradient-to-r from-green-600 to-emerald-700 text-white shadow-sm shadow-green-900/20 hover:opacity-95',
                 active ? 'bg-primary-50 dark:bg-primary-950/60 text-primary-700 dark:text-primary-300' : !highlight && 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100',
               )}>
               <Icon className={cn('w-4 h-4 flex-shrink-0', active && 'text-primary-600 dark:text-primary-400')} />
@@ -90,7 +90,7 @@ export function PatientSidebar({ user }) {
       {/* Mobile Top Bar */}
       <div className="lg:hidden fixed top-0 inset-x-0 z-30 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center">
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-green-600 to-emerald-600 flex items-center justify-center shadow-sm shadow-green-900/20">
             <Stethoscope className="w-4 h-4 text-white" />
           </div>
           <span className="font-heading font-bold text-gray-900 dark:text-white">MediConnect</span>

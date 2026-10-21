@@ -63,13 +63,13 @@ export default async function DoctorDashboardPage() {
           </h1>
           <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">Here&apos;s your overview for today</p>
         </div>
-        <Link href="/doctor/availability" className="hidden md:flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-primary-600 to-accent-500 text-white font-semibold rounded-xl hover:opacity-90 transition-all text-sm shadow-glow">
+        <Link href="/doctor/availability" className="hidden md:flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-green-600 to-emerald-700 text-white font-semibold rounded-xl hover:opacity-95 transition-all text-sm shadow-md shadow-green-900/20">
           Manage Availability
         </Link>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <StatCard title="Today's Patients" value={todaysAppointments.length} icon={Calendar} color="blue" />
+        <StatCard title="Today's Patients" value={todaysAppointments.length} icon={Calendar} color="green" />
         <StatCard title="Total Patients" value={totalPatients} icon={Users} color="green" change={5} />
         <StatCard title="Total Earnings" value={`PKR ${(doctor?.totalEarnings || 0).toLocaleString()}`} icon={DollarSign} color="purple" />
         <StatCard title="Rating" value={`${(doctor?.rating || 0).toFixed(1)} ★`} icon={Star} color="orange" />

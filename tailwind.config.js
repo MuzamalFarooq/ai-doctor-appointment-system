@@ -11,17 +11,17 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          50:  '#eff8ff',
-          100: '#dbeefe',
-          200: '#bfe3fd',
-          300: '#93d1fd',
-          400: '#60b7fa',
-          500: '#3b99f6',
-          600: '#1d7ceb',
-          700: '#1564d8',
-          800: '#1750af',
-          900: '#194589',
-          950: '#142b54',
+          50:  '#f0fdf4',
+          100: '#dcfce7',
+          200: '#bbf7d0',
+          300: '#86efac',
+          400: '#4ade80',
+          500: '#22c55e',
+          600: '#16a34a',
+          700: '#15803d',
+          800: '#166534',
+          900: '#14532d',
+          950: '#052e16',
         },
         accent: {
           50:  '#fdf4ff',
@@ -65,7 +65,7 @@ module.exports = {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-        'hero-gradient': 'linear-gradient(135deg, #1d7ceb 0%, #cc45f1 50%, #14b8a6 100%)',
+        'hero-gradient': 'linear-gradient(135deg, #16a34a 0%, #15803d 50%, #14b8a6 100%)',
         'card-gradient': 'linear-gradient(145deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)',
       },
       animation: {
@@ -101,7 +101,7 @@ module.exports = {
         },
       },
       boxShadow: {
-        'glow': '0 0 40px rgba(29, 124, 235, 0.35)',
+        'glow': '0 0 40px rgba(22, 163, 74, 0.35)',
         'glow-accent': '0 0 40px rgba(204, 69, 241, 0.35)',
         'card': '0 4px 24px rgba(0,0,0,0.08)',
         'card-dark': '0 4px 24px rgba(0,0,0,0.4)',

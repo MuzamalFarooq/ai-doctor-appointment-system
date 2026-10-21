@@ -32,7 +32,7 @@ export function PrescriptionsClient({ prescriptions }) {
             <div key={rx.id} className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 overflow-hidden">
               <div className="flex items-center justify-between p-5 cursor-pointer" onClick={() => setExpanded(expanded === rx.id ? null : rx.id)}>
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-700 flex items-center justify-center text-white shadow-sm shadow-green-900/20">
                     <FileText className="w-6 h-6" />
                   </div>
                   <div>

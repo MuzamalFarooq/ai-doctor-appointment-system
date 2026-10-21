@@ -264,7 +264,7 @@ export default function BookAppointmentPage() {
               <div className="flex gap-3 mt-6">
                 <button onClick={() => setStep(2)} className="flex items-center gap-1 px-4 py-2.5 border-2 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-semibold rounded-xl hover:bg-gray-50 text-sm"><ChevronLeft className="w-4 h-4" /> Back</button>
                 <button onClick={() => { if (!selectedDate || !selectedSlot) { toast.error('Select date and time'); return; } setStep(4); }}
-                  className="flex-1 py-2.5 bg-gradient-to-r from-primary-600 to-accent-500 text-white font-semibold rounded-xl hover:opacity-90 transition-all flex items-center justify-center gap-2 text-sm">
+                  className="flex-1 py-2.5 bg-gradient-to-r from-green-600 to-emerald-700 text-white font-semibold rounded-xl hover:opacity-95 transition-all flex items-center justify-center gap-2 text-sm shadow-md shadow-green-900/20">
                   Continue <ChevronRight className="w-4 h-4" />
                 </button>
               </div>
@@ -302,7 +302,7 @@ export default function BookAppointmentPage() {
               <div className="flex gap-3 mt-6">
                 <button onClick={() => setStep(3)} className="flex items-center gap-1 px-4 py-2.5 border-2 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-semibold rounded-xl hover:bg-gray-50 text-sm"><ChevronLeft className="w-4 h-4" /> Back</button>
                 <button onClick={() => { if (!reason.trim()) { toast.error('Reason is required'); return; } setStep(5); }}
-                  className="flex-1 py-2.5 bg-gradient-to-r from-primary-600 to-accent-500 text-white font-semibold rounded-xl hover:opacity-90 transition-all flex items-center justify-center gap-2 text-sm">
+                  className="flex-1 py-2.5 bg-gradient-to-r from-green-600 to-emerald-700 text-white font-semibold rounded-xl hover:opacity-95 transition-all flex items-center justify-center gap-2 text-sm shadow-md shadow-green-900/20">
                   Review <ChevronRight className="w-4 h-4" />
                 </button>
               </div>
@@ -313,7 +313,7 @@ export default function BookAppointmentPage() {
           {step === 5 && (
             <motion.div key="step5" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
               <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Confirm Appointment</h2>
-              <div className="bg-gradient-to-br from-primary-50 to-accent-50 dark:from-primary-950/30 dark:to-accent-950/30 rounded-2xl border border-primary-100 dark:border-primary-900 p-5 space-y-4 mb-6">
+              <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/30 dark:to-emerald-950/30 rounded-2xl border border-primary-100 dark:border-primary-900 p-5 space-y-4 mb-6">
                 <div className="flex items-center gap-3">
                   <Avatar src={selectedDoctor?.user?.image} name={selectedDoctor?.user?.name} size="lg" />
                   <div>
@@ -339,7 +339,7 @@ export default function BookAppointmentPage() {
               <div className="flex gap-3">
                 <button onClick={() => setStep(4)} className="flex items-center gap-1 px-4 py-2.5 border-2 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-semibold rounded-xl hover:bg-gray-50 text-sm"><ChevronLeft className="w-4 h-4" /> Back</button>
                 <button onClick={handleSubmit} disabled={submitting}
-                  className="flex-1 py-3 bg-gradient-to-r from-primary-600 to-accent-500 text-white font-bold rounded-xl hover:opacity-90 transition-all flex items-center justify-center gap-2 text-sm disabled:opacity-60">
+                  className="flex-1 py-3 bg-gradient-to-r from-green-600 to-emerald-700 text-white font-bold rounded-xl hover:opacity-95 transition-all flex items-center justify-center gap-2 text-sm disabled:opacity-60 shadow-md shadow-green-900/20">
                   {submitting ? 'Booking...' : '✓ Confirm & Book'}
                 </button>
               </div>

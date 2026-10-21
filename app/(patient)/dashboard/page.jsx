@@ -42,7 +42,7 @@ export default async function PatientDashboardPage() {
   const nextAppointments = upcoming.slice(0, 3);
 
   const quickActions = [
-    { href: '/doctors', icon: Calendar, label: 'Book Appointment', color: 'from-primary-600 to-primary-700', desc: 'Find & book a doctor' },
+    { href: '/doctors', icon: Calendar, label: 'Book Appointment', color: 'from-green-600 to-green-700', desc: 'Find & book a doctor' },
     { href: '/ai-symptom-checker', icon: Brain, label: 'AI Symptom Check', color: 'from-accent-600 to-accent-700', desc: 'Get AI recommendations' },
     { href: '/dashboard/prescriptions', icon: FileText, label: 'Prescriptions', color: 'from-emerald-600 to-teal-600', desc: 'View & download' },
     { href: '/dashboard/medical-history', icon: Activity, label: 'Health Records', color: 'from-orange-600 to-amber-600', desc: 'Medical history' },
@@ -60,14 +60,14 @@ export default async function PatientDashboardPage() {
             {new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
           </p>
         </div>
-        <Link href="/doctors" className="hidden md:flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-primary-600 to-accent-500 text-white font-semibold rounded-xl hover:opacity-90 transition-all text-sm shadow-glow">
+        <Link href="/doctors" className="hidden md:flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-green-600 to-emerald-700 text-white font-semibold rounded-xl hover:opacity-90 transition-all text-sm shadow-md shadow-green-900/20">
           <Plus className="w-4 h-4" /> Book Appointment
         </Link>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8 md:mb-10">
-        <StatCard title="Total Appointments" value={total} icon={Calendar} color="blue" change={12} changeLabel="this month" />
+        <StatCard title="Total Appointments" value={total} icon={Calendar} color="green" change={12} changeLabel="this month" />
         <StatCard title="Upcoming" value={upcoming.length} icon={Clock} color="orange" />
         <StatCard title="Completed" value={completed} icon={CheckCircle} color="green" change={8} />
         <StatCard title="Pending Payments" value={data.pendingPayments} icon={CreditCard} color="purple" />

@@ -89,12 +89,12 @@ export function DoctorAppointmentsClient({ appointments }) {
                   <>
                     {apt.type === 'video' && apt.videoRoomUrl && (
                       <a href={apt.videoRoomUrl} target="_blank" rel="noopener noreferrer"
-                        className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-600 text-white text-xs font-semibold rounded-xl hover:bg-indigo-700">
+                        className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-600 text-white text-xs font-semibold rounded-xl hover:bg-teal-700 transition-colors">
                         <Video className="w-3 h-3" /> Join Video
                       </a>
                     )}
                     <button onClick={() => handleStatus(apt.id, 'COMPLETED')} disabled={!!updating}
-                      className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 text-white text-xs font-semibold rounded-xl hover:bg-blue-700 transition-colors disabled:opacity-60">
+                      className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-600 text-white text-xs font-semibold rounded-xl hover:bg-emerald-700 transition-colors disabled:opacity-60 shadow-sm shadow-green-900/10">
                       <CheckCircle className="w-3 h-3" /> Mark Complete
                     </button>
                   </>

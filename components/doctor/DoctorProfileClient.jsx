@@ -50,13 +50,13 @@ export function DoctorProfileClient({ doctor }) {
   return (
     <div className="max-w-2xl mx-auto">
       {/* Header */}
-      <div className="bg-gradient-to-r from-primary-600 to-accent-500 rounded-3xl p-6 mb-6 text-white relative overflow-hidden">
+      <div className="bg-gradient-to-r from-green-600 to-emerald-700 rounded-3xl p-6 mb-6 text-white relative overflow-hidden shadow-lg shadow-green-900/20">
         <div className="absolute inset-0 bg-black/10" />
         <div className="relative flex items-center gap-4">
           <div className="relative">
             <Avatar src={doctor?.user?.image} name={doctor?.user?.name} size="2xl" className="ring-4 ring-white/30" />
             <button className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-lg">
-              <Camera className="w-4 h-4 text-primary-600" />
+              <Camera className="w-4 h-4 text-green-600" />
             </button>
           </div>
           <div>
@@ -127,7 +127,7 @@ export function DoctorProfileClient({ doctor }) {
           <h2 className="font-semibold text-gray-900 dark:text-white mb-3">Degrees & Qualifications</h2>
           <div className="flex flex-wrap gap-2 mb-3">
             {form.degree.map(deg => (
-              <span key={deg} className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 rounded-full text-xs font-medium">
+              <span key={deg} className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60 rounded-full text-xs font-medium">
                 {deg}
                 <button onClick={() => setForm(p => ({ ...p, degree: p.degree.filter(d => d !== deg) }))} className="hover:text-red-500 transition-colors">×</button>
               </span>
@@ -139,7 +139,7 @@ export function DoctorProfileClient({ doctor }) {
           </div>
         </div>
 
-        <button onClick={handleSave} disabled={loading} className="w-full py-3 bg-gradient-to-r from-primary-600 to-accent-500 text-white font-bold rounded-xl hover:opacity-90 transition-all flex items-center justify-center gap-2 disabled:opacity-60">
+        <button onClick={handleSave} disabled={loading} className="w-full py-3 bg-gradient-to-r from-green-600 to-emerald-700 text-white font-bold rounded-xl hover:opacity-95 transition-all flex items-center justify-center gap-2 disabled:opacity-60 shadow-md shadow-green-900/20">
           <Save className="w-4 h-4" />{loading ? 'Saving...' : 'Save Profile'}
         </button>
       </div>

@@ -1,9 +1,9 @@
 import { cn } from '@/lib/utils';
 import { TrendingUp, TrendingDown } from 'lucide-react';
 
-export function StatCard({ title, value, icon: Icon, change, changeLabel, color = 'blue', className }) {
+export function StatCard({ title, value, icon: Icon, change, changeLabel, color = 'green', className }) {
   const colors = {
-    blue: 'from-blue-500 to-blue-600 shadow-blue-500/30',
+    blue: 'from-emerald-500 to-emerald-600 shadow-emerald-500/30',
     green: 'from-emerald-500 to-emerald-600 shadow-emerald-500/30',
     purple: 'from-purple-500 to-purple-600 shadow-purple-500/30',
     orange: 'from-orange-500 to-orange-600 shadow-orange-500/30',

@@ -29,13 +29,13 @@ function DoctorSidebarContent({ user, pathname, onNavigate }) {
   return (
     <div className="flex flex-col h-full">
       <div className="flex items-center gap-2 p-6 border-b border-gray-100 dark:border-gray-800">
-        <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center">
+        <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-green-600 to-emerald-600 flex items-center justify-center shadow-sm shadow-green-900/20">
           <Stethoscope className="w-4 h-4 text-white" />
         </div>
         <span className="font-heading font-bold text-gray-900 dark:text-white">MediConnect</span>
       </div>
       <div className="p-4 border-b border-gray-100 dark:border-gray-800">
-        <div className="flex items-center gap-3 p-3 rounded-2xl bg-gradient-to-r from-primary-50 to-accent-50 dark:from-primary-950/50 dark:to-accent-950/50">
+        <div className="flex items-center gap-3 p-3 rounded-2xl bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-950/40 dark:to-emerald-950/40 border border-green-100 dark:border-green-900/40">
           <Avatar src={user?.image} name={user?.name} size="md" />
           <div className="flex-1 min-w-0">
             <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">{user?.name}</p>
@@ -78,7 +78,7 @@ export function DoctorSidebar({ user }) {
       </aside>
       <div className="lg:hidden fixed top-0 inset-x-0 z-30 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center"><Stethoscope className="w-4 h-4 text-white" /></div>
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-green-600 to-emerald-600 flex items-center justify-center shadow-sm shadow-green-900/20"><Stethoscope className="w-4 h-4 text-white" /></div>
           <span className="font-heading font-bold text-gray-900 dark:text-white">MediConnect</span>
         </div>
         <button onClick={() => setMobileOpen(true)} className="p-2 rounded-xl text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800"><Menu className="w-5 h-5" /></button>

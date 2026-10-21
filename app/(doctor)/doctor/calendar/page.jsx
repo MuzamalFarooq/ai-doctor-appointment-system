@@ -96,7 +96,7 @@ export default async function DoctorCalendarPage() {
                     <span className="flex items-center gap-1">
                       {apt.type === 'VIDEO' ? (
                         <>
-                          <Video className="w-3.5 h-3.5 text-accent-500" />
+                          <Video className="w-3.5 h-3.5 text-teal-600 dark:text-teal-400" />
                           <span>Video Consultation</span>
                         </>
                       ) : (

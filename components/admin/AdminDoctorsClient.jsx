@@ -87,7 +87,7 @@ export function AdminDoctorsClient({ doctors: initialDoctors }) {
                 <div className="flex-1">
                   <div className="flex items-center gap-2">
                     <p className="font-bold text-gray-900 dark:text-white">{doctor.user?.name}</p>
-                    {doctor.isVerified && <Shield className="w-4 h-4 text-blue-500" />}
+                    {doctor.isVerified && <Shield className="w-4 h-4 text-emerald-500" />}
                   </div>
                   <p className="text-sm text-primary-600 dark:text-primary-400">{doctor.specialization}</p>
                   <p className="text-xs text-gray-400">{doctor.user?.email}</p>

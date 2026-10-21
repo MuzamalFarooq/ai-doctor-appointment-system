@@ -44,9 +44,9 @@ export default function PrivacyPolicyPage() {
         </div>
 
         {/* Highlight Callout: Google User Data & Limited Use */}
-        <div className="mb-12 rounded-2xl bg-blue-50/80 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900/60 p-6 sm:p-8">
+        <div className="mb-12 rounded-2xl bg-emerald-50/80 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/60 p-6 sm:p-8">
           <div className="flex items-start gap-4">
-            <div className="p-3 rounded-xl bg-blue-600 text-white shrink-0 mt-1">
+            <div className="p-3 rounded-xl bg-emerald-600 text-white shrink-0 mt-1">
               <CheckCircle2 className="w-6 h-6" />
             </div>
             <div className="space-y-2">
@@ -59,7 +59,7 @@ export default function PrivacyPolicyPage() {
                   href="https://developers.google.com/terms/api-services-user-data-policy"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-semibold text-blue-600 dark:text-blue-400 underline hover:text-blue-700"
+                  className="font-semibold text-emerald-600 dark:text-emerald-400 underline hover:text-emerald-700"
                 >
                   Google API Services User Data Policy
                 </a>
@@ -114,7 +114,7 @@ export default function PrivacyPolicyPage() {
           {/* 3. Google Sign-In & Google User Data */}
           <section className="space-y-4 rounded-2xl bg-gray-50 dark:bg-gray-900/60 p-6 sm:p-8 border border-gray-200 dark:border-gray-800">
             <h2 className="text-2xl font-bold font-heading text-gray-900 dark:text-white flex items-center gap-3">
-              <span className="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center text-sm font-bold">3</span>
+              <span className="w-8 h-8 rounded-lg bg-primary-100 dark:bg-primary-900/50 text-primary-600 dark:text-primary-400 flex items-center justify-center text-sm font-bold">3</span>
               Google Sign-In & Google User Data
             </h2>
             <p>
@@ -151,7 +151,7 @@ export default function PrivacyPolicyPage() {
                 <li><strong>No Advertising Usage:</strong> We do <strong>NOT</strong> use or disclose Google user data for serving advertisements, personalized ads, retargeting, or interest-based marketing.</li>
                 <li><strong>No Generalized AI Model Training:</strong> Google user data is <strong>NOT</strong> used to train, retrain, or fine-tune generalized machine learning or artificial intelligence models.</li>
                 <li><strong>Restricted Human Access:</strong> Our personnel do not inspect Google user data unless you have provided explicit consent for customer support, it is strictly required to resolve a technical error, or disclosure is required by law.</li>
-                <li><strong>Strict Limited Use:</strong> MediConnect AI&apos;s use and transfer of information received from Google APIs to any other app will adhere to the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 underline">Google API Services User Data Policy</a>, including the Limited Use requirements.</li>
+                <li><strong>Strict Limited Use:</strong> MediConnect AI&apos;s use and transfer of information received from Google APIs to any other app will adhere to the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener noreferrer" className="text-emerald-600 dark:text-emerald-400 underline hover:text-emerald-700">Google API Services User Data Policy</a>, including the Limited Use requirements.</li>
               </ul>
             </div>
           </section>

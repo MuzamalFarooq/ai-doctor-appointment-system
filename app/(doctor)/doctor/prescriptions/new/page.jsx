@@ -42,7 +42,7 @@ function PrescriptionForm() {
           <h1 className="text-2xl font-bold font-heading text-gray-900 dark:text-white">New Prescription</h1>
           <p className="text-gray-500 text-sm mt-1">For: <strong>{patientName}</strong></p>
         </div>
-        <button onClick={handleSave} disabled={loading} className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-primary-600 to-accent-500 text-white font-semibold rounded-xl hover:opacity-90 disabled:opacity-60">
+        <button onClick={handleSave} disabled={loading} className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-green-600 to-emerald-700 text-white font-semibold rounded-xl hover:opacity-95 transition-all disabled:opacity-60 shadow-md shadow-green-900/20">
           <Save className="w-4 h-4" />{loading ? 'Saving...' : 'Save Prescription'}
         </button>
       </div>

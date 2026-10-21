@@ -15,7 +15,7 @@ const STATS = [
 
 const VALUES = [
   { icon: Heart, title: 'Patient-First', desc: 'Every decision we make centers around improving patient outcomes and experience.', color: 'from-red-500 to-rose-600' },
-  { icon: Shield, title: 'Trust & Safety', desc: 'All doctors are verified and credentialed. Your health data is encrypted and private.', color: 'from-blue-500 to-indigo-600' },
+  { icon: Shield, title: 'Trust & Safety', desc: 'All doctors are verified and credentialed. Your health data is encrypted and private.', color: 'from-emerald-500 to-teal-600' },
   { icon: Zap, title: 'Innovation', desc: 'We leverage AI and cutting-edge technology to revolutionize healthcare delivery.', color: 'from-amber-500 to-orange-600' },
   { icon: Globe, title: 'Accessibility', desc: 'Making quality healthcare accessible to everyone across Pakistan, regardless of location.', color: 'from-green-500 to-emerald-600' },
 ];
@@ -24,7 +24,7 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen pt-24 md:pt-28">
       {/* Hero */}
-      <div className="bg-gradient-to-br from-primary-600 via-accent-500 to-teal-500 text-white py-24 md:py-28">
+      <div className="bg-gradient-to-br from-green-800 via-emerald-700 to-teal-800 text-white py-24 md:py-28">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-5xl md:text-6xl font-black font-heading mb-6">
             Healthcare for <span className="text-yellow-300">Everyone</span>

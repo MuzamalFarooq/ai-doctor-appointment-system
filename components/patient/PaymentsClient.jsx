@@ -19,7 +19,7 @@ export function PaymentsClient({ payments }) {
       <div className="grid grid-cols-3 gap-4 mb-6">
         {[{ label: 'Total Paid', value: `PKR ${total.toLocaleString()}`, color: 'from-green-500 to-emerald-600' },
           { label: 'Pending', value: `PKR ${pending.toLocaleString()}`, color: 'from-amber-500 to-orange-600' },
-          { label: 'Transactions', value: payments.length, color: 'from-primary-500 to-accent-600' },
+          { label: 'Transactions', value: payments.length, color: 'from-teal-600 to-emerald-700' },
         ].map(({ label, value, color }) => (
           <div key={label} className={`bg-gradient-to-br ${color} rounded-2xl p-4 text-white`}>
             <p className="text-white/80 text-xs uppercase tracking-wider">{label}</p>

@@ -5,12 +5,12 @@ import { markAllNotificationsRead, markNotificationRead } from '@/actions/patien
 import toast from 'react-hot-toast';
 
 const ICONS = {
-  APPOINTMENT_BOOKED: { icon: Calendar, color: 'text-blue-500 bg-blue-50 dark:bg-blue-950' },
+  APPOINTMENT_BOOKED: { icon: Calendar, color: 'text-green-600 bg-green-50 dark:bg-green-950' },
   APPOINTMENT_CANCELLED: { icon: Calendar, color: 'text-red-500 bg-red-50 dark:bg-red-950' },
   APPOINTMENT_REMINDER: { icon: Bell, color: 'text-amber-500 bg-amber-50 dark:bg-amber-950' },
-  APPOINTMENT_COMPLETED: { icon: CheckCircle, color: 'text-green-500 bg-green-50 dark:bg-green-950' },
+  APPOINTMENT_COMPLETED: { icon: CheckCircle, color: 'text-emerald-600 bg-emerald-50 dark:bg-emerald-950' },
   PRESCRIPTION_ADDED: { icon: FileText, color: 'text-purple-500 bg-purple-50 dark:bg-purple-950' },
-  PAYMENT_RECEIVED: { icon: CreditCard, color: 'text-emerald-500 bg-emerald-50 dark:bg-emerald-950' },
+  PAYMENT_RECEIVED: { icon: CreditCard, color: 'text-teal-600 bg-teal-50 dark:bg-teal-950' },
   REVIEW_RECEIVED: { icon: Star, color: 'text-amber-500 bg-amber-50 dark:bg-amber-950' },
   SYSTEM: { icon: Bell, color: 'text-gray-500 bg-gray-50 dark:bg-gray-700' },
 };

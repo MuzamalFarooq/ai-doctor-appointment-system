@@ -65,13 +65,13 @@ export function PatientProfileClient({ user, patient }) {
   return (
     <div className="max-w-2xl mx-auto">
       {/* Profile Header */}
-      <div className="bg-gradient-to-r from-primary-600 to-accent-500 rounded-3xl p-6 mb-6 text-white relative overflow-hidden">
+      <div className="bg-gradient-to-r from-green-600 to-emerald-700 rounded-3xl p-6 mb-6 text-white relative overflow-hidden shadow-lg shadow-green-900/20">
         <div className="absolute inset-0 bg-black/10" />
         <div className="relative flex items-center gap-4">
           <div className="relative">
             <Avatar src={user?.image} name={user?.name} size="2xl" className="ring-4 ring-white/30" />
             <button className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
-              <Camera className="w-4 h-4 text-primary-600" />
+              <Camera className="w-4 h-4 text-green-600" />
             </button>
           </div>
           <div>
@@ -120,7 +120,7 @@ export function PatientProfileClient({ user, patient }) {
               </div>
             </div>
             <button onClick={handleSavePersonal} disabled={loading}
-              className="w-full py-3 bg-gradient-to-r from-primary-600 to-accent-500 text-white font-semibold rounded-xl hover:opacity-90 transition-all flex items-center justify-center gap-2 disabled:opacity-60">
+              className="w-full py-3 bg-gradient-to-r from-green-600 to-emerald-700 text-white font-semibold rounded-xl hover:opacity-95 transition-all flex items-center justify-center gap-2 disabled:opacity-60 shadow-md shadow-green-900/20">
               <Save className="w-4 h-4" />{loading ? 'Saving...' : 'Save Changes'}
             </button>
           </div>
@@ -162,7 +162,7 @@ export function PatientProfileClient({ user, patient }) {
               </div>
             </div>
             <button onClick={handleSaveMedical} disabled={loading}
-              className="w-full py-3 bg-gradient-to-r from-primary-600 to-accent-500 text-white font-semibold rounded-xl hover:opacity-90 transition-all flex items-center justify-center gap-2 disabled:opacity-60">
+              className="w-full py-3 bg-gradient-to-r from-green-600 to-emerald-700 text-white font-semibold rounded-xl hover:opacity-95 transition-all flex items-center justify-center gap-2 disabled:opacity-60 shadow-md shadow-green-900/20">
               <Save className="w-4 h-4" />{loading ? 'Saving...' : 'Save Medical Info'}
             </button>
           </div>
@@ -179,7 +179,7 @@ export function PatientProfileClient({ user, patient }) {
               </div>
             ))}
             <button onClick={handleChangePassword} disabled={loading}
-              className="w-full py-3 bg-gradient-to-r from-primary-600 to-accent-500 text-white font-semibold rounded-xl hover:opacity-90 transition-all flex items-center justify-center gap-2 disabled:opacity-60">
+              className="w-full py-3 bg-gradient-to-r from-green-600 to-emerald-700 text-white font-semibold rounded-xl hover:opacity-95 transition-all flex items-center justify-center gap-2 disabled:opacity-60 shadow-md shadow-green-900/20">
               <Shield className="w-4 h-4" />{loading ? 'Updating...' : 'Change Password'}
             </button>
           </div>

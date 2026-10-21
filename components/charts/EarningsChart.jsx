@@ -20,15 +20,15 @@ export function DoctorEarningsChart({ data = SAMPLE_DATA }) {
           <AreaChart data={data}>
             <defs>
               <linearGradient id="earningsGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#1d7ceb" stopOpacity={0.3} />
-                <stop offset="95%" stopColor="#1d7ceb" stopOpacity={0} />
+                <stop offset="5%" stopColor="#16a34a" stopOpacity={0.3} />
+                <stop offset="95%" stopColor="#16a34a" stopOpacity={0} />
               </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.05)" />
             <XAxis dataKey="month" tick={{ fontSize: 12, fill: '#94a3b8' }} axisLine={false} tickLine={false} />
             <YAxis tick={{ fontSize: 12, fill: '#94a3b8' }} axisLine={false} tickLine={false} tickFormatter={v => `${(v/1000).toFixed(0)}k`} />
             <Tooltip formatter={v => [`PKR ${v.toLocaleString()}`, 'Earnings']} contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 40px rgba(0,0,0,0.15)', fontSize: '12px' }} />
-            <Area type="monotone" dataKey="earnings" stroke="#1d7ceb" strokeWidth={2} fill="url(#earningsGradient)" />
+            <Area type="monotone" dataKey="earnings" stroke="#16a34a" strokeWidth={2} fill="url(#earningsGradient)" />
           </AreaChart>
         </ResponsiveContainer>
       </div>

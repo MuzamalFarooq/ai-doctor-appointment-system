@@ -34,13 +34,13 @@ export default function FAQPage() {
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-black font-heading text-gray-900 dark:text-white mb-4">Frequently Asked Questions</h1>
-          <p className="text-gray-500 dark:text-gray-400">Can't find what you're looking for? <a href="/contact" className="text-primary-600 hover:underline">Contact us</a>.</p>
+          <p className="text-gray-500 dark:text-gray-400">Can&apos;t find what you&apos;re looking for? <a href="/contact" className="text-green-600 hover:text-green-700 hover:underline">Contact us</a>.</p>
         </div>
 
         {/* Search */}
         <div className="relative mb-8">
           <Search className="w-5 h-5 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none z-10" />
-          <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder="Search questions..." className="w-full pl-12 pr-4 py-4 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500" />
+          <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder="Search questions..." className="w-full pl-12 pr-4 py-4 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500" />
         </div>
 
         {/* Category Tabs */}
@@ -48,7 +48,7 @@ export default function FAQPage() {
           {CATEGORIES.map(cat => (
             <button key={cat} onClick={() => setActiveCategory(cat)}
               className={`px-4.5 py-2.5 rounded-xl text-sm font-medium transition-all ${
-                activeCategory === cat ? 'bg-primary-600 text-white' : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-primary-300'
+                activeCategory === cat ? 'bg-green-600 text-white shadow-md shadow-green-900/10' : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-green-300 dark:hover:border-green-700'
               }`}>{cat}</button>
           ))}
         </div>

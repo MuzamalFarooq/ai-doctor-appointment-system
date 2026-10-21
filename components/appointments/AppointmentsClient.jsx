@@ -71,7 +71,7 @@ export function AppointmentsClient({ appointments }) {
             <div key={apt.id} className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-5 hover:shadow-md transition-shadow">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center text-white text-xl">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-600 to-emerald-700 flex items-center justify-center text-white text-xl shadow-sm shadow-green-900/20">
                     {apt.type === 'video' ? '📹' : '🏥'}
                   </div>
                   <div>
@@ -96,7 +96,7 @@ export function AppointmentsClient({ appointments }) {
                   </a>
                 )}
                 {apt.prescription && (
-                  <Link href={`/dashboard/prescriptions`} className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-medium rounded-xl border border-blue-200 dark:border-blue-800">
+                  <Link href={`/dashboard/prescriptions`} className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 text-xs font-medium rounded-xl border border-emerald-200 dark:border-emerald-800">
                     <FileText className="w-3 h-3" /> Prescription
                   </Link>
                 )}
