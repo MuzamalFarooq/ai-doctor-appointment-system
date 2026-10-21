@@ -138,6 +138,6 @@ export async function middleware(request) {
 
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|public|images|icons|manifest.json).*)',
+    '/((?!_next/static|_next/image|favicon.ico|fevicon.jpg|favicon.jpg|public|images|icons|manifest.json).*)',
   ],
 };
