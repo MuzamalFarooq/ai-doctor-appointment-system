@@ -6,7 +6,8 @@ import { signOut } from 'next-auth/react';
 import {
   LayoutDashboard, Users, UserCog, Calendar, Shield, Activity, 
   Building, CreditCard, Ticket, FileBarChart, Star, Bell, 
-  Bot, Settings, LogOut, Menu, X, ChevronRight, Stethoscope
+  Bot, Settings, LogOut, Menu, X, ChevronRight, Stethoscope,
+  Package, Pill
 } from 'lucide-react';
 import { Avatar } from '@/components/ui/Avatar';
 import { Badge } from '@/components/ui/Badge';
@@ -14,6 +15,8 @@ import { cn } from '@/lib/utils';
 
 const navItems = [
   { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard, exact: true },
+  { href: '/admin/medicine-orders', label: 'Medicine Orders', icon: Package },
+  { href: '/admin/medicines', label: 'Medicine Inventory', icon: Pill },
   { href: '/admin/doctors', label: 'Manage Doctors', icon: UserCog },
   { href: '/admin/patients', label: 'Patients', icon: Users },
   { href: '/admin/appointments', label: 'Appointments', icon: Calendar },

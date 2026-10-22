@@ -51,6 +51,10 @@ enum NotificationType {
   PRESCRIPTION_ADDED
   PAYMENT_RECEIVED
   REVIEW_RECEIVED
+  ORDER_PLACED
+  ORDER_CONFIRMED
+  ORDER_STATUS_CHANGED
+  PRESCRIPTION_STATUS
   SYSTEM
 }
 
@@ -59,6 +63,29 @@ enum UrgencyLevel {
   WITHIN_24_HOURS
   THIS_WEEK
   ROUTINE
+}
+
+enum MedicineOrderStatus {
+  PENDING
+  AWAITING_PRESCRIPTION
+  PRESCRIPTION_REVIEW
+  CONFIRMED
+  PROCESSING
+  READY_FOR_DISPATCH
+  SHIPPED
+  OUT_FOR_DELIVERY
+  DELIVERED
+  CANCELLED
+  REJECTED
+  REFUNDED
+}
+
+enum PrescriptionVerificationStatus {
+  NOT_REQUIRED
+  PENDING_UPLOAD
+  PENDING_REVIEW
+  APPROVED
+  REJECTED
 }
 
 model User {
@@ -81,6 +108,7 @@ model User {
   chatsSent         ChatMessage[]        @relation("SentMessages")
   chatsReceived     ChatMessage[]        @relation("ReceivedMessages")
   resetTokens       PasswordResetToken[]
+  medicineOrders    MedicineOrder[]
 
   @@map("users")
 }
@@ -438,31 +466,144 @@ model RateLimit {
   @@map("rate_limits")
 }
 
+model MedicineCategory {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  name          String   @unique
+  slug          String   @unique
+  description   String?
+  subcategories String[]
+  icon          String?
+  displayOrder  Int      @default(0)
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("medicine_categories")
+}
+
 model MedicineProduct {
-  id                   String   @id @default(auto()) @map("_id") @db.ObjectId
-  catalogKey           String   @unique
+  id                   String              @id @default(auto()) @map("_id") @db.ObjectId
+  catalogKey           String              @unique
   name                 String
   genericName          String?
   brand                String?
   category             String
+  subcategory          String?
+  activeIngredients    String[]
+  indications          String?
   description          String
   strength             String?
   dosageForm           String?
   packageSize          String?
   imageUrl             String?
   price                Float
-  stock                Int      @default(0)
-  prescriptionRequired Boolean  @default(false)
+  discountPrice        Float?
+  stock                Int                 @default(0)
+  sku                  String?
+  prescriptionRequired Boolean             @default(false)
+  storageInstructions  String?
+  expiryDate           DateTime?
+  status               String              @default("ACTIVE")
   manufacturer         String?
   sellerName           String?
-  isActive             Boolean  @default(true)
-  demoData             Boolean? @default(false)
-  createdAt            DateTime @default(now())
-  updatedAt            DateTime @updatedAt
+  isActive             Boolean             @default(true)
+  demoData             Boolean?            @default(false)
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @updatedAt
+
+  batches              MedicineBatch[]
+  orderItems           MedicineOrderItem[]
 
   @@index([category, isActive])
+  @@index([subcategory])
   @@index([name])
+  @@index([genericName])
+  @@index([brand])
   @@map("medicine_products")
+}
+
+model MedicineBatch {
+  id              String          @id @default(auto()) @map("_id") @db.ObjectId
+  medicineId      String          @db.ObjectId
+  medicine        MedicineProduct @relation(fields: [medicineId], references: [id], onDelete: Cascade)
+  batchNumber     String
+  expiryDate      DateTime
+  quantity        Int
+  initialQuantity Int
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  @@unique([medicineId, batchNumber])
+  @@index([medicineId])
+  @@index([expiryDate])
+  @@map("medicine_batches")
+}
+
+model MedicineOrder {
+  id                         String                         @id @default(auto()) @map("_id") @db.ObjectId
+  orderNumber                String                         @unique
+  userId                     String?                        @db.ObjectId
+  user                       User?                          @relation(fields: [userId], references: [id])
+  customerName               String
+  customerEmail              String
+  customerPhone              String
+  deliveryAddress            String
+  city                       String
+  postalCode                 String?
+  orderNotes                 String?
+  deliveryMethod             String                         @default("standard")
+  paymentMethod              PaymentMethod                  @default(CASH)
+  paymentStatus              PaymentStatus                  @default(PENDING)
+  orderStatus                MedicineOrderStatus            @default(PENDING)
+  prescriptionStatus         PrescriptionVerificationStatus @default(NOT_REQUIRED)
+  prescriptionUrl            String?
+  prescriptionNotes          String?
+  prescriptionReviewedBy     String?                        @db.ObjectId
+  prescriptionReviewedAt     DateTime?
+  rejectionReason            String?
+  cancellationReason         String?
+  subtotal                   Float
+  discountTotal              Float                          @default(0)
+  deliveryFee                Float                          @default(0)
+  finalTotal                 Float
+  items                      MedicineOrderItem[]
+  statusHistory              Json[]
+  confirmedAt                DateTime?
+  dispatchedAt               DateTime?
+  deliveredAt                DateTime?
+  cancelledAt                DateTime?
+  createdAt                  DateTime                       @default(now())
+  updatedAt                  DateTime                       @updatedAt
+
+  @@index([userId])
+  @@index([orderStatus])
+  @@index([paymentStatus])
+  @@index([prescriptionStatus])
+  @@index([createdAt])
+  @@map("medicine_orders")
+}
+
+model MedicineOrderItem {
+  id              String          @id @default(auto()) @map("_id") @db.ObjectId
+  orderId         String          @db.ObjectId
+  order           MedicineOrder   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  medicineId      String          @db.ObjectId
+  medicine        MedicineProduct @relation(fields: [medicineId], references: [id])
+  name            String
+  genericName     String?
+  sku             String?
+  dosageForm      String?
+  strength        String?
+  unitPrice       Float
+  discountPrice   Float?
+  quantity        Int
+  subtotal        Float
+  prescriptionReq Boolean         @default(false)
+  batchNumber     String?
+
+  @@index([orderId])
+  @@index([medicineId])
+  @@map("medicine_order_items")
 }
 
 model LabTest {

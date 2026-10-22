@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
 import { CalendarDays, ChevronDown, Menu, Stethoscope, X } from 'lucide-react';
 import { Avatar } from '@/components/ui/Avatar';
+import { CartButton } from '@/components/cart/CartButton';
 
 const links = [
   { href: '/healthcare', label: 'Home' },
@@ -19,9 +20,13 @@ const links = [
 ];
 
 function getAccountLinks(role) {
-  if (role === 'ADMIN') return [{ href: '/admin/dashboard', label: 'Admin panel' }];
+  if (role === 'ADMIN') return [
+    { href: '/admin/dashboard', label: 'Admin panel' },
+    { href: '/admin/medicine-orders', label: 'Medicine Orders' },
+  ];
   if (role === 'DOCTOR') return [{ href: '/doctor/dashboard', label: 'Doctor dashboard' }];
   return [
+    { href: '/my-medicine-orders', label: 'My Medicine Orders' },
     { href: '/dashboard/profile', label: 'My profile' },
     { href: '/dashboard/appointments', label: 'My appointments' },
     { href: '/dashboard/prescriptions', label: 'My prescriptions' },
@@ -85,6 +90,7 @@ export function HealthcareNavbar() {
         </div>
 
         <div className="hidden shrink-0 items-center gap-3 sm:flex">
+          <CartButton />
           {isPatient(session) && (
             <Link href="/dashboard/appointments" className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">
               <CalendarDays className="h-4 w-4 text-teal-700" />
@@ -132,15 +138,18 @@ export function HealthcareNavbar() {
           )}
         </div>
 
-        <button
-          type="button"
-          className="rounded-lg p-2 text-slate-700 hover:bg-slate-100 xl:hidden"
-          aria-label={mobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
-          aria-expanded={mobileOpen}
-          onClick={() => setMobileOpen(open => !open)}
-        >
-          {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+        <div className="flex items-center gap-1 xl:hidden">
+          <CartButton />
+          <button
+            type="button"
+            className="rounded-lg p-2 text-slate-700 hover:bg-slate-100"
+            aria-label={mobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={mobileOpen}
+            onClick={() => setMobileOpen(open => !open)}
+          >
+            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
       </nav>
 
       {mobileOpen && (
