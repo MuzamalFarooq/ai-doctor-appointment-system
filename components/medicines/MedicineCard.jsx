@@ -10,6 +10,7 @@ export function MedicineCard({ product }) {
   const discountPercent = hasDiscount
     ? Math.round(((product.price - product.discountPrice) / product.price) * 100)
     : 0;
+  const displayName = product.name?.replace(/\bDEMO\b\s*/gi, '') || product.name;
 
   return (
     <article className="group flex flex-col justify-between rounded-3xl border border-slate-200/90 bg-white p-4 sm:p-5 shadow-xs transition hover:border-teal-300 hover:shadow-md">
@@ -19,7 +20,7 @@ export function MedicineCard({ product }) {
           {product.imageUrl ? (
             <img
               src={product.imageUrl}
-              alt={product.name}
+              alt={displayName}
               className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
               loading="lazy"
             />
@@ -80,7 +81,7 @@ export function MedicineCard({ product }) {
           </div>
 
           <h3 className="mt-2 text-base font-bold text-slate-950 line-clamp-1 group-hover:text-teal-800 transition">
-            <Link href={`/medicines/${product.id}`}>{product.name}</Link>
+            <Link href={`/medicines/${product.id}`}>{displayName}</Link>
           </h3>
 
           {product.genericName && (

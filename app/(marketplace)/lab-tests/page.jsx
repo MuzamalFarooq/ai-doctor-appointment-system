@@ -102,11 +102,10 @@ export default async function LabTestsPage({ searchParams }) {
               <article key={test.id} className="rounded-2xl border border-slate-200 bg-white p-5">
                 <div className="flex items-start justify-between gap-2">
                   <span className="rounded-full bg-teal-50 px-2.5 py-1 text-xs font-medium text-teal-800">{test.category}</span>
-                  {test.demoData && <span className="rounded-full bg-amber-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-amber-900">Demo</span>}
                 </div>
                 <h2 className="mt-4 text-lg font-semibold text-slate-950">{test.name}</h2>
                 <p className="mt-2 text-sm leading-6 text-slate-600">{test.description}</p>
-                <p className="mt-4 text-sm font-semibold text-slate-900">{test.demoData ? 'Demonstration estimate' : 'Listed price'}: {formatCurrency(test.price)}</p>
+                <p className="mt-4 text-sm font-semibold text-slate-900">Listed price: {formatCurrency(test.price)}</p>
                 <p className="mt-1 text-xs text-slate-500">{test.demoData ? 'Not a laboratory price · no service connected' : 'Laboratory booking unavailable'}</p>
                 <p className="mt-4 text-sm font-medium text-slate-500">Booking and collection unavailable</p>
               </article>

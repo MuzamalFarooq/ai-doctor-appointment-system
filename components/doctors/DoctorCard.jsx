@@ -8,7 +8,9 @@ import { formatCurrency } from '@/lib/utils';
 import { motion } from 'framer-motion';
 
 export function DoctorCard({ doctor, viewMode = 'grid' }) {
-  const name = doctor.user?.name || 'Doctor';
+  const rawName = doctor.user?.name || 'Doctor';
+  const name = rawName.replace(/\bDEMO\b\s*/gi, '');
+  const city = doctor.city?.replace(/\bdemo\b\s*/gi, '').trim() || doctor.city;
   const hospital = doctor.hospital?.name;
   const photo = doctor.profilePhoto || doctor.user?.image;
   const gradients = [
@@ -32,18 +34,17 @@ export function DoctorCard({ doctor, viewMode = 'grid' }) {
               <h3 className="font-bold text-gray-900 dark:text-white">{name}</h3>
               <p className="text-green-700 dark:text-green-400 font-medium text-sm">{doctor.specialization}</p>
               <p className="text-gray-500 dark:text-gray-400 text-xs">{doctor.degree?.length ? doctor.degree.join(', ') : 'Qualifications not provided'}</p>
-              {doctor.demoData && <p className="mt-1 text-xs font-semibold text-amber-700">Development demonstration — not a real provider</p>}
             </div>
             {doctor.isVerified && !doctor.demoData && <Badge variant="success" dot>Verified</Badge>}
           </div>
           <div className="flex items-center gap-4 mt-2 text-xs text-gray-500 dark:text-gray-400">
-            <span className="flex items-center gap-1"><MapPin className="w-3 h-3 text-green-600" />{doctor.city}</span>
+            <span className="flex items-center gap-1"><MapPin className="w-3 h-3 text-green-600" />{city}</span>
             <span className="flex items-center gap-1"><Clock className="w-3 h-3 text-green-600" />{doctor.experience}y exp</span>
             {!doctor.demoData && doctor.totalReviews > 0 && <><RatingStars rating={doctor.rating} size="xs" /><span>({doctor.totalReviews} reviews)</span></>}
           </div>
         </div>
         <div className="text-right flex-shrink-0">
-          <p className="text-xs text-gray-400">{doctor.demoData ? 'Demo profile' : 'Consultation'}</p>
+          <p className="text-xs text-gray-400">Consultation</p>
           <p className="font-bold text-gray-900 dark:text-white text-sm">{doctor.demoData ? 'Not a real fee' : formatCurrency(doctor.consultationFee)}</p>
           <Link href={`/doctors/${doctor.id}`} className="mt-2 inline-block px-4 py-2 bg-green-600 text-white text-xs font-semibold rounded-xl hover:bg-green-700 shadow-xs transition-colors">
             View profile
@@ -70,7 +71,6 @@ export function DoctorCard({ doctor, viewMode = 'grid' }) {
               )}
             </div>
             <p className="text-green-700 dark:text-green-400 text-xs font-semibold">{doctor.specialization}</p>
-            {doctor.demoData && <p className="text-xs font-semibold text-amber-700">Development demo · not a real provider</p>}
             {hospital && <p className="text-gray-400 text-xs truncate">{hospital}</p>}
             {!doctor.demoData && doctor.totalReviews > 0 && <div className="flex items-center gap-1.5 pt-1">
               <RatingStars rating={doctor.rating} size="xs" />
@@ -81,7 +81,7 @@ export function DoctorCard({ doctor, viewMode = 'grid' }) {
 
         <div className="grid grid-cols-2 gap-2.5 mb-4">
           <div className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">
-            <MapPin className="w-3 h-3 text-green-600" /> {doctor.city}
+            <MapPin className="w-3 h-3 text-green-600" /> {city}
           </div>
           <div className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">
             <Clock className="w-3 h-3 text-green-600" /> {doctor.experience}y exp

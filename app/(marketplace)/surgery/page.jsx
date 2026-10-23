@@ -107,7 +107,6 @@ async function getSurgicalSpecialties() {
       <article key={specialty.id} className="rounded-2xl border border-slate-200 bg-white p-5">
         <div className="flex items-start justify-between gap-2">
           <h3 className="font-semibold text-slate-950">{specialty.name}</h3>
-          {specialty.demoData && <span className="shrink-0 rounded-full bg-amber-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-amber-900">Demo</span>}
         </div>
         <p className="mt-2 text-sm leading-6 text-slate-600">{specialty.description}</p>
       </article>
