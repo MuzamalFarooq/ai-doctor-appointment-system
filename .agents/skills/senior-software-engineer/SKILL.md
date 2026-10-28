@@ -27,6 +27,13 @@ A Senior Engineer does not merely write code that "works on my machine." A Senio
 
 ## 2. Standard Operating Procedures (SOPs)
 
+### 🔒 Mandatory Security Protocol: Zero Access to Environment Files
+- **Strict `.env` Protection**: NEVER open, read, inspect, print, analyze, or expose any `.env`, `.env.local`, `.env.*` file or private credential store.
+- **No Secret Exposure**: Never copy environment variable values into source code, logs, terminal output, documentation, or chat responses.
+- **Do Not Modify Environment Files**: Do not create, edit, overwrite, rename, delete, or reformat any environment file.
+- **Safe Variable Analysis**: Determine needed variable names solely by inspecting application source code (e.g. `process.env.VAR_NAME`) and documentation. Use generic placeholders (`YOUR_API_KEY`) in examples.
+- **Pre-Task Check**: Exclude all `.env*` files from file searches, commands, and automated tools.
+
 ### A. Problem Analysis & Planning (Before Writing Code)
 - **Understand the Root Need**: Distinguish between the symptom and the actual underlying problem.
 - **Trace the Data Flow**: Map out the full lifecycle of data: Client UI -> Network/Action -> Validation Layer -> Business Logic / Service -> Database / External API -> Response -> UI State Update.
