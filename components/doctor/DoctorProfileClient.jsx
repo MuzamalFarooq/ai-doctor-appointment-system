@@ -1,7 +1,8 @@
 'use client';
 import { useState } from 'react';
 import { Avatar } from '@/components/ui/Avatar';
-import { Save, Camera, Stethoscope, MapPin, DollarSign, Globe, Award } from 'lucide-react';
+import { ProfilePictureUploader } from '@/components/profile/ProfilePictureUploader';
+import { Save, Stethoscope, MapPin, DollarSign, Globe, Award } from 'lucide-react';
 import { updateDoctorProfile } from '@/actions/doctor.actions';
 import toast from 'react-hot-toast';
 
@@ -9,6 +10,7 @@ const LANGUAGES = ['English', 'Urdu', 'Punjabi', 'Sindhi', 'Pashto', 'Balochi'];
 const SPECIALIZATIONS = ['Cardiologist', 'Dermatologist', 'Neurologist', 'Orthopedic', 'Pediatrician', 'Gynecologist', 'ENT Specialist', 'Ophthalmologist', 'Psychiatrist', 'General Physician', 'Urologist', 'Oncologist'];
 
 export function DoctorProfileClient({ doctor }) {
+  const [currentImage, setCurrentImage] = useState(doctor?.profilePhoto || doctor?.user?.image || null);
   const [form, setForm] = useState({
     name: doctor?.user?.name || '',
     specialization: doctor?.specialization || '',
@@ -52,20 +54,22 @@ export function DoctorProfileClient({ doctor }) {
       {/* Header */}
       <div className="bg-gradient-to-r from-green-600 to-emerald-700 rounded-3xl p-6 mb-6 text-white relative overflow-hidden shadow-lg shadow-green-900/20">
         <div className="absolute inset-0 bg-black/10" />
-        <div className="relative flex items-center gap-4">
-          <div className="relative">
-            <Avatar src={doctor?.user?.image} name={doctor?.user?.name} size="2xl" className="ring-4 ring-white/30" />
-            <button className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-lg">
-              <Camera className="w-4 h-4 text-green-600" />
-            </button>
-          </div>
-          <div>
-            <h1 className="text-2xl font-black font-heading">{doctor?.user?.name}</h1>
-            <p className="text-white/80 text-sm">{doctor?.specialization}</p>
-            <span className={`mt-1 inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold ${
-              doctor?.status === 'APPROVED' ? 'bg-green-400/30 text-green-100' :
-              doctor?.status === 'PENDING' ? 'bg-amber-400/30 text-amber-100' : 'bg-red-400/30 text-red-100'
-            }`}>{doctor?.status}</span>
+        <div className="relative flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+          <div className="flex flex-col sm:flex-row items-center sm:items-center gap-5">
+            <ProfilePictureUploader
+              currentImage={currentImage}
+              name={form.name || doctor?.user?.name}
+              accountType="DOCTOR"
+              onImageChange={(newUrl) => setCurrentImage(newUrl)}
+            />
+            <div className="text-center sm:text-left">
+              <h1 className="text-2xl font-black font-heading">{form.name || doctor?.user?.name}</h1>
+              <p className="text-white/80 text-sm">{doctor?.specialization}</p>
+              <span className={`mt-1 inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold ${
+                doctor?.status === 'APPROVED' ? 'bg-green-400/30 text-green-100' :
+                doctor?.status === 'PENDING' ? 'bg-amber-400/30 text-amber-100' : 'bg-red-400/30 text-red-100'
+              }`}>{doctor?.status}</span>
+            </div>
           </div>
         </div>
       </div>

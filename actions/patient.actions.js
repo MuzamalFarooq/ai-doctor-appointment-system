@@ -3,6 +3,12 @@ import { prisma } from '@/lib/prisma';
 import { auth } from '@/lib/auth';
 import { revalidatePath } from 'next/cache';
 import bcrypt from 'bcryptjs';
+import {
+  validateAndProcessImage,
+  uploadAvatarToStorage,
+  safeDeleteOldAvatar,
+} from '@/lib/avatar-service';
+import { deleteImage } from '@/lib/cloudinary';
 
 export async function updatePatientProfile(data) {
   try {
@@ -134,4 +140,125 @@ export async function toggleFavoriteDoctor(doctorId) {
     revalidatePath('/dashboard/favorites');
     return { success: true, isFavorite: !isFav };
   } catch { return { error: 'Failed' }; }
+}
+
+export async function uploadPatientAvatar(formData) {
+  try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return { error: 'Unauthorized. Please log in to update your profile picture.' };
+    }
+
+    if (session.user.role !== 'PATIENT' && session.user.role !== 'ADMIN') {
+      return { error: 'Forbidden. Only patients can modify patient profile pictures.' };
+    }
+
+    const file = formData?.get?.('file');
+    if (!file || typeof file === 'string') {
+      return { error: 'No image file provided.' };
+    }
+
+    const arrayBuffer = await file.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+
+    // Validate size, magic bytes, format and optimize
+    const validation = await validateAndProcessImage(buffer);
+    if (validation.error) {
+      return { error: validation.error };
+    }
+
+    // Upload to storage provider
+    const uploadResult = await uploadAvatarToStorage({
+      buffer: validation.buffer,
+      userId: session.user.id,
+      role: 'PATIENT',
+    });
+
+    const currentUser = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { image: true },
+    });
+
+    // Update database
+    try {
+      await prisma.user.update({
+        where: { id: session.user.id },
+        data: { image: uploadResult.url },
+      });
+
+      if (session.user.patientId) {
+        await prisma.patient.update({
+          where: { id: session.user.patientId },
+          data: { profilePhoto: uploadResult.url },
+        }).catch(() => {});
+      }
+    } catch (dbErr) {
+      console.error('Failed to update patient profile image in database:', dbErr);
+      // Clean up newly uploaded image to prevent orphans
+      if (uploadResult.publicId) {
+        await deleteImage(uploadResult.publicId).catch(() => {});
+      }
+      return { error: 'Database update failed. Please try again.' };
+    }
+
+    // Safely delete previous avatar from Cloudinary if applicable
+    if (currentUser?.image && currentUser.image !== uploadResult.url) {
+      await safeDeleteOldAvatar(currentUser.image, session.user.id);
+    }
+
+    revalidatePath('/dashboard');
+    revalidatePath('/dashboard/profile');
+    revalidatePath('/dashboard/appointments');
+
+    return { success: true, url: uploadResult.url };
+  } catch (err) {
+    console.error('uploadPatientAvatar error:', err);
+    return { error: err.message || 'Failed to upload profile picture.' };
+  }
+}
+
+export async function removePatientAvatar() {
+  try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return { error: 'Unauthorized. Please log in.' };
+    }
+
+    if (session.user.role !== 'PATIENT' && session.user.role !== 'ADMIN') {
+      return { error: 'Forbidden. Only patients can modify patient profile pictures.' };
+    }
+
+    const currentUser = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { image: true },
+    });
+
+    if (!currentUser?.image) {
+      return { success: true, message: 'No profile picture to remove.' };
+    }
+
+    await prisma.user.update({
+      where: { id: session.user.id },
+      data: { image: null },
+    });
+
+    if (session.user.patientId) {
+      await prisma.patient.update({
+        where: { id: session.user.patientId },
+        data: { profilePhoto: null },
+      }).catch(() => {});
+    }
+
+    // Safely delete from Cloudinary if stored there
+    await safeDeleteOldAvatar(currentUser.image, session.user.id);
+
+    revalidatePath('/dashboard');
+    revalidatePath('/dashboard/profile');
+    revalidatePath('/dashboard/appointments');
+
+    return { success: true };
+  } catch (err) {
+    console.error('removePatientAvatar error:', err);
+    return { error: 'Failed to remove profile picture.' };
+  }
 }

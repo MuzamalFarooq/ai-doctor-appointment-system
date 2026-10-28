@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { Calendar, Clock, MapPin, Video, FileText, XCircle, RefreshCw, ChevronDown, Star } from 'lucide-react';
 import { Badge } from '@/components/ui/Badge';
+import { Avatar } from '@/components/ui/Avatar';
 import { Modal } from '@/components/ui/Modal';
 import { formatDate, formatCurrency, getStatusColor } from '@/lib/utils';
 import toast from 'react-hot-toast';
@@ -71,9 +72,12 @@ export function AppointmentsClient({ appointments }) {
             <div key={apt.id} className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-5 hover:shadow-md transition-shadow">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-600 to-emerald-700 flex items-center justify-center text-white text-xl shadow-sm shadow-green-900/20">
-                    {apt.type === 'video' ? '📹' : '🏥'}
-                  </div>
+                  <Avatar
+                    src={apt.doctor?.profilePhoto || apt.doctor?.user?.image}
+                    name={apt.doctor?.user?.name}
+                    size="lg"
+                    className="ring-2 ring-emerald-500/20 shadow-xs"
+                  />
                   <div>
                     <p className="font-bold text-gray-900 dark:text-white">{apt.doctor?.user?.name}</p>
                     <p className="text-primary-600 dark:text-primary-400 text-xs">{apt.doctor?.specialization}</p>
