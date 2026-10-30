@@ -71,7 +71,7 @@ export function NotificationsClient({ notifications: initial }) {
                   <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{n.message}</p>
                   <p className="text-xs text-gray-400 mt-1">{new Date(n.createdAt).toLocaleString()}</p>
                 </div>
-                {!n.isRead && <div className="w-2 h-2 rounded-full bg-primary-500 flex-shrink-0 mt-2" />}
+                {!n.isRead && <div className="w-2 h-2 rounded-full bg-primary-500 shrink-0 mt-2" />}
               </div>
             );
           })}
