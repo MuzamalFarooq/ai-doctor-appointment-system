@@ -1,4 +1,4 @@
-import { groq, GROQ_CHAT_MODEL } from '@/lib/groq';
+import { createChatCompletionWithFallback, GROQ_CHAT_MODEL } from '@/lib/groq';
 import { aiLimiter } from '@/lib/rate-limit';
 
 export const runtime = 'nodejs';
@@ -6,7 +6,9 @@ export const runtime = 'nodejs';
 export async function POST(req) {
   try {
     const ip = req.headers.get('x-forwarded-for') || 'anonymous';
-    try { aiLimiter.check(ip); } catch {
+    try {
+      aiLimiter.check(ip);
+    } catch {
       return new Response('Rate limit exceeded', { status: 429 });
     }
 
@@ -30,7 +32,7 @@ IMPORTANT RULES:
 
 If asked about booking appointments, guide users to MediConnect AI's booking system at /doctors.`;
 
-    const stream = await groq.chat.completions.create({
+    const stream = await createChatCompletionWithFallback({
       model: GROQ_CHAT_MODEL,
       messages: [
         { role: 'system', content: systemPrompt },
@@ -66,7 +68,7 @@ If asked about booking appointments, guide users to MediConnect AI's booking sys
       },
     });
   } catch (err) {
-    console.error('Chat API error:', err);
+    console.error('Chat API error status:', err?.status, 'message:', err?.message);
 
     if (err?.status === 429) {
       return new Response('AI rate limit exceeded. Please try again shortly.', { status: 429 });
