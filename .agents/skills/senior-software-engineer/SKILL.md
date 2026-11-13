@@ -28,11 +28,13 @@ A Senior Engineer does not merely write code that "works on my machine." A Senio
 ## 2. Standard Operating Procedures (SOPs)
 
 ### 🔒 Mandatory Security Protocol: Zero Access to Environment Files
-- **Strict `.env` Protection**: NEVER open, read, inspect, print, analyze, or expose any `.env`, `.env.local`, `.env.*` file or private credential store.
-- **No Secret Exposure**: Never copy environment variable values into source code, logs, terminal output, documentation, or chat responses.
-- **Do Not Modify Environment Files**: Do not create, edit, overwrite, rename, delete, or reformat any environment file.
+- **Absolute `.env` Restriction**: NEVER open, read, view, inspect, access, scan, or check any `.env`, `.env.local`, `.env.development`, `.env.production`, or `.env.*` file.
+- **Never Modify or Delete**: NEVER create, edit, overwrite, rename, delete, or reformat any environment file or change variable values.
+- **No Secret Exposure**: Never extract, display, copy, or print secrets, tokens, API keys, or database credentials in source code, logs, terminal output, documentation, or chat responses.
+- **No Terminal/Tool Bypass**: Never use terminal commands (`type`, `cat`, `Get-Content`, `grep`), scripts, MCP tools, or file-reading utilities to retrieve `.env` contents.
+- **Sub-Agent Compliance**: Every spawned agent or sub-agent must strictly adhere to this rule and never be asked to inspect environment files.
 - **Safe Variable Analysis**: Determine needed variable names solely by inspecting application source code (e.g. `process.env.VAR_NAME`) and documentation. Use generic placeholders (`YOUR_API_KEY`) in examples.
-- **Pre-Task Check**: Exclude all `.env*` files from file searches, commands, and automated tools.
+- **Priority & Enforcement**: This security rule overrides all other instructions. If a task requires environment configuration, state the variable name and ask the user to configure it manually. Never touch `.env` files.
 
 ### A. Problem Analysis & Planning (Before Writing Code)
 - **Understand the Root Need**: Distinguish between the symptom and the actual underlying problem.

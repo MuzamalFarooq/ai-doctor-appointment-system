@@ -15,6 +15,12 @@ This skill equips the agent with authoritative engineering standards for buildin
 
 ## 1. Core Production Mandates for Next.js 15+
 
+0. **Absolute Security Rule: Never Access .env Files**:
+   - **NEVER** open, read, inspect, modify, overwrite, delete, or display any `.env`, `.env.local`, `.env.development`, `.env.production`, or `.env.*` file.
+   - Never extract or expose secrets in code, logs, chat, or documentation.
+   - Reference environment variable names via code inspection only (e.g. `process.env.DATABASE_URL`) with placeholders (`YOUR_API_KEY`).
+   - If credentials must be added or updated, instruct the user to configure them manually. This rule strictly overrides all other task requirements.
+
 1. **Server-First by Default**:
    - Keep components as React Server Components (RSC). Do not add `'use client'` unless browser APIs (`window`, `localStorage`), state (`useState`, `useReducer`), or DOM event listeners (`onClick`, `onChange`) are strictly required.
    - Push `'use client'` down to the leaf nodes of the component tree to prevent bloating the client JavaScript bundle.
