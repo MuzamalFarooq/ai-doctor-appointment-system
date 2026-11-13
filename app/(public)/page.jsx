@@ -389,7 +389,7 @@ export default function HomePage() {
         <div className="blob w-60 h-60 bg-teal-500 bottom-0 left-0 opacity-20" style={{ animationDelay: '4s' }} />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative space-y-16">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center space-y-4">
-            <Badge variant="success" className="mb-2">Powered by GPT-4o</Badge>
+            <Badge variant="success" className="mb-2">Powered by Groq AI</Badge>
             <h2 className="text-3xl lg:text-4xl font-black font-heading text-white leading-snug">
               AI That Understands <span className="text-emerald-300">Your Health</span>
             </h2>
@@ -402,7 +402,7 @@ export default function HomePage() {
                 icon: Brain,
                 gradient: 'from-emerald-600 to-emerald-700',
                 title: 'AI Symptom Analyzer',
-                desc: 'Describe your symptoms and get intelligent specialist recommendations powered by GPT-4o. Our AI analyzes your age, medical history, and symptoms to suggest the right doctor.',
+                desc: 'Describe your symptoms and get intelligent specialist recommendations powered by Groq AI. Our AI analyzes your age, medical history, and symptoms to suggest the right doctor.',
                 features: ['Specialist recommendation', 'Urgency assessment', 'Top doctor matching', 'Explains reasoning'],
                 badge: 'Most Popular',
               },

@@ -94,7 +94,7 @@ export default function AISymptomCheckerPage() {
           <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-600 to-green-800 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-green-900/20">
             <Brain className="w-8 h-8 text-white" />
           </div>
-          <Badge variant="gradient" className="mb-3">Powered by GPT-4o</Badge>
+          <Badge variant="gradient" className="mb-3">Powered by Groq AI</Badge>
           <h1 className="text-3xl font-black font-heading text-gray-900 dark:text-white mb-2">
             AI Symptom Checker
           </h1>

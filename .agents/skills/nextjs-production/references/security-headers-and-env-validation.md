@@ -69,7 +69,7 @@ const envSchema = z.object({
   DATABASE_URL: z.string().url('DATABASE_URL must be a valid connection string'),
   NEXTAUTH_SECRET: z.string().min(16, 'NEXTAUTH_SECRET must be at least 16 characters'),
   NEXTAUTH_URL: z.string().url().optional(),
-  OPENAI_API_KEY: z.string().startsWith('sk-', 'Invalid OpenAI API key format').optional(),
+  GROQ_API_KEY: z.string().startsWith('gsk_', 'Invalid Groq API key format').optional(),
   STRIPE_SECRET_KEY: z.string().startsWith('sk_', 'Invalid Stripe secret key').optional(),
   RESEND_API_KEY: z.string().startsWith('re_', 'Invalid Resend API key').optional(),
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),

@@ -11,7 +11,7 @@ const FAQS = [
   { cat: 'Appointments', q: 'What is a video consultation?', a: 'Video consultations allow you to see a doctor from the comfort of your home via high-quality video call using our built-in platform powered by Daily.co.' },
   { cat: 'Payments', q: 'What payment methods are accepted?', a: 'We accept Stripe (Visa/MasterCard), JazzCash, EasyPaisa, and bank transfer. All transactions are secured with 256-bit SSL encryption.' },
   { cat: 'Payments', q: 'Are there any hidden fees?', a: 'No hidden fees. The consultation fee displayed on the doctor\'s profile is exactly what you pay. No booking surcharge.' },
-  { cat: 'AI Features', q: 'How does the AI Symptom Checker work?', a: 'Our AI analyzes your symptoms, age, gender, and medical history to recommend the most appropriate specialist and assess urgency. It uses GPT-4o for medical reasoning.' },
+  { cat: 'AI Features', q: 'How does the AI Symptom Checker work?', a: 'Our AI analyzes your symptoms, age, gender, and medical history to recommend the most appropriate specialist and assess urgency. It uses Groq AI for medical reasoning.' },
   { cat: 'AI Features', q: 'Is the AI diagnosis accurate?', a: 'The AI provides informational guidance only — it does not replace a doctor\'s diagnosis. Always consult a qualified healthcare professional for medical decisions.' },
   { cat: 'Doctors', q: 'How are doctors verified?', a: 'All doctors go through a rigorous verification process including PMC/PMDC license verification, degree verification, and background checks before being approved.' },
   { cat: 'Privacy', q: 'Is my health data secure?', a: 'Yes. All data is encrypted in transit and at rest. We follow strict HIPAA-equivalent data protection standards and never sell your data.' },

@@ -1,4 +1,4 @@
-import { openai } from '@/lib/openai';
+import { groq, GROQ_CHAT_MODEL } from '@/lib/groq';
 import { aiLimiter } from '@/lib/rate-limit';
 
 export const runtime = 'nodejs';
@@ -30,25 +30,31 @@ IMPORTANT RULES:
 
 If asked about booking appointments, guide users to MediConnect AI's booking system at /doctors.`;
 
-    const stream = openai.beta.chat.completions.stream({
-      model: 'gpt-4o-mini',
+    const stream = await groq.chat.completions.create({
+      model: GROQ_CHAT_MODEL,
       messages: [
         { role: 'system', content: systemPrompt },
         ...messages.slice(-20).map(m => ({ role: m.role, content: m.content })),
       ],
       max_tokens: 1000,
       temperature: 0.7,
+      stream: true,
     });
 
     const encoder = new TextEncoder();
     const readable = new ReadableStream({
       async start(controller) {
-        for await (const chunk of stream) {
-          const data = JSON.stringify(chunk);
-          controller.enqueue(encoder.encode(`data: ${data}\n\n`));
+        try {
+          for await (const chunk of stream) {
+            const data = JSON.stringify(chunk);
+            controller.enqueue(encoder.encode(`data: ${data}\n\n`));
+          }
+          controller.enqueue(encoder.encode('data: [DONE]\n\n'));
+          controller.close();
+        } catch (streamErr) {
+          console.error('Groq stream error:', streamErr);
+          controller.error(streamErr);
         }
-        controller.enqueue(encoder.encode('data: [DONE]\n\n'));
-        controller.close();
       },
     });
 
@@ -61,6 +67,11 @@ If asked about booking appointments, guide users to MediConnect AI's booking sys
     });
   } catch (err) {
     console.error('Chat API error:', err);
+
+    if (err?.status === 429) {
+      return new Response('AI rate limit exceeded. Please try again shortly.', { status: 429 });
+    }
+
     return new Response('Internal Server Error', { status: 500 });
   }
 }

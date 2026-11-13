@@ -16,7 +16,7 @@ const QUICK_ACTIONS = [
 
 export default function AIHealthAssistantPage() {
   const [messages, setMessages] = useState([
-    { id: '1', role: 'assistant', content: 'Hello! I am your MediConnect AI Health Assistant, powered by GPT-4o. I can help you with:\n\n- Medical questions and symptom information\n- Medication details and interactions\n- Diet and lifestyle advice\n- Finding the right doctor\n- Appointment booking guidance\n\nRemember: I provide **informational guidance only** — always consult a qualified doctor for medical decisions. In emergencies, call **115** immediately.\n\nHow can I help you today?' }]
+    { id: '1', role: 'assistant', content: 'Hello! I am your MediConnect AI Health Assistant, powered by Groq AI. I can help you with:\n\n- Medical questions and symptom information\n- Medication details and interactions\n- Diet and lifestyle advice\n- Finding the right doctor\n- Appointment booking guidance\n\nRemember: I provide **informational guidance only** — always consult a qualified doctor for medical decisions. In emergencies, call **115** immediately.\n\nHow can I help you today?' }]
   );
   const [input, setInput] = useState('');
   const [isStreaming, setIsStreaming] = useState(false);
@@ -108,7 +108,7 @@ export default function AIHealthAssistantPage() {
               <h1 className="font-bold text-gray-900 dark:text-white text-sm">MediConnect AI Assistant</h1>
               <div className="flex items-center gap-1.5 mt-0.5">
                 <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                <span className="text-xs text-gray-500">Online • Powered by GPT-4o</span>
+                <span className="text-xs text-gray-500">Online • Powered by Groq AI</span>
               </div>
             </div>
           </div>

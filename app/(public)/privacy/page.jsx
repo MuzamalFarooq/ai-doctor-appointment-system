@@ -196,7 +196,7 @@ export default function PrivacyPolicyPage() {
               <div className="p-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-900/40 space-y-1.5">
                 <h4 className="font-bold text-gray-900 dark:text-white flex items-center gap-2">
                   <Server className="w-4 h-4 text-emerald-500" />
-                  OpenAI API (Health AI)
+                  Groq API (Health AI)
                 </h4>
                 <p className="text-xs text-gray-600 dark:text-gray-400">
                   Processes user-entered symptoms to deliver educational health triage recommendations. Personal identifiers and Google secrets are not transmitted.

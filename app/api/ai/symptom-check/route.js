@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { openai } from '@/lib/openai';
+import { groq, GROQ_ANALYSIS_MODEL } from '@/lib/groq';
 import { prisma } from '@/lib/prisma';
 import { aiLimiter } from '@/lib/rate-limit';
 import { excludeDemoData } from '@/lib/demo-data';
@@ -64,8 +64,8 @@ IMPORTANT: This is for informational purposes only. Include this in your analysi
 
 Return ONLY valid JSON, no markdown.`;
 
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
+    const completion = await groq.chat.completions.create({
+      model: GROQ_ANALYSIS_MODEL,
       messages: [{ role: 'user', content: prompt }],
       response_format: { type: 'json_object' },
       temperature: 0.3,
@@ -101,6 +101,11 @@ Return ONLY valid JSON, no markdown.`;
     });
   } catch (err) {
     console.error('Symptom check error:', err);
+
+    if (err?.status === 429) {
+      return NextResponse.json({ error: 'AI rate limit exceeded. Please try again shortly.' }, { status: 429 });
+    }
+
     return NextResponse.json({ error: 'AI analysis failed' }, { status: 500 });
   }
 }

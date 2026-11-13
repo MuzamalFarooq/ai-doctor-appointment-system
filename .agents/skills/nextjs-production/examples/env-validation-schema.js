@@ -13,7 +13,7 @@ const envSchema = z.object({
   NEXTAUTH_URL: z.string().url().optional(),
 
   // Third-party Integrations
-  OPENAI_API_KEY: z.string().startsWith('sk-', 'Must be a valid OpenAI API key').optional(),
+  GROQ_API_KEY: z.string().startsWith('gsk_', 'Must be a valid Groq API key').optional(),
   STRIPE_SECRET_KEY: z.string().startsWith('sk_', 'Must be a valid Stripe secret key').optional(),
   STRIPE_WEBHOOK_SECRET: z.string().startsWith('whsec_', 'Must be a valid Stripe webhook secret').optional(),
   RESEND_API_KEY: z.string().startsWith('re_', 'Must be a valid Resend API key').optional(),
