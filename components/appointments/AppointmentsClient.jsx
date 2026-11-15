@@ -16,23 +16,32 @@ const TABS = [
   { key: 'cancelled', label: 'Cancelled', statuses: ['CANCELLED', 'NO_SHOW'] },
 ];
 
-export function AppointmentsClient({ appointments }) {
+export function AppointmentsClient({ appointments: initialAppointments }) {
+  const [appointmentsList, setAppointmentsList] = useState(initialAppointments || []);
   const [activeTab, setActiveTab] = useState('all');
   const [cancelModal, setCancelModal] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const filtered = activeTab === 'all'
-    ? appointments
-    : appointments.filter(a => TABS.find(t => t.key === activeTab)?.statuses?.includes(a.status));
+    ? appointmentsList
+    : appointmentsList.filter(a => TABS.find(t => t.key === activeTab)?.statuses?.includes(a.status));
 
   const handleCancel = async (appointmentId) => {
     setLoading(true);
     try {
       const result = await cancelAppointment(appointmentId);
-      if (result?.error) { toast.error(result.error); }
-      else { toast.success('Appointment cancelled.'); setCancelModal(null); }
-    } catch { toast.error('Failed to cancel.'); }
-    finally { setLoading(false); }
+      if (result?.error) { 
+        toast.error(result.error); 
+      } else { 
+        toast.success('Appointment cancelled.'); 
+        setCancelModal(null);
+        setAppointmentsList(prev => prev.map(a => a.id === appointmentId ? { ...a, status: 'CANCELLED' } : a));
+      }
+    } catch { 
+      toast.error('Failed to cancel.'); 
+    } finally { 
+      setLoading(false); 
+    }
   };
 
   return (
@@ -53,7 +62,7 @@ export function AppointmentsClient({ appointments }) {
             }`}>
             {tab.label}
             <span className={`ml-1.5 text-xs px-1.5 py-0.5 rounded-full ${activeTab === tab.key ? 'bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300' : 'bg-gray-200 dark:bg-gray-700'}`}>
-              {tab.key === 'all' ? appointments.length : appointments.filter(a => TABS.find(t => t.key === tab.key)?.statuses?.includes(a.status)).length}
+              {tab.key === 'all' ? appointmentsList.length : appointmentsList.filter(a => TABS.find(t => t.key === tab.key)?.statuses?.includes(a.status)).length}
             </span>
           </button>
         ))}

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { apiLimiter } from '@/lib/rate-limit';
 import { excludeDemoData } from '@/lib/demo-data';
+import { normalizeSpecialty } from '@/lib/doctor-specialties';
 
 export async function GET(req) {
   try {
@@ -11,7 +12,8 @@ export async function GET(req) {
     const { searchParams } = new URL(req.url);
     const page = parseInt(searchParams.get('page') || '1');
     const limit = parseInt(searchParams.get('limit') || '12');
-    const specialization = searchParams.get('specialization') || '';
+    const rawSpecialization = searchParams.get('specialization') || '';
+    const specialization = rawSpecialization ? normalizeSpecialty(rawSpecialization) : '';
     const city = searchParams.get('city') || '';
     const search = searchParams.get('search') || '';
     const minFee = parseFloat(searchParams.get('minFee') || '0');
@@ -20,7 +22,7 @@ export async function GET(req) {
 
     const baseWhere = {
       status: 'APPROVED',
-      ...(specialization && { specialization: { contains: specialization, mode: 'insensitive' } }),
+      ...(specialization && { specialization: { equals: specialization, mode: 'insensitive' } }),
       ...(city && { city: { contains: city, mode: 'insensitive' } }),
       ...(search && { user: { name: { contains: search, mode: 'insensitive' } } }),
       consultationFee: { gte: minFee, lte: maxFee },

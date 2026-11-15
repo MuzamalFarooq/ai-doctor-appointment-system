@@ -8,9 +8,16 @@ export default async function AdminDoctorsPage() {
   let doctors = [];
   try {
     doctors = await prisma.doctor.findMany({
-      include: { user: { select: { name: true, email: true, image: true } }, hospital: { select: { name: true } } },
+      include: {
+        user: { select: { name: true, email: true, image: true } },
+        hospital: { select: { name: true } },
+        availability: true,
+        _count: { select: { appointments: true } },
+      },
       orderBy: { createdAt: 'desc' },
     });
-  } catch {}
+  } catch (err) {
+    console.error('Failed to fetch admin doctors:', err);
+  }
   return <AdminDoctorsClient doctors={JSON.parse(JSON.stringify(doctors))} />;
 }

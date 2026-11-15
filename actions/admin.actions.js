@@ -2,7 +2,9 @@
 import { prisma } from '@/lib/prisma';
 import { auth } from '@/lib/auth';
 import { revalidatePath } from 'next/cache';
-import { getAppointmentBookingKey } from '@/lib/appointment-utils';
+import { getAppointmentBookingKey, parseAppointmentDate, getKarachiDateTime } from '@/lib/appointment-utils';
+import { normalizeSpecialty } from '@/lib/doctor-specialties';
+import { formatDate } from '@/lib/utils';
 
 async function requireAdmin() {
   const session = await auth();
@@ -25,10 +27,232 @@ export async function toggleUserActive(userId) {
 export async function suspendDoctor(doctorId) {
   try {
     await requireAdmin();
-    await prisma.doctor.update({ where: { id: doctorId }, data: { status: 'SUSPENDED' } });
+    const doc = await prisma.doctor.findUnique({ where: { id: doctorId }, select: { status: true } });
+    if (!doc) return { error: 'Doctor not found' };
+    const nextStatus = doc.status === 'SUSPENDED' ? 'APPROVED' : 'SUSPENDED';
+    await prisma.doctor.update({ where: { id: doctorId }, data: { status: nextStatus } });
     revalidatePath('/admin/doctors');
-    return { success: true };
-  } catch { return { error: 'Failed to suspend' }; }
+    revalidatePath('/doctors');
+    return { success: true, status: nextStatus };
+  } catch { return { error: 'Failed to update status' }; }
+}
+
+export async function createDoctor(data) {
+  try {
+    await requireAdmin();
+    const email = data.email?.toLowerCase().trim();
+    if (!email) return { error: 'Doctor email is required' };
+    if (!data.name?.trim()) return { error: 'Doctor name is required' };
+
+    const existingUser = await prisma.user.findUnique({ where: { email } });
+    if (existingUser) return { error: 'A user with this email address already exists.' };
+
+    const canonicalSpec = normalizeSpecialty(data.specialization);
+    const specRecord = await prisma.specialization.findFirst({
+      where: { name: { equals: canonicalSpec, mode: 'insensitive' } },
+    });
+
+    const photo = data.profilePhoto?.trim() || null;
+
+    const user = await prisma.user.create({
+      data: {
+        name: data.name.trim(),
+        email,
+        role: 'DOCTOR',
+        isActive: data.isActive !== undefined ? data.isActive : true,
+        image: photo,
+      },
+    });
+
+    const doctor = await prisma.doctor.create({
+      data: {
+        userId: user.id,
+        specialization: canonicalSpec,
+        specializationId: specRecord?.id || null,
+        degree: Array.isArray(data.degree) ? data.degree : [data.degree || 'MBBS'],
+        experience: parseInt(data.experience) || 0,
+        consultationFee: parseFloat(data.consultationFee) || 0,
+        languages: Array.isArray(data.languages) ? data.languages : (data.languages ? [data.languages] : ['English', 'Urdu']),
+        city: data.city?.trim() || 'Islamabad',
+        location: data.location?.trim() || data.hospital?.trim() || null,
+        biography: data.biography?.trim() || null,
+        rating: parseFloat(data.rating) || 5.0,
+        totalReviews: parseInt(data.totalReviews) || 1,
+        profilePhoto: photo,
+        status: data.status || 'APPROVED',
+        isVerified: data.isVerified !== undefined ? data.isVerified : true,
+        demoData: false,
+        gender: data.gender || 'male',
+        licenseNumber: data.licenseNumber?.trim() || null,
+        education: data.education || [],
+        awards: data.awards || [],
+      },
+      include: {
+        user: { select: { name: true, email: true, image: true } },
+      },
+    });
+
+    // Setup Availability schedules
+    const days = Array.isArray(data.availableDays) && data.availableDays.length > 0
+      ? data.availableDays.map(d => parseInt(d))
+      : [1, 2, 3, 4, 5, 6]; // Default Monday - Saturday
+
+    const startTime = data.startTime || '09:00';
+    const endTime = data.endTime || '13:00';
+    const slotDuration = parseInt(data.slotDuration) || 30;
+
+    for (const dayOfWeek of days) {
+      await prisma.availability.upsert({
+        where: { doctorId_dayOfWeek: { doctorId: doctor.id, dayOfWeek } },
+        update: { startTime, endTime, slotDuration, isAvailable: true, blockedDates: [] },
+        create: { doctorId: doctor.id, dayOfWeek, startTime, endTime, slotDuration, isAvailable: true, blockedDates: [] },
+      });
+    }
+
+    revalidatePath('/admin/doctors');
+    revalidatePath('/doctors');
+    revalidatePath('/doctors/search');
+    revalidatePath('/dashboard/book-appointment');
+    return { success: true, doctor };
+  } catch (err) {
+    console.error('Create doctor error:', err);
+    return { error: 'Failed to create doctor profile. Please verify all inputs.' };
+  }
+}
+
+export async function updateDoctor(doctorId, data) {
+  try {
+    await requireAdmin();
+    const existing = await prisma.doctor.findUnique({
+      where: { id: doctorId },
+      include: { user: true },
+    });
+    if (!existing) return { error: 'Doctor not found' };
+
+    const canonicalSpec = normalizeSpecialty(data.specialization || existing.specialization);
+    const specRecord = await prisma.specialization.findFirst({
+      where: { name: { equals: canonicalSpec, mode: 'insensitive' } },
+    });
+
+    const photo = data.profilePhoto !== undefined ? data.profilePhoto?.trim() || null : existing.profilePhoto;
+
+    // Update user info
+    if (data.name?.trim() || photo !== undefined) {
+      await prisma.user.update({
+        where: { id: existing.userId },
+        data: {
+          ...(data.name?.trim() && { name: data.name.trim() }),
+          ...(photo !== undefined && { image: photo }),
+        },
+      });
+    }
+
+    // Update doctor record
+    const updated = await prisma.doctor.update({
+      where: { id: doctorId },
+      data: {
+        specialization: canonicalSpec,
+        specializationId: specRecord?.id || existing.specializationId,
+        ...(data.degree && { degree: Array.isArray(data.degree) ? data.degree : [data.degree] }),
+        ...(data.experience !== undefined && { experience: parseInt(data.experience) || 0 }),
+        ...(data.consultationFee !== undefined && { consultationFee: parseFloat(data.consultationFee) || 0 }),
+        ...(data.languages && { languages: Array.isArray(data.languages) ? data.languages : [data.languages] }),
+        ...(data.city && { city: data.city.trim() }),
+        ...(data.location !== undefined && { location: data.location?.trim() || null }),
+        ...(data.biography !== undefined && { biography: data.biography?.trim() || null }),
+        ...(data.status && { status: data.status }),
+        ...(data.isVerified !== undefined && { isVerified: Boolean(data.isVerified) }),
+        ...(data.gender && { gender: data.gender }),
+        ...(data.licenseNumber !== undefined && { licenseNumber: data.licenseNumber?.trim() || null }),
+        ...(photo !== undefined && { profilePhoto: photo }),
+      },
+      include: {
+        user: { select: { name: true, email: true, image: true } },
+      },
+    });
+
+    // Update schedule if provided
+    if (Array.isArray(data.availableDays) && data.availableDays.length > 0) {
+      const days = data.availableDays.map(d => parseInt(d));
+      const startTime = data.startTime || '09:00';
+      const endTime = data.endTime || '13:00';
+      const slotDuration = parseInt(data.slotDuration) || 30;
+
+      // Disable days not selected
+      await prisma.availability.updateMany({
+        where: { doctorId, dayOfWeek: { notIn: days } },
+        data: { isAvailable: false },
+      });
+
+      for (const dayOfWeek of days) {
+        await prisma.availability.upsert({
+          where: { doctorId_dayOfWeek: { doctorId, dayOfWeek } },
+          update: { startTime, endTime, slotDuration, isAvailable: true },
+          create: { doctorId, dayOfWeek, startTime, endTime, slotDuration, isAvailable: true, blockedDates: [] },
+        });
+      }
+    }
+
+    revalidatePath('/admin/doctors');
+    revalidatePath('/doctors');
+    revalidatePath(`/doctors/${doctorId}`);
+    revalidatePath('/doctors/search');
+    revalidatePath('/dashboard/book-appointment');
+    revalidatePath('/dashboard/appointments');
+    return { success: true, doctor: updated };
+  } catch (err) {
+    console.error('Update doctor error:', err);
+    return { error: 'Failed to update doctor profile.' };
+  }
+}
+
+export async function deleteDoctorSafe(doctorId) {
+  try {
+    await requireAdmin();
+    const doctor = await prisma.doctor.findUnique({
+      where: { id: doctorId },
+      include: {
+        _count: { select: { appointments: true } },
+      },
+    });
+
+    if (!doctor) return { error: 'Doctor not found' };
+
+    const appointmentCount = doctor._count?.appointments || 0;
+
+    // If appointments exist, safely deactivate to preserve historical medical records
+    if (appointmentCount > 0) {
+      await prisma.doctor.update({
+        where: { id: doctorId },
+        data: { status: 'SUSPENDED', isVerified: false },
+      });
+      await prisma.user.update({
+        where: { id: doctor.userId },
+        data: { isActive: false },
+      });
+      revalidatePath('/admin/doctors');
+      revalidatePath('/doctors');
+      return {
+        success: true,
+        action: 'deactivated',
+        message: `This doctor has ${appointmentCount} appointment records. The profile was safely deactivated to preserve patient medical history.`,
+      };
+    }
+
+    // No appointments: safely delete relations and doctor
+    await prisma.availability.deleteMany({ where: { doctorId } });
+    await prisma.review.deleteMany({ where: { doctorId } });
+    await prisma.doctor.delete({ where: { id: doctorId } });
+    await prisma.user.delete({ where: { id: doctor.userId } }).catch(() => {});
+
+    revalidatePath('/admin/doctors');
+    revalidatePath('/doctors');
+    revalidatePath('/doctors/search');
+    return { success: true, action: 'deleted' };
+  } catch (err) {
+    console.error('Delete doctor error:', err);
+    return { error: 'Failed to delete doctor' };
+  }
 }
 
 // Specializations
@@ -113,6 +337,72 @@ export async function deleteAppointment(appointmentId) {
     return { success: true };
   } catch {
     return { error: 'Failed to delete appointment' };
+  }
+}
+
+export async function rescheduleAppointment(appointmentId, newDateStr, newStartTime, newEndTime) {
+  try {
+    await requireAdmin();
+    const appointmentDate = parseAppointmentDate(newDateStr);
+    if (!appointmentDate) return { error: 'Invalid appointment date format' };
+
+    const current = await prisma.appointment.findUnique({
+      where: { id: appointmentId },
+      include: {
+        patient: { include: { user: true } },
+        doctor: { include: { user: true } },
+      },
+    });
+    if (!current) return { error: 'Appointment not found' };
+
+    // Check collision for new slot
+    const existing = await prisma.appointment.findFirst({
+      where: {
+        doctorId: current.doctorId,
+        date: appointmentDate,
+        startTime: newStartTime,
+        status: { in: ['PENDING', 'CONFIRMED', 'COMPLETED', 'NO_SHOW', 'RESCHEDULED'] },
+        NOT: { id: appointmentId },
+      },
+      select: { id: true },
+    });
+
+    if (existing) {
+      return { error: 'This time slot is already booked. Please choose another.' };
+    }
+
+    const newBookingKey = getAppointmentBookingKey(current.doctorId, appointmentDate, newStartTime);
+    const updated = await prisma.appointment.update({
+      where: { id: appointmentId },
+      data: {
+        date: appointmentDate,
+        startTime: newStartTime,
+        endTime: newEndTime || newStartTime,
+        bookingKey: newBookingKey,
+        status: 'RESCHEDULED',
+      },
+    });
+
+    // Notify patient
+    if (current.patient?.userId) {
+      await prisma.notification.create({
+        data: {
+          userId: current.patient.userId,
+          type: 'APPOINTMENT_RESCHEDULED',
+          title: 'Appointment Rescheduled',
+          message: `Your appointment with ${current.doctor?.user?.name || 'your doctor'} has been rescheduled to ${newDateStr} at ${newStartTime}.`,
+          link: '/dashboard/appointments',
+        },
+      }).catch(console.error);
+    }
+
+    revalidatePath('/admin/appointments');
+    revalidatePath('/dashboard/appointments');
+    revalidatePath('/doctor/appointments');
+    return { success: true, appointment: updated };
+  } catch (err) {
+    console.error('Reschedule error:', err);
+    return { error: 'Failed to reschedule appointment' };
   }
 }
 

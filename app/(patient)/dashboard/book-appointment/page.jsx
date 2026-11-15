@@ -8,20 +8,35 @@ import toast from 'react-hot-toast';
 import { createAppointment, getAvailableSlots } from '@/actions/appointment.actions';
 import { useRouter } from 'next/navigation';
 
-const SPECIALTIES = [
-  { name: 'Cardiologist', icon: '❤️', color: 'from-red-500 to-rose-600' },
-  { name: 'Dermatologist', icon: '🩺', color: 'from-orange-500 to-amber-600' },
-  { name: 'Neurologist', icon: '🧠', color: 'from-purple-500 to-violet-600' },
-  { name: 'Orthopedic', icon: '🦴', color: 'from-blue-500 to-cyan-600' },
-  { name: 'Pediatrician', icon: '👶', color: 'from-green-500 to-emerald-600' },
-  { name: 'Gynecologist', icon: '🌸', color: 'from-pink-500 to-rose-600' },
-  { name: 'ENT Specialist', icon: '👂', color: 'from-indigo-500 to-blue-600' },
-  { name: 'Ophthalmologist', icon: '👁️', color: 'from-teal-500 to-cyan-600' },
-  { name: 'Psychiatrist', icon: '🧘', color: 'from-violet-500 to-purple-600' },
-  { name: 'General Physician', icon: '🩻', color: 'from-gray-500 to-slate-600' },
-  { name: 'Urologist', icon: '💊', color: 'from-yellow-500 to-orange-600' },
-  { name: 'Oncologist', icon: '🎗️', color: 'from-rose-500 to-pink-600' },
-];
+import { DOCTOR_SPECIALTIES } from '@/lib/doctor-specialties';
+
+const SPECIALTY_EMOJIS = {
+  Cardiology: { icon: '❤️', color: 'from-red-500 to-rose-600' },
+  Dentistry: { icon: '🦷', color: 'from-cyan-500 to-blue-600' },
+  Dermatology: { icon: '✨', color: 'from-amber-500 to-orange-600' },
+  ENT: { icon: '👂', color: 'from-sky-500 to-blue-600' },
+  Endocrinology: { icon: '🧬', color: 'from-purple-500 to-violet-600' },
+  Gastroenterology: { icon: '🫄', color: 'from-emerald-500 to-teal-600' },
+  'General Medicine': { icon: '🩺', color: 'from-green-500 to-emerald-600' },
+  'General Surgery': { icon: '🏥', color: 'from-slate-600 to-gray-700' },
+  Gynecology: { icon: '🌸', color: 'from-pink-500 to-rose-600' },
+  Neurology: { icon: '🧠', color: 'from-indigo-500 to-purple-600' },
+  Oncology: { icon: '🎗️', color: 'from-rose-500 to-pink-600' },
+  Ophthalmology: { icon: '👁️', color: 'from-teal-500 to-cyan-600' },
+  Orthopedics: { icon: '🦴', color: 'from-blue-600 to-indigo-600' },
+  Pediatrics: { icon: '👶', color: 'from-green-400 to-emerald-500' },
+  Physiotherapy: { icon: '🏃', color: 'from-orange-500 to-amber-600' },
+  Psychiatry: { icon: '🧘', color: 'from-violet-500 to-purple-600' },
+  Pulmonology: { icon: '🫁', color: 'from-cyan-600 to-blue-700' },
+  Urology: { icon: '💊', color: 'from-blue-500 to-teal-600' },
+};
+
+const SPECIALTIES = DOCTOR_SPECIALTIES.map(s => ({
+  name: s.name,
+  title: s.practitionerTitle,
+  icon: SPECIALTY_EMOJIS[s.name]?.icon || '🩺',
+  color: SPECIALTY_EMOJIS[s.name]?.color || 'from-teal-500 to-emerald-600',
+}));
 
 const STEPS = ['Specialty', 'Doctor', 'Date & Time', 'Details', 'Confirm'];
 

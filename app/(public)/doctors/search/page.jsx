@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { prisma } from '@/lib/prisma';
 import { DoctorsClient } from '@/components/doctors/DoctorsClient';
 import { excludeDemoData } from '@/lib/demo-data';
+import { normalizeSpecialty } from '@/lib/doctor-specialties';
 
 export const metadata = {
   title: 'Find a Doctor',
@@ -46,7 +47,12 @@ export default async function DoctorSearchPage({ searchParams }) {
         { specialization: { contains: q, mode: 'insensitive' } },
       ],
     }),
-    ...(spec && { specialization: { contains: spec, mode: 'insensitive' } }),
+    ...(spec && {
+      OR: [
+        { specialization: { contains: spec, mode: 'insensitive' } },
+        { specialization: { contains: normalizeSpecialty(spec), mode: 'insensitive' } },
+      ],
+    }),
     ...(city && { city: { contains: city, mode: 'insensitive' } }),
     ...(gender && { gender: { equals: gender, mode: 'insensitive' } }),
     ...(minRating > 0 && { rating: { gte: minRating }, totalReviews: { gt: 0 } }),

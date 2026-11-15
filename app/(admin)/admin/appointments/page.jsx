@@ -30,5 +30,5 @@ export default async function AdminAppointmentsPage() {
     console.error('Error fetching admin appointments:', err);
   }
 
-  return <AdminAppointmentsClient appointments={appointments} />;
+  return <AdminAppointmentsClient appointments={JSON.parse(JSON.stringify(appointments))} />;
 }

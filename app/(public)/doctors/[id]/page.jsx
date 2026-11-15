@@ -41,6 +41,11 @@ export default async function DoctorDetailPage({ params }) {
       isVerified: true,
       languages: true,
       gender: true,
+      licenseNumber: true,
+      availability: {
+        where: { isAvailable: true },
+        select: { dayOfWeek: true, startTime: true, endTime: true, slotDuration: true, isAvailable: true },
+      },
       user: { select: { name: true, image: true } },
       hospital: { select: { name: true, address: true, city: true, image: true } },
       reviews: {
